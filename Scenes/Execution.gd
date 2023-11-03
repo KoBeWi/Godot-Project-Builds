@@ -31,7 +31,7 @@ func next_command():
 		return
 	
 	var command_item: CommandItem = commands.pop_front()
-	var command := preload("res://Commands/Command.tscn").instantiate()
+	var command := preload("res://Nodes/Command.tscn").instantiate()
 	command.command = command_item.command
 	command.arguments = command_item.arguments
 	command.success.connect(on_success, CONNECT_ONE_SHOT)

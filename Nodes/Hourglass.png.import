@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dno0spmwh4kov"
-path="res://.godot/imported/Hourglass.png-4bc3ad2431bd94527c037f412485f832.ctex"
+path="res://.godot/imported/Hourglass.png-c86f4464194dba98591f5477463c57ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Commands/Hourglass.png"
-dest_files=["res://.godot/imported/Hourglass.png-4bc3ad2431bd94527c037f412485f832.ctex"]
+source_file="res://Nodes/Hourglass.png"
+dest_files=["res://.godot/imported/Hourglass.png-c86f4464194dba98591f5477463c57ed.ctex"]
 
 [params]
 
