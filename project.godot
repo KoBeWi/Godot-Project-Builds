@@ -1,0 +1,42 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Godot Project Builds"
+config/tags=PackedStringArray("tool")
+run/main_scene="res://Scenes/Project.tscn"
+config/features=PackedStringArray("4.2")
+run/low_processor_mode=true
+
+[debug]
+
+gdscript/warnings/unassigned_variable=0
+gdscript/warnings/unassigned_variable_op_assign=0
+gdscript/warnings/unused_variable=0
+gdscript/warnings/unused_local_constant=0
+gdscript/warnings/unused_private_class_variable=0
+gdscript/warnings/unused_parameter=0
+gdscript/warnings/unused_signal=0
+gdscript/warnings/integer_division=0
+gdscript/warnings/confusable_identifier=0
+
+[display]
+
+window/subwindows/embed_subwindows=false
+
+[editor_plugins]
+
+enabled=PackedStringArray()
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.211765, 0.239216, 0.321569, 1)
