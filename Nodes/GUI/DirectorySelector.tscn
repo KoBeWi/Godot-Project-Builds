@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyl1d6reu3mk4"]
+
+[ext_resource type="Texture2D" uid="uid://dhuukef617r6s" path="res://Icons/Folder.svg" id="1_34bwh"]
+
+[node name="DirectorySelector" type="HBoxContainer"]
+offset_right = 256.0
+offset_bottom = 31.0
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+icon = ExtResource("1_34bwh")

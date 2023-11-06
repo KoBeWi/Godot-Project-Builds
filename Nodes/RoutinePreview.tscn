@@ -1,0 +1,91 @@
+[gd_scene load_steps=6 format=3 uid="uid://cctfsldanqcig"]
+
+[ext_resource type="Texture2D" uid="uid://dnlqsyyx311xx" path="res://Icons/Duplicate.svg" id="1_1u4fl"]
+[ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_hqapv"]
+[ext_resource type="Texture2D" uid="uid://cfbagouqtgqfs" path="res://Icons/Edit.svg" id="1_m46hf"]
+[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="2_064c3"]
+
+[sub_resource type="GDScript" id="GDScript_s214c"]
+script/source = "extends VBoxContainer
+
+var data: Dictionary
+
+func set_routine_data(d: Dictionary):
+	data = d
+	%Name.text = data[\"name\"]
+	%TaskCount.text %= data[\"tasks\"].size()
+	# TODO: lista zadań
+
+func connect_edit(target: Callable):
+	%Edit.pressed.connect(target)
+"
+
+[node name="Routinepreview" type="VBoxContainer"]
+script = SubResource("GDScript_s214c")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Execute" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Execute"
+icon = ExtResource("1_hqapv")
+alignment = 0
+
+[node name="Edit" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Edit"
+icon = ExtResource("1_m46hf")
+alignment = 0
+
+[node name="Control2" type="Control" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Routine Name"
+horizontal_alignment = 1
+
+[node name="TaskCount" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "%d tasks"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Duplicate"
+icon = ExtResource("1_1u4fl")
+alignment = 0
+
+[node name="Button2" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Delete"
+icon = ExtResource("2_064c3")
+alignment = 0
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2

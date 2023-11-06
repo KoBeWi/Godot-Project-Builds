@@ -12,9 +12,13 @@ config_version=5
 
 config/name="Godot Project Builds"
 config/tags=PackedStringArray("tool")
-run/main_scene="res://Scenes/Project.tscn"
+run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.2")
 run/low_processor_mode=true
+
+[autoload]
+
+Data="*res://Scripts/Data.gd"
 
 [debug]
 

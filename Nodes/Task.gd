@@ -12,17 +12,23 @@ var data: Dictionary:
 func _get_task_name() -> String:
 	return "Empty Task"
 
+func _initialize(project_path: String):
+	pass
+
 func _get_command() -> String:
 	return ""
 
 func _get_arguments() -> PackedStringArray:
 	return []
 
-func _initialize(project_path: String):
+func _prepare() -> void:
 	pass
 
-func _load():
+func _cleanup() -> void:
 	pass
 
-func _store():
+func _load() -> void:
+	pass
+
+func _store() -> void:
 	pass

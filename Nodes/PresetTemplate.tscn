@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsgg4mwgvd5vi"]
+
+[ext_resource type="PackedScene" uid="uid://bfbht01onlf1a" path="res://Nodes/GUI/StringContainer.tscn" id="1_egcl1"]
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_at7ma"]
+[ext_resource type="Texture2D" uid="uid://dnlqsyyx311xx" path="res://Icons/Duplicate.svg" id="3_yself"]
+[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="4_x4nre"]
+
+[node name="PresetTemplate" type="VBoxContainer"]
+offset_right = 432.0
+offset_bottom = 193.0
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Custom Features"
+
+[node name="StringContainer" parent="GridContainer" instance=ExtResource("1_egcl1")]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Include Filters"
+
+[node name="StringContainer2" parent="GridContainer" instance=ExtResource("1_egcl1")]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Exclude Filters"
+
+[node name="StringContainer3" parent="GridContainer" instance=ExtResource("1_egcl1")]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Export Path"
+
+[node name="DirectorySelector" parent="GridContainer" instance=ExtResource("2_at7ma")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Duplicate"
+icon = ExtResource("3_yself")
+alignment = 0
+
+[node name="Button2" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Delete"
+icon = ExtResource("4_x4nre")
+alignment = 0
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2

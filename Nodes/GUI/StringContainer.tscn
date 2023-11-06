@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfbht01onlf1a"]
+
+[ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="1_nij3a"]
+[ext_resource type="Script" path="res://Nodes/GUI/StringContainer.gd" id="1_oa0rg"]
+
+[node name="StringContainer" type="ScrollContainer"]
+offset_right = 187.0
+offset_bottom = 28.0
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+script = ExtResource("1_oa0rg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Strings" type="HBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StringPrefab" type="LineEdit" parent="HBoxContainer/Strings"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+expand_to_text_length = true
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("1_nij3a")
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_add_string"]
