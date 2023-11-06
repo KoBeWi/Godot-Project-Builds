@@ -1,5 +1,7 @@
 extends Node
 
+var project_path: String = "X:/Godot/Projects/ProjectBuilds/Testing/TestProject"
+
 var tasks: Array[Dictionary]
 var routines: Array[Dictionary]
 

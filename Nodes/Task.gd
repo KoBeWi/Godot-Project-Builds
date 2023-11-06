@@ -1,13 +1,7 @@
 extends Control
 class_name Task
 
-var data: Dictionary:
-	set(d):
-		data = d
-		_load()
-	get:
-		_store()
-		return data
+var data: Dictionary
 
 func _get_task_name() -> String:
 	return "Empty Task"

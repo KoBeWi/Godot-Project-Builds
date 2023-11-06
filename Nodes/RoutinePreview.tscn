@@ -16,6 +16,9 @@ func set_routine_data(d: Dictionary):
 	%TaskCount.text %= data[\"tasks\"].size()
 	# TODO: lista zadań
 
+func connect_execute(target: Callable):
+	%Execute.pressed.connect(target)
+
 func connect_edit(target: Callable):
 	%Edit.pressed.connect(target)
 "

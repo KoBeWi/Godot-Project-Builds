@@ -1,10 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyl1d6reu3mk4"]
+[gd_scene load_steps=3 format=3 uid="uid://cyl1d6reu3mk4"]
 
 [ext_resource type="Texture2D" uid="uid://dhuukef617r6s" path="res://Icons/Folder.svg" id="1_34bwh"]
+
+[sub_resource type="GDScript" id="GDScript_af0jw"]
+script/source = "extends HBoxContainer
+
+@onready var line_edit: LineEdit = $LineEdit
+
+var text: String:
+	set(t):
+		line_edit.text = t
+	get:
+		return line_edit.text
+"
 
 [node name="DirectorySelector" type="HBoxContainer"]
 offset_right = 256.0
 offset_bottom = 31.0
+script = SubResource("GDScript_af0jw")
 
 [node name="LineEdit" type="LineEdit" parent="."]
 layout_mode = 2

@@ -1,8 +1,16 @@
 extends Control
 
+@onready var task_limbo: Node2D = %TaskLimbo
+@onready var commands_container: VBoxContainer = %CommandsContainer
+
 class CommandItem:
 	var command: String
 	var arguments: PackedStringArray
+	
+	func get_command() -> String:
+		var ret := command
+		ret = ret.replace("%godot%", "godot_console")
+		return ret
 
 var commands: Array[CommandItem]
 
@@ -14,15 +22,22 @@ func _ready() -> void:
 	#output_thread = Thread.new()
 	#output_thread.start(output_process)
 	
-	var item := CommandItem.new()
-	item.command = "godot_console"
-	item.arguments = ["--path", "X:/Godot/Projects/ProjectBuilds/Testing/TestProject", "--headless", "--export-debug", "Windows Desktop", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.exe"]
-	commands.append(item)
+	var routine := Data.get_current_routine()
+	for task in routine["tasks"]:
+		var task_instance: Task = load(task["scene"]).instantiate()
+		commands_container.add_child(task_instance)
+		task_instance._initialize(Data.project_path)
+		task_instance.data = task["data"]
+		task_instance._load()
+		
+		var item := CommandItem.new()
+		item.command = task_instance._get_command()
+		item.arguments = task_instance._get_arguments()
+		commands.append(item)
+		
+		task_instance.free()
 	
-	item = CommandItem.new()
-	item.command = "C:/Program Files/7-Zip/7zG.exe"
-	item.arguments = ["a", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Build.zip", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.exe", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.pck"]
-	#commands.append(item)
+	#item.arguments = ["a", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Build.zip", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.exe", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.pck"]
 	
 	next_command()
 
@@ -32,10 +47,10 @@ func next_command():
 	
 	var command_item: CommandItem = commands.pop_front()
 	var command := preload("res://Nodes/Command.tscn").instantiate()
-	command.command = command_item.command
+	command.command = command_item.get_command()
 	command.arguments = command_item.arguments
 	command.success.connect(on_success, CONNECT_ONE_SHOT)
-	%Commands.add_child(command)
+	commands_container.add_child(command)
 
 func on_success():
 	next_command()

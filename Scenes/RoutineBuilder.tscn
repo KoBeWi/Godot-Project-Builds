@@ -29,7 +29,8 @@ alignment = 1
 layout_mode = 2
 text = "Routine Name"
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer2/HBoxContainer"]
+[node name="RoutineName" type="LineEdit" parent="HBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
