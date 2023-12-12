@@ -1,15 +1,22 @@
 extends Node
 
+const TEMPLATES_FILE = "user://templates.txt"
+
 var project_path: String = "X:/Godot/Projects/ProjectBuilds/Testing/TestProject"
 
 var tasks: Array[Dictionary]
 var routines: Array[Dictionary]
+var templates: Array[Dictionary]
 
 var current_routine: Dictionary
 
 func _init() -> void:
 	for task in DirAccess.get_files_at("res://Tasks"):
 		register_task("res://Tasks".path_join(task))
+	
+	var fa := FileAccess.open(TEMPLATES_FILE, FileAccess.READ)
+	if fa:
+		templates.assign(str_to_var(fa.get_as_text()))
 
 func register_task(scene: String):
 	var data := Dictionary()
@@ -32,3 +39,7 @@ func get_current_routine() -> Dictionary:
 	var ret := current_routine
 	current_routine = {}
 	return ret
+
+func save_templates():
+	var fa := FileAccess.open(TEMPLATES_FILE, FileAccess.WRITE)
+	fa.store_string(var_to_str(templates))

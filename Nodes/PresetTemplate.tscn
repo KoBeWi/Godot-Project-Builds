@@ -1,72 +1,128 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsgg4mwgvd5vi"]
+[gd_scene load_steps=7 format=3 uid="uid://bsgg4mwgvd5vi"]
 
 [ext_resource type="PackedScene" uid="uid://bfbht01onlf1a" path="res://Nodes/GUI/StringContainer.tscn" id="1_egcl1"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_at7ma"]
 [ext_resource type="Texture2D" uid="uid://dnlqsyyx311xx" path="res://Icons/Duplicate.svg" id="3_yself"]
+[ext_resource type="Texture2D" uid="uid://csjjbw7dnc51a" path="res://Icons/Inherit.svg" id="4_ricvi"]
 [ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="4_x4nre"]
 
-[node name="PresetTemplate" type="VBoxContainer"]
+[sub_resource type="GDScript" id="GDScript_4k674"]
+script/source = "extends MarginContainer
+
+func get_data() -> Dictionary:
+	var data: Dictionary
+	data[\"name\"] = %Name.text
+	data[\"custom_features\"] = %CustomFeatures.get_strings()
+	data[\"include_filters\"] = %IncludeFilters.get_strings()
+	data[\"exclude_filters\"] = %ExcludeFilters.get_strings()
+	data[\"export_path\"] = %ExportPath.text
+	return data
+
+func set_data(data: Dictionary):
+	%Name.text = data[\"name\"]
+	%CustomFeatures.set_strings(data[\"custom_features\"])
+	%IncludeFilters.set_strings(data[\"include_filters\"])
+	%ExcludeFilters.set_strings(data[\"exclude_filters\"])
+	%ExportPath.text = data[\"export_path\"]
+
+func connect_duplicate(callback: Callable):
+	%Duplicate.pressed.connect(callback)
+
+func connect_inherit(callback: Callable):
+	%Inherit.pressed.connect(callback)
+
+func connect_delete(callback: Callable):
+	%Delete.pressed.connect(callback)
+"
+
+[node name="PresetTemplate" type="MarginContainer"]
 offset_right = 432.0
-offset_bottom = 193.0
+offset_bottom = 238.0
+script = SubResource("GDScript_4k674")
+
+[node name="Inherited" type="ReferenceRect" parent="."]
+visible = false
+layout_mode = 2
+border_color = Color(1, 1, 0, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="GridContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Name"
 
-[node name="LineEdit" type="LineEdit" parent="GridContainer"]
+[node name="Name" type="LineEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="GridContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Custom Features"
 
-[node name="StringContainer" parent="GridContainer" instance=ExtResource("1_egcl1")]
+[node name="CustomFeatures" parent="VBoxContainer/GridContainer" instance=ExtResource("1_egcl1")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="GridContainer"]
+[node name="Label3" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Include Filters"
 
-[node name="StringContainer2" parent="GridContainer" instance=ExtResource("1_egcl1")]
+[node name="IncludeFilters" parent="VBoxContainer/GridContainer" instance=ExtResource("1_egcl1")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="GridContainer"]
+[node name="Label4" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Exclude Filters"
 
-[node name="StringContainer3" parent="GridContainer" instance=ExtResource("1_egcl1")]
+[node name="ExcludeFilters" parent="VBoxContainer/GridContainer" instance=ExtResource("1_egcl1")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="GridContainer"]
+[node name="Label5" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Export Path"
 
-[node name="DirectorySelector" parent="GridContainer" instance=ExtResource("2_at7ma")]
+[node name="ExportPath" parent="VBoxContainer/GridContainer" instance=ExtResource("2_at7ma")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="HBoxContainer"]
+[node name="Duplicate" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
 text = "Duplicate"
 icon = ExtResource("3_yself")
 alignment = 0
 
-[node name="Button2" type="Button" parent="HBoxContainer"]
+[node name="Inherit" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
+text = "Inherit"
+icon = ExtResource("4_ricvi")
+alignment = 0
+
+[node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
 text = "Delete"
 icon = ExtResource("4_x4nre")
 alignment = 0
 
-[node name="HSeparator" type="HSeparator" parent="."]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

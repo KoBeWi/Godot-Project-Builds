@@ -6,10 +6,22 @@ extends Control
 func _ready() -> void:
 	for routine in Data.routines:
 		add_routine(routine)
+	
+	for template in Data.templates:
+		var temp := _add_template_pressed()
+		temp.set_data(template)
 
-func _add_template_pressed() -> void:
+func _exit_tree() -> void:
+	save_templates()
+
+func _add_template_pressed() -> Control:
 	var template := preload("res://Nodes/PresetTemplate.tscn").instantiate()
 	template_container.add_child(template)
+	
+	template.connect_duplicate(duplicate_template.bind(template))
+	template.connect_inherit(inherit_template.bind(template))
+	template.connect_delete(delete_template.bind(template))
+	return template
 
 func _add_routine_pressed() -> void:
 	add_routine(Data.create_routine())
@@ -28,3 +40,21 @@ func exec_routine(data: Dictionary):
 func edit_routine(data: Dictionary):
 	Data.current_routine = data
 	get_tree().change_scene_to_file("res://Scenes/RoutineBuilder.tscn")
+
+func duplicate_template(template: Control):
+	var dup := _add_template_pressed()
+	dup.set_data(template.get_data())
+	template_container.move_child(dup, template.get_index() + 1)
+
+func inherit_template(template: Control):
+	pass
+
+func delete_template(template: Control):
+	template.queue_free()
+	save_templates()
+
+func save_templates():
+	Data.templates.assign(template_container.get_children().map(func(template: Control) -> Dictionary:
+		return template.get_data()))
+	
+	Data.save_templates()
