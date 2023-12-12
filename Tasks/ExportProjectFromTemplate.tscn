@@ -1,0 +1,150 @@
+[gd_scene load_steps=2 format=3 uid="uid://doi6iht30rdxc"]
+
+[sub_resource type="GDScript" id="GDScript_mlhhy"]
+script/source = "extends Task
+
+const CUSTOM_PRESET = \"_Project_Builds_\"
+
+@onready var preset_list: OptionButton = %PresetList
+@onready var template_list: OptionButton = %TemplateList
+@onready var debug: CheckBox = %Debug
+
+var preset_path: String
+var custom_preset: int
+
+func _get_task_name() -> String:
+	return \"Export Project From Template\"
+
+func _get_command() -> String:
+	return \"%godot%\"
+
+func _get_arguments() -> PackedStringArray:
+	var ret: PackedStringArray
+	ret.append(\"--headless\")
+	
+	ret.append(\"--path\")
+	ret.append(Data.project_path)
+	
+	if debug.button_pressed:
+		ret.append(\"--export-debug\")
+	else:
+		ret.append(\"--export-release\")
+	
+	ret.append(\"_Project_Builds_\")
+	
+	return ret
+
+func _initialize(project_path: String):
+	preset_path = project_path.path_join(\"export_presets.cfg\")
+	
+	var export_presets := ConfigFile.new()
+	if export_presets.load(preset_path) != OK:
+		return
+	
+	for section in export_presets.get_sections():
+		if section.ends_with(\"options\"):
+			continue
+		
+		preset_list.add_item(export_presets.get_value(section, \"name\"))
+	
+	for template in Data.templates:
+		template_list.add_item(template[\"name\"])
+
+func _prepare() -> void:
+	var export_presets := ConfigFile.new()
+	if export_presets.load(preset_path) != OK:
+		return
+	
+	var template := Data.get_template(template_list.get_item_text(template_list.selected))
+	
+	var base_preset := preset_list.selected
+	custom_preset = preset_list.item_count
+	for section in export_presets.get_sections():
+		if export_presets.get_value(section, \"name\", \"\") == CUSTOM_PRESET:
+			custom_preset = section.get_slice(\".\", 1).to_int()
+			break
+	
+	var new_section := \"preset.%d\" % custom_preset
+	var section := \"preset.%d\" % base_preset
+	for key in export_presets.get_section_keys(section):
+		export_presets.set_value(new_section, key, export_presets.get_value(section, key))
+	
+	export_presets.set_value(new_section, \"name\", CUSTOM_PRESET)
+	export_presets.set_value(new_section, \"custom_features\", \", \".join(template[\"custom_features\"]))
+	export_presets.set_value(new_section, \"include_filters\", \", \".join(template[\"include_filters\"]))
+	export_presets.set_value(new_section, \"exclude_filters\", \", \".join(template[\"exclude_filters\"]))
+	
+	if not template[\"export_path\"].is_empty():
+		export_presets.set_value(new_section, \"export_path\", template[\"export_path\"])
+	
+	new_section = \"preset.%d.options\" % custom_preset
+	section = \"preset.%d.options\" % base_preset
+	for key in export_presets.get_section_keys(section):
+		export_presets.set_value(new_section, key, export_presets.get_value(section, key))
+	
+	export_presets.save(preset_path)
+
+func _cleanup() -> void:
+	var export_presets := ConfigFile.new()
+	if export_presets.load(preset_path) != OK:
+		return
+	
+	export_presets.erase_section(\"preset.%d\" % custom_preset)
+	export_presets.erase_section(\"preset.%d.options\" % custom_preset)
+	
+	export_presets.save(preset_path)
+
+func _load():
+	var text: String = data[\"preset\"]
+	preset_list.selected = 0
+	
+	for i in preset_list.item_count:
+		if preset_list.get_item_text(i) == text:
+			preset_list.selected = i
+			break
+	
+	text = data[\"template\"]
+	template_list.selected = 0
+	
+	for i in template_list.item_count:
+		if template_list.get_item_text(i) == text:
+			template_list.selected = i
+			break
+	
+	debug.button_pressed = data[\"debug\"]
+
+func _store():
+	data[\"preset\"] = preset_list.get_item_text(preset_list.selected)
+	data[\"template\"] = template_list.get_item_text(template_list.selected)
+	data[\"debug\"] = debug.button_pressed
+"
+
+[node name="ExportProject" type="VBoxContainer"]
+script = SubResource("GDScript_mlhhy")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Base Preset"
+
+[node name="PresetList" type="OptionButton" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Preset Template"
+
+[node name="TemplateList" type="OptionButton" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Debug" type="CheckBox" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Debug"

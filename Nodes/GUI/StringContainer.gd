@@ -9,8 +9,17 @@ func _ready() -> void:
 
 func _add_string() -> LineEdit:
 	var string := string_prefab.instantiate()
+	string.gui_input.connect(string_gui_input.bind(string))
 	strings.add_child(string)
 	return string
+
+func string_gui_input(event: InputEvent, edit: LineEdit):
+	if not edit.editable:
+		return
+	
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_DELETE:
+			edit.queue_free()
 
 func get_strings() -> PackedStringArray:
 	return strings.get_children().map(func(line_edit: LineEdit) -> String: return line_edit.text)

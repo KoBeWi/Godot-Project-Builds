@@ -9,6 +9,8 @@
 [sub_resource type="GDScript" id="GDScript_4k674"]
 script/source = "extends MarginContainer
 
+var inherit: String
+
 func get_data() -> Dictionary:
 	var data: Dictionary
 	data[\"name\"] = %Name.text
@@ -16,6 +18,7 @@ func get_data() -> Dictionary:
 	data[\"include_filters\"] = %IncludeFilters.get_strings()
 	data[\"exclude_filters\"] = %ExcludeFilters.get_strings()
 	data[\"export_path\"] = %ExportPath.text
+	data[\"inherit\"] = inherit
 	return data
 
 func set_data(data: Dictionary):
@@ -24,6 +27,9 @@ func set_data(data: Dictionary):
 	%IncludeFilters.set_strings(data[\"include_filters\"])
 	%ExcludeFilters.set_strings(data[\"exclude_filters\"])
 	%ExportPath.text = data[\"export_path\"]
+	
+	inherit = data.get(\"inherit\", \"\")
+	update_inheritance() # TODO: auto-update jak się zmieni parent
 
 func connect_duplicate(callback: Callable):
 	%Duplicate.pressed.connect(callback)
@@ -33,6 +39,33 @@ func connect_inherit(callback: Callable):
 
 func connect_delete(callback: Callable):
 	%Delete.pressed.connect(callback)
+
+func update_inheritance():
+	if inherit.is_empty():
+		return
+	
+	%Inherited.show()
+	
+	var other_template := Data.get_template(inherit)
+	if other_template.is_empty():
+		return
+	
+	update_strings(%CustomFeatures, other_template[\"custom_features\"])
+	update_strings(%IncludeFilters, other_template[\"include_filters\"])
+	update_strings(%ExcludeFilters, other_template[\"exclude_filters\"])
+
+func update_strings(string_container: Control, strings: PackedStringArray):
+	for string: LineEdit in string_container.strings.get_children():
+		if string.text in strings:
+			string.editable = false
+		elif not string.editable:
+			string.queue_free()
+	
+	var my_strings: PackedStringArray = string_container.get_strings()
+	for string in strings:
+		if not string in my_strings:
+			var strin: LineEdit = string_container._add_string()
+			strin.text = string
 "
 
 [node name="PresetTemplate" type="MarginContainer"]
@@ -41,6 +74,7 @@ offset_bottom = 238.0
 script = SubResource("GDScript_4k674")
 
 [node name="Inherited" type="ReferenceRect" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 border_color = Color(1, 1, 0, 1)

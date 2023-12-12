@@ -11,11 +11,12 @@ signal success
 signal fail
 
 func _ready() -> void:
-	var logpath := ProjectSettings.globalize_path("res://log.txt")
-	arguments.append(">")
-	arguments.append(logpath)
-	arguments.append("2>&1")
-	%Command.text = command + " " + " ".join(arguments) + " > " + logpath + " 2>&1"
+	#var logpath := ProjectSettings.globalize_path("res://log.txt")
+	#arguments.append(">")
+	#arguments.append(logpath)
+	#arguments.append("2>&1")
+	#%Command.text = command + " " + " ".join(arguments) + " > " + logpath + " 2>&1"
+	%Command.text = command + " " + " ".join(arguments)
 	
 	thread = Thread.new()
 	thread.start(thread_method)

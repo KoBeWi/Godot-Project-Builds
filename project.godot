@@ -36,6 +36,10 @@ gdscript/warnings/confusable_identifier=0
 
 window/subwindows/embed_subwindows=false
 
+[editor]
+
+script/search_in_file_extensions=PackedStringArray("gd", "gdshader", "tscn")
+
 [editor_plugins]
 
 enabled=PackedStringArray()

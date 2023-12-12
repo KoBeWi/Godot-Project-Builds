@@ -13,6 +13,7 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	save_templates()
+	Data.save_routines()
 
 func _add_template_pressed() -> Control:
 	var template := preload("res://Nodes/PresetTemplate.tscn").instantiate()
@@ -43,11 +44,18 @@ func edit_routine(data: Dictionary):
 
 func duplicate_template(template: Control):
 	var dup := _add_template_pressed()
-	dup.set_data(template.get_data())
-	template_container.move_child(dup, template.get_index() + 1)
+	var data: Dictionary = template.get_data().duplicate()
+	data["name"] = data["name"] + " (Copy)"
+	dup.set_data(data)
+	template_container.move_child(dup, template.get_index() + 1) # TODO: ustawić za inheritami
 
 func inherit_template(template: Control):
-	pass
+	var dup := _add_template_pressed()
+	var data: Dictionary = template.get_data().duplicate()
+	data["inherit"] = data["name"]
+	data["name"] = data["name"] + " (Inherited)"
+	dup.set_data(data)
+	template_container.move_child(dup, template.get_index() + 1)
 
 func delete_template(template: Control):
 	template.queue_free()

@@ -3,7 +3,10 @@ extends Control
 @onready var task_limbo: Node2D = %TaskLimbo
 @onready var commands_container: VBoxContainer = %CommandsContainer
 
-class CommandItem:
+var task_count: int
+var current_task: Task
+
+class CommandItem: # TODO: usunąć
 	var command: String
 	var arguments: PackedStringArray
 	
@@ -25,34 +28,42 @@ func _ready() -> void:
 	var routine := Data.get_current_routine()
 	for task in routine["tasks"]:
 		var task_instance: Task = load(task["scene"]).instantiate()
+		task_instance.hide()
 		commands_container.add_child(task_instance)
+		
 		task_instance._initialize(Data.project_path)
 		task_instance.data = task["data"]
 		task_instance._load()
 		
-		var item := CommandItem.new()
-		item.command = task_instance._get_command()
-		item.arguments = task_instance._get_arguments()
-		commands.append(item)
-		
-		task_instance.free()
+		task_count += 1
 	
 	#item.arguments = ["a", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Build.zip", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.exe", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.pck"]
 	
 	next_command()
 
 func next_command():
-	if commands.is_empty():
+	if task_count == 0:
 		return
 	
-	var command_item: CommandItem = commands.pop_front()
+	current_task = commands_container.get_child(0)
+	current_task._prepare()
+	
 	var command := preload("res://Nodes/Command.tscn").instantiate()
-	command.command = command_item.get_command()
-	command.arguments = command_item.arguments
-	command.success.connect(on_success, CONNECT_ONE_SHOT)
+	
+	var command_text := current_task._get_command()
+	command_text = command_text.replace("%godot%", "godot_console")
+	command.command = command_text
+	
+	command.arguments = current_task._get_arguments()
+	command.success.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 	commands_container.add_child(command)
+	
+	task_count -= 1
 
 func on_success():
+	current_task._cleanup()
+	current_task.free()
+	
 	next_command()
 
 func output_process():
