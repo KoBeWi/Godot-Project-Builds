@@ -26,3 +26,6 @@ func _load() -> void:
 
 func _store() -> void:
 	pass
+
+func _get_relevant_file_paths() -> PackedStringArray:
+	return PackedStringArray()

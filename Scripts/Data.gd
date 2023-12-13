@@ -1,7 +1,6 @@
 extends Node
 
-const TEMPLATES_FILE = "user://templates.txt"
-const ROUTINES_FILE = "user://routines.txt"
+const CONFIG_FILE = "project_builds_config.txt"
 
 var project_path: String = "X:/Godot/Projects/ProjectBuilds/Testing/TestProject"
 
@@ -13,15 +12,18 @@ var current_routine: Dictionary
 
 func _init() -> void:
 	for task in DirAccess.get_files_at("res://Tasks"):
-		register_task("res://Tasks".path_join(task))
+		if task.get_extension() == "tscn":
+			register_task("res://Tasks".path_join(task))
 	
-	var fa := FileAccess.open(TEMPLATES_FILE, FileAccess.READ)
-	if fa:
-		templates.assign(str_to_var(fa.get_as_text()))
+	load_project(project_path) ##
+
+func load_project(path: String):
+	project_path = path
 	
-	fa = FileAccess.open(ROUTINES_FILE, FileAccess.READ)
-	if fa:
-		routines.assign(str_to_var(fa.get_as_text()))
+	var config := load_config()
+	if not config.is_empty():
+		routines.assign(config["routines"])
+		templates.assign(config["templates"])
 
 func register_task(scene: String):
 	var data := Dictionary()
@@ -45,13 +47,25 @@ func get_current_routine() -> Dictionary:
 	current_routine = {}
 	return ret
 
+func load_config() -> Dictionary:
+	var fa := FileAccess.open(project_path.path_join(CONFIG_FILE), FileAccess.READ)
+	if fa:
+		return str_to_var(fa.get_as_text())
+	return {}
+
+func save_config(config: Dictionary):
+	var fa := FileAccess.open(project_path.path_join(CONFIG_FILE), FileAccess.WRITE)
+	fa.store_string(var_to_str(config))
+
 func save_templates():
-	var fa := FileAccess.open(TEMPLATES_FILE, FileAccess.WRITE)
-	fa.store_string(var_to_str(templates))
+	var config := load_config()
+	config["templates"] = templates
+	save_config(config)
 
 func save_routines():
-	var fa := FileAccess.open(ROUTINES_FILE, FileAccess.WRITE)
-	fa.store_string(var_to_str(routines))
+	var config := load_config()
+	config["routines"] = routines
+	save_config(config)
 
 func get_template(template_name: String) -> Dictionary:
 	for template in templates:

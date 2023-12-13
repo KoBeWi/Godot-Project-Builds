@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://doi6iht30rdxc"]
 
 [sub_resource type="GDScript" id="GDScript_mlhhy"]
-script/source = "extends Task
+script/source = "extends \"res://Tasks/ExportTask.gd\"
 
 const CUSTOM_PRESET = \"_Project_Builds_\"
 
@@ -9,7 +9,6 @@ const CUSTOM_PRESET = \"_Project_Builds_\"
 @onready var template_list: OptionButton = %TemplateList
 @onready var debug: CheckBox = %Debug
 
-var preset_path: String
 var custom_preset: int
 
 func _get_task_name() -> String:
@@ -30,15 +29,15 @@ func _get_arguments() -> PackedStringArray:
 	else:
 		ret.append(\"--export-release\")
 	
-	ret.append(\"_Project_Builds_\")
+	ret.append(CUSTOM_PRESET)
 	
 	return ret
 
 func _initialize(project_path: String):
-	preset_path = project_path.path_join(\"export_presets.cfg\")
+	super(project_path)
 	
-	var export_presets := ConfigFile.new()
-	if export_presets.load(preset_path) != OK:
+	var export_presets := load_presets()
+	if not export_presets:
 		return
 	
 	for section in export_presets.get_sections():
@@ -51,8 +50,9 @@ func _initialize(project_path: String):
 		template_list.add_item(template[\"name\"])
 
 func _prepare() -> void:
-	var export_presets := ConfigFile.new()
-	if export_presets.load(preset_path) != OK:
+	var export_presets := load_presets()
+	if not export_presets:
+		# TODO: raczej error
 		return
 	
 	var template := Data.get_template(template_list.get_item_text(template_list.selected))
@@ -85,8 +85,8 @@ func _prepare() -> void:
 	export_presets.save(preset_path)
 
 func _cleanup() -> void:
-	var export_presets := ConfigFile.new()
-	if export_presets.load(preset_path) != OK:
+	var export_presets := load_presets()
+	if not export_presets:
 		return
 	
 	export_presets.erase_section(\"preset.%d\" % custom_preset)

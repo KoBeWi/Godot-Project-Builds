@@ -27,7 +27,7 @@ func create_task(scene: String) -> Task:
 	var container := preload("res://Nodes/TaskContainer.tscn").instantiate()
 	task_list.add_child(container)
 	
-	var task: Task = container.set_task(load(scene))
+	var task: Task = container.set_task(load("res://Tasks/%s.tscn" % scene))
 	task._initialize(Data.project_path)
 	return task
 
@@ -36,7 +36,7 @@ func _back_pressed() -> void:
 	
 	for task: Task in task_list.get_children().map(func(container: Node) -> Task: return container.task):
 		var task_data := Dictionary()
-		task_data["scene"] = task.scene_file_path
+		task_data["scene"] = task.scene_file_path.get_file().get_basename()
 		task._store()
 		task_data["data"] = task.data
 		routine_tasks.append(task_data)

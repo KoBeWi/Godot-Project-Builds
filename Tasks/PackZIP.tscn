@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw4t3o5hj774w"]
+
+[sub_resource type="GDScript" id="GDScript_ess8h"]
+script/source = "extends Task
+
+func _get_task_name() -> String:
+	return \"Pack ZIP\"
+"
+
+[node name="MakeZip" type="VBoxContainer"]
+script = SubResource("GDScript_ess8h")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "File List"
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "From Previous Task"
+popup/item_0/id = 0
+popup/item_1/text = "Custom"
+popup/item_1/id = 1
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="Label2" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Target Path"
+
+[node name="OptionButton2" type="OptionButton" parent="GridContainer"]
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "From Previous Task"
+popup/item_0/id = 0
+popup/item_1/text = "Custom"
+popup/item_1/id = 1
