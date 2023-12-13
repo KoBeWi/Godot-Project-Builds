@@ -28,8 +28,7 @@ func _ready() -> void:
 	var routine := Data.get_current_routine()
 	for task in routine["tasks"]:
 		var task_instance: Task = load("res://Tasks/%s.tscn" % task["scene"]).instantiate()
-		task_instance.hide()
-		commands_container.add_child(task_instance)
+		task_limbo.add_child(task_instance)
 		
 		task_instance._initialize(Data.project_path)
 		task_instance.data = task["data"]
@@ -45,7 +44,7 @@ func next_command():
 	if task_count == 0:
 		return
 	
-	current_task = commands_container.get_child(0)
+	current_task = task_limbo.get_child(0)
 	current_task._prepare()
 	
 	var command := preload("res://Nodes/Command.tscn").instantiate()
@@ -56,6 +55,7 @@ func next_command():
 	
 	command.arguments = current_task._get_arguments()
 	command.success.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+	command.fail.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED) ## TODO inny
 	commands_container.add_child(command)
 	
 	task_count -= 1

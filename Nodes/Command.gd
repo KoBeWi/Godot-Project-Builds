@@ -1,10 +1,13 @@
 extends Control
 
+const COLLAPSED_SIZE = 5
+
 var command: String
 var arguments: PackedStringArray
 
 var thread: Thread
 var output: Array
+var output_lines: Array[String]
 var result: int
 
 signal success
@@ -34,23 +37,31 @@ func _process(delta: float) -> void:
 		if result == 0:
 			%Status.text = "Success"
 			%Status.modulate = Color.GREEN
-			%Code.text = str(result)
 			%Code.modulate = Color.GREEN
 			success.emit()
 		else:
 			%Status.text = "Fail"
 			%Status.modulate = Color.RED
-			%Code.text = str(result)
 			%Code.modulate = Color.RED
 			fail.emit()
+		
+		%Code.text = str(result)
 		
 		await get_tree().process_frame
 		%Output.show()
 		if output[0].is_empty():
-			%Output.text = "No Output"
+			%OutputLabel.text = "No Output"
 		else:
-			%Output.text = output[0]
+			output_lines.assign(output[0].split("\n"))
+			if output_lines.size() <= COLLAPSED_SIZE:
+				expand_output()
+			else:
+				%OutputLabel.text = "\n".join(output_lines.slice(-COLLAPSED_SIZE - 1))
+				%ExpandButton.text %= output_lines.size()
 
+func expand_output() -> void:
+	%OutputLabel.text = "\n".join(output_lines)
+	%ExpandButton.hide()
 
 func _on_command_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
