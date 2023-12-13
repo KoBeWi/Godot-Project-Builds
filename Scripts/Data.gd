@@ -2,7 +2,7 @@ extends Node
 
 const CONFIG_FILE = "project_builds_config.txt"
 
-var project_path: String = "X:/Godot/Projects/ProjectBuilds/Testing/TestProject"
+var project_path: String
 
 var tasks: Array[Dictionary]
 var routines: Array[Dictionary]
@@ -14,8 +14,6 @@ func _init() -> void:
 	for task in DirAccess.get_files_at("res://Tasks"):
 		if task.get_extension() == "tscn":
 			register_task("res://Tasks".path_join(task))
-	
-	load_project(project_path) ##
 
 func load_project(path: String):
 	project_path = path
@@ -27,7 +25,7 @@ func load_project(path: String):
 
 func register_task(scene: String):
 	var data := Dictionary()
-	data["scene"] = scene
+	data["scene"] = scene.get_file().get_basename()
 	
 	var instance: Task = load(scene).instantiate()
 	data["name"] = instance._get_task_name()

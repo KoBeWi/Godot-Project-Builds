@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc3kmk1iwkf5p"]
+
+[sub_resource type="GDScript" id="GDScript_8e84h"]
+script/source = "extends MarginContainer
+
+func set_project(path: String, callback: Callable):
+	%Path.text = path
+	
+	var config := ConfigFile.new()
+	config.load(path.path_join(\"project.godot\"))
+	
+	%Name.text = config.get_value(\"application\", \"config/name\", \"[unnamed]\")
+	
+	var icon_path: String = config.get_value(\"application\", \"config/icon\", \"\")
+	if not icon_path.is_empty():
+		var image := Image.load_from_file(icon_path.replace(\"res:/\", path))
+		%Icon.texture = ImageTexture.create_from_image(image)
+	
+	var task := FileAccess.open(path.path_join(Data.CONFIG_FILE), FileAccess.READ)
+	if not task:
+		%Tasks.text = \"Project builds not configured\"
+	else:
+		var data: Dictionary = str_to_var(task.get_as_text())
+		%Tasks.text = \"%d routines\" % data.get(\"routines\", []).size()
+	
+	$Button.pressed.connect(callback.bind(path))
+"
+
+[node name="ProjectEntry" type="MarginContainer"]
+custom_minimum_size = Vector2(800, 0)
+offset_right = 495.0
+offset_bottom = 113.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = SubResource("GDScript_8e84h")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 40
+text = "Project Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tasks" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Tasks"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Path" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Path"

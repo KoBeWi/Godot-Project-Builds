@@ -4,6 +4,11 @@ extends Control
 @onready var routine_container: VBoxContainer = %RoutineContainer
 
 func _ready() -> void:
+	var config := ConfigFile.new()
+	config.load(Data.project_path.path_join("project.godot"))
+	
+	%Title.text %= config.get_value("application", "config/name", "[unnamed]")
+	
 	for routine in Data.routines:
 		add_routine(routine)
 	
