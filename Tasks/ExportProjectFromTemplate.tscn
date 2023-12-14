@@ -14,6 +14,9 @@ var custom_preset: int
 func _get_task_name() -> String:
 	return \"Export Project From Template\"
 
+func _get_execute_string() -> String:
+	return \"Export Project From Template (preset %s, template %s)\" % [data[\"preset\"], data[\"template\"]]
+
 func _get_command() -> String:
 	return \"%godot%\"
 
@@ -76,6 +79,7 @@ func _prepare() -> void:
 	
 	if not template[\"export_path\"].is_empty():
 		export_presets.set_value(new_section, \"export_path\", template[\"export_path\"])
+	set_export_path(export_presets.get_value(new_section, \"export_path\", \"\"))
 	
 	new_section = \"preset.%d.options\" % custom_preset
 	section = \"preset.%d.options\" % base_preset

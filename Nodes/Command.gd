@@ -2,6 +2,7 @@ extends Control
 
 const COLLAPSED_SIZE = 5
 
+var task_text: String
 var command: String
 var arguments: PackedStringArray
 
@@ -19,6 +20,7 @@ func _ready() -> void:
 	#arguments.append(logpath)
 	#arguments.append("2>&1")
 	#%Command.text = command + " " + " ".join(arguments) + " > " + logpath + " 2>&1"
+	%TaskText.text = task_text
 	%Command.text = command + " " + " ".join(arguments)
 	
 	thread = Thread.new()
@@ -57,7 +59,7 @@ func _process(delta: float) -> void:
 				expand_output()
 			else:
 				%OutputLabel.text = "\n".join(output_lines.slice(-COLLAPSED_SIZE - 1))
-				%ExpandButton.text %= output_lines.size()
+				%ExpandButton.text %= output_lines.size() - 5
 
 func expand_output() -> void:
 	%OutputLabel.text = "\n".join(output_lines)

@@ -5,6 +5,29 @@ script/source = "extends Task
 
 func _get_task_name() -> String:
 	return \"Pack ZIP\"
+
+func _get_execute_string() -> String:
+	return \"Pack ZIP\"
+
+func _get_command() -> String:
+	return \"%godot%\"
+
+func _get_arguments() -> PackedStringArray:
+	var ret: PackedStringArray
+	ret.append(\"--headless\")
+	
+	ret.append(\"--path\")
+	ret.append(ProjectSettings.globalize_path(\"res://\"))
+	
+	ret.append(\"--script\")
+	ret.append(\"res://Scripts/Tools/PackZIP.gd\")
+	
+	ret.append(\"--\")
+	
+	ret.append_array(get_previous_task()._get_relevant_file_paths())
+	ret.append(\"test.zip\")
+	
+	return ret
 "
 
 [node name="MakeZip" type="VBoxContainer"]
@@ -42,3 +65,10 @@ popup/item_0/text = "From Previous Task"
 popup/item_0/id = 0
 popup/item_1/text = "Custom"
 popup/item_1/id = 1
+
+[node name="Label3" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Target File Name"
+
+[node name="LineEdit" type="LineEdit" parent="GridContainer"]
+layout_mode = 2
