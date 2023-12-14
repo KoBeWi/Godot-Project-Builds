@@ -25,9 +25,15 @@ func _get_arguments() -> PackedStringArray:
 	ret.append(\"--\")
 	
 	ret.append_array(get_previous_task()._get_relevant_file_paths())
-	ret.append(\"test.zip\")
+	ret.append(%ZIPName.text)
 	
 	return ret
+
+func _load():
+	%ZIPName.text = data[\"zip_name\"]
+
+func _store():
+	data[\"zip_name\"] = %ZIPName.text
 "
 
 [node name="MakeZip" type="VBoxContainer"]
@@ -70,5 +76,6 @@ popup/item_1/id = 1
 layout_mode = 2
 text = "Target File Name"
 
-[node name="LineEdit" type="LineEdit" parent="GridContainer"]
+[node name="ZIPName" type="LineEdit" parent="GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2

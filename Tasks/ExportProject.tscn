@@ -10,6 +10,7 @@ script/source = "extends \"res://Tasks/ExportTask.gd\"
 @onready var custom_preset_name: LineEdit = %CustomPresetName
 @onready var debug: CheckBox = %Debug
 @onready var custom_path: Control = $CustomPath
+## TODO: export_path
 
 func _get_task_name() -> String:
 	return \"Export Project\"

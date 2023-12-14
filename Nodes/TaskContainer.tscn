@@ -1,15 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://fktnevmh7mia"]
+[gd_scene load_steps=5 format=3 uid="uid://fktnevmh7mia"]
+
+[ext_resource type="Texture2D" uid="uid://6orgtpcieuls" path="res://Icons/ArrowUp.svg" id="1_efkxy"]
+[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="1_jiaey"]
+[ext_resource type="Texture2D" uid="uid://bidwkeg0fiqcn" path="res://Icons/ArrowDown.svg" id="2_r8s42"]
 
 [sub_resource type="GDScript" id="GDScript_f3a8a"]
 script/source = "extends PanelContainer
 
 var task: Task
 
+func _ready() -> void:
+	update_buttons.call_deferred()
+
 func set_task(task_scene: PackedScene) -> Task:
 	task = task_scene.instantiate()
 	%TaskName.text = task._get_task_name()
 	%TaskHere.add_child(task)
 	return task
+
+func update_buttons():
+	%Up.disabled = get_index() == 0
+	%Down.disabled = get_index() == get_parent().get_child_count() - 1
+
+func move_up() -> void:
+	get_parent().move_child(self, get_index() - 1)
+	update_buttons()
+
+func move_down() -> void:
+	get_parent().move_child(self, get_index() + 1)
+	update_buttons()
+
+func erase() -> void:
+	queue_free()
 "
 
 [node name="TaskContainer" type="PanelContainer"]
@@ -18,11 +40,35 @@ script = SubResource("GDScript_f3a8a")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="TaskName" type="Label" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TaskName" type="Label" parent="VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Task Name"
 horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Up" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("1_efkxy")
+
+[node name="Down" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("2_r8s42")
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("1_jiaey")
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -34,3 +80,7 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Up" to="." method="move_up"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Down" to="." method="move_down"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Button3" to="." method="erase"]
