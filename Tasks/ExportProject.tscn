@@ -83,6 +83,14 @@ func _store():
 
 func _on_preset_list_item_selected(index: int) -> void:
 	custom_preset_name.set_noexist(index != 0)
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Exports the project using one of defined export presets.\",
+		\"Preset|Preset name from the project's presets defined in the Export dialog.\",
+		\"Debug|If enabled, exports a debug build.\",
+		\"Custom Path|If not empty, overrides the path defined in the preset.\",
+	]
 "
 
 [node name="ExportProject" type="VBoxContainer"]

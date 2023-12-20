@@ -34,13 +34,24 @@ func _load():
 
 func _store():
 	data[\"zip_name\"] = %ZIPName.text
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Packs specified files in a ZIP archive.\",
+		\"File List|List of files to pack. \\\"From Previous Task\\\" will try to fetch them from the task above, e.g. list of exported files from project export.\",
+		\"Target Directory|The directory where the ZIP will be created.\",
+		\"Target File Name|Name of the ZIP archive (excluding the extension).\",
+	]
 "
 
 [node name="MakeZip" type="VBoxContainer"]
+offset_right = 444.0
+offset_bottom = 101.0
 script = SubResource("GDScript_ess8h")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+alignment = 1
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
@@ -57,11 +68,12 @@ popup/item_1/id = 1
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 4
 columns = 2
 
 [node name="Label2" type="Label" parent="GridContainer"]
 layout_mode = 2
-text = "Target Path"
+text = "Target Directory"
 
 [node name="OptionButton2" type="OptionButton" parent="GridContainer"]
 layout_mode = 2

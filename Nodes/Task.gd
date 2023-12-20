@@ -37,3 +37,6 @@ func get_previous_task() -> Task:
 	if get_index() == 0:
 		return null
 	return get_parent().get_child(get_index() - 1)
+
+func _get_task_info() -> PackedStringArray:
+	return ["Task description", "Argument Name|Description"]

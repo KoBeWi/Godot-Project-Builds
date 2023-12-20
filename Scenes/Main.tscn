@@ -44,10 +44,8 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6a4qs")
 tab_alignment = 1
-current_tab = 1
 
 [node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -85,6 +83,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Preset Templates" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -124,6 +123,15 @@ size_flags_horizontal = 3
 [node name="Tasks" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Tasks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TaskContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Tasks/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Config" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
 visible = false

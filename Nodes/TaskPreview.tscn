@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://dv8u0se3f7m7s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75d6r"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.501961)
+
+[sub_resource type="GDScript" id="GDScript_d6iij"]
+script/source = "extends Control
+
+@onready var task_description: RichTextLabel = %TaskDescription
+
+var task: Dictionary
+
+func _ready() -> void:
+	var task_instance: Task = load(\"res://Tasks/%s.tscn\" % task[\"scene\"]).instantiate()
+	%TaskContainer.add_child(task_instance)
+	
+	%TaskName.text = task_instance._get_task_name()
+	
+	var info := task_instance._get_task_info()
+	task_description.append_text(info[0])
+	
+	if info.size() < 2:
+		return
+	
+	task_description.append_text(\"\\n\\n[center]Parameters[/center]\")
+	
+	for i in range(1, info.size()):
+		var argument := info[i]
+		task_description.append_text(\"\\n[b]%s:[/b] %s\" % [argument.get_slice(\"|\", 0), argument.get_slice(\"|\", 1)])
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6p44c"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.25098)
+
+[node name="TaskPreview" type="PanelContainer"]
+offset_right = 344.0
+offset_bottom = 221.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_75d6r")
+script = SubResource("GDScript_d6iij")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TaskContainer" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_6p44c")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TaskName" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Task Name"
+horizontal_alignment = 1
+
+[node name="TaskDescription" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false

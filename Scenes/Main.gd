@@ -2,6 +2,7 @@ extends Control
 
 @onready var template_container: VBoxContainer = %TemplateContainer
 @onready var routine_container: VBoxContainer = %RoutineContainer
+@onready var task_container: VBoxContainer = %TaskContainer
 
 func _ready() -> void:
 	var config := ConfigFile.new()
@@ -15,6 +16,11 @@ func _ready() -> void:
 	for template in Data.templates:
 		var temp := _add_template_pressed()
 		temp.set_data(template)
+	
+	for task in Data.tasks:
+		var preview := preload("res://Nodes/TaskPreview.tscn").instantiate()
+		preview.task = task
+		task_container.add_child(preview)
 
 func _exit_tree() -> void:
 	save_templates()

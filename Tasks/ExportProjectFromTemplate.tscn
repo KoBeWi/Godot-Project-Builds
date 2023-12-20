@@ -121,6 +121,14 @@ func _store():
 	data[\"preset\"] = preset_list.get_item_text(preset_list.selected)
 	data[\"template\"] = template_list.get_item_text(template_list.selected)
 	data[\"debug\"] = debug.button_pressed
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Exports the project by creating a new preset using the selected template. An existing preset is used as a base.\",
+		\"Base Preset|Preset name from the project's presets defined in the Export dialog.\",
+		\"Preset Template|Template name from the templates defined in Project Builds.\",
+		\"Debug|If enabled, exports a debug build.\",
+	]
 "
 
 [node name="ExportProject" type="VBoxContainer"]
