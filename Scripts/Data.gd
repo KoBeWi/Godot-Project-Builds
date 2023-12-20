@@ -2,6 +2,8 @@ extends Node
 
 const CONFIG_FILE = "project_builds_config.txt"
 
+var global_config: Dictionary
+var local_config: Dictionary
 var project_path: String
 
 var tasks: Array[Dictionary]
@@ -14,14 +16,20 @@ func _init() -> void:
 	for task in DirAccess.get_files_at("res://Tasks"):
 		if task.get_extension() == "tscn":
 			register_task("res://Tasks".path_join(task))
+	
+	var global_config_file := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.READ)
+	if global_config_file:
+		global_config = str_to_var(global_config_file.get_as_text())
+	else:
+		global_config["godot_path"] = ""
 
 func load_project(path: String):
 	project_path = path
 	
-	var config := load_config()
-	if not config.is_empty():
-		routines.assign(config["routines"])
-		templates.assign(config["templates"])
+	local_config = load_config()
+	if not local_config.is_empty():
+		routines.assign(local_config["routines"])
+		templates.assign(local_config["templates"])
 
 func register_task(scene: String):
 	var data := Dictionary()
@@ -55,8 +63,12 @@ func save_config(config: Dictionary):
 	var fa := FileAccess.open(project_path.path_join(CONFIG_FILE), FileAccess.WRITE)
 	fa.store_string(var_to_str(config))
 
+func save_global_config():
+	var fa := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.WRITE)
+	fa.store_string(var_to_str(global_config))
+
 func save_templates():
-	var config := load_config()
+	var config := load_config() ## TODO: zamienić na local_config
 	config["templates"] = templates
 	save_config(config)
 
@@ -70,3 +82,6 @@ func get_template(template_name: String) -> Dictionary:
 		if template["name"] == template_name:
 			return template
 	return {}
+
+func get_godot_path() -> String:
+	return local_config.get("godot_path", global_config["godot_path"])

@@ -12,7 +12,7 @@ class CommandItem: # TODO: usunąć
 	
 	func get_command() -> String:
 		var ret := command
-		ret = ret.replace("%godot%", "godot_console")
+		ret = ret.replace("%godot%", Data.get_godot_path())
 		return ret
 
 var commands: Array[CommandItem]
@@ -49,7 +49,7 @@ func next_command():
 	command.task_text = current_task._get_execute_string()
 	
 	var command_text := current_task._get_command()
-	command_text = command_text.replace("%godot%", "godot_console")
+	command_text = command_text.replace("%godot%", Data.get_godot_path())
 	command.command = command_text
 	
 	command.arguments = current_task._get_arguments()

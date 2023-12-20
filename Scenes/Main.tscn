@@ -1,12 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=7 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_r1xkq"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_ood4h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6a4qs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuonq"]
 bg_color = Color(0, 0, 0, 0.12549)
+
+[sub_resource type="GDScript" id="GDScript_rk2qg"]
+script/source = "extends HBoxContainer
+
+func _ready() -> void:
+	%GlobalGodot.text = Data.global_config[\"godot_path\"]
+	%LocalGodot.text = Data.local_config.get(\"godot_path\", \"\")
+
+func _on_global_godot_path_changed() -> void:
+	Data.global_config[\"godot_path\"] = %GlobalGodot.text
+	Data.save_global_config()
+"
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -44,8 +57,10 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6a4qs")
 tab_alignment = 1
+current_tab = 3
 
 [node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -133,14 +148,52 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Config" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
+[node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+script = SubResource("GDScript_rk2qg")
+
+[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Config"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+text = "Global Godot Path"
+horizontal_alignment = 1
+
+[node name="GlobalGodot" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+text = "Godot Path For This Project"
+horizontal_alignment = 1
+
+[node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/VBoxContainer/LocalGodot" index="0"]
+placeholder_text = "Leave empty to use global path."
+
+[node name="Control2" type="Control" parent="VBoxContainer/TabContainer/Config"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Button" type="Button" parent="."]
+layout_mode = 0
 text = "Back"
 icon = ExtResource("2_fue2w")
 
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/VBoxContainer/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/MarginContainer/Button" to="." method="_add_template_pressed"]
+[connection signal="path_changed" from="VBoxContainer/TabContainer/Config/VBoxContainer/GlobalGodot" to="VBoxContainer/TabContainer/Config" method="_on_global_godot_path_changed"]
 [connection signal="pressed" from="Button" to="." method="go_back"]
+
+[editable path="VBoxContainer/TabContainer/Config/VBoxContainer/LocalGodot"]

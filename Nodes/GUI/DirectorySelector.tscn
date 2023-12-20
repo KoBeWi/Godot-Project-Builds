@@ -7,11 +7,16 @@ script/source = "extends HBoxContainer
 
 @onready var line_edit: LineEdit = $LineEdit
 
+signal path_changed
+
 var text: String:
 	set(t):
 		line_edit.text = t
 	get:
 		return line_edit.text
+
+func _ready() -> void:
+	line_edit.text_changed.connect(func(text): path_changed.emit())
 "
 
 [node name="DirectorySelector" type="HBoxContainer"]
