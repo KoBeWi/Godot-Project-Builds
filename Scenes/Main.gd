@@ -71,3 +71,6 @@ func save_templates():
 		return template.get_data()))
 	
 	Data.save_templates()
+
+func go_back() -> void:
+	get_tree().change_scene_to_file("res://Scenes/ProjectManager.tscn")

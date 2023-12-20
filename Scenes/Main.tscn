@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=5 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_r1xkq"]
+[ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6a4qs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuonq"]
+bg_color = Color(0, 0, 0, 0.12549)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -21,80 +27,112 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
-[node name="Title" type="Label" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 text = "Project Builds - %s"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_6a4qs")
+tab_alignment = 1
+current_tab = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
-
-[node name="Templates" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer/MarginContainer"]
+[node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer/MarginContainer/Templates"]
-layout_mode = 2
-text = "Export Preset Templates"
-horizontal_alignment = 1
-
-[node name="Button" type="Button" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer/MarginContainer/Templates"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Add Template"
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer/MarginContainer/Templates"]
-layout_mode = 2
-
-[node name="TemplateContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer/MarginContainer/Templates"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Routines"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Routines" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Routines"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer2/Routines"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Routines/VBoxContainer"]
 layout_mode = 2
-text = "Routines"
-horizontal_alignment = 1
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="Button" type="Button" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer2/Routines"]
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Routines/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Add Routine"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer2/Routines"]
-layout_mode = 2
-
-[node name="RoutineContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer2/Routines"]
-unique_name_in_owner = true
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Routines/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nuonq")
 
-[connection signal="pressed" from="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer/MarginContainer/Templates/Button" to="." method="_add_template_pressed"]
-[connection signal="pressed" from="VBoxContainer/ScrollContainer/HBoxContainer/PanelContainer2/Routines/Button" to="." method="_add_routine_pressed"]
+[node name="RoutineContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Routines/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="VBoxContainer/TabContainer/Routines"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Preset Templates" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Preset Templates"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Preset Templates"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Preset Templates/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Add Template"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Preset Templates/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nuonq")
+
+[node name="TemplateContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="VBoxContainer/TabContainer/Preset Templates"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Tasks" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Config" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Button" type="Button" parent="."]
+text = "Back"
+icon = ExtResource("2_fue2w")
+
+[connection signal="pressed" from="VBoxContainer/TabContainer/Routines/VBoxContainer/MarginContainer/Button" to="." method="_add_routine_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/MarginContainer/Button" to="." method="_add_template_pressed"]
+[connection signal="pressed" from="Button" to="." method="go_back"]

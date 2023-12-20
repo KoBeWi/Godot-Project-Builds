@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsgg4mwgvd5vi"]
+[gd_scene load_steps=8 format=3 uid="uid://bsgg4mwgvd5vi"]
 
 [ext_resource type="PackedScene" uid="uid://bfbht01onlf1a" path="res://Nodes/GUI/StringContainer.tscn" id="1_egcl1"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_at7ma"]
@@ -6,8 +6,20 @@
 [ext_resource type="Texture2D" uid="uid://csjjbw7dnc51a" path="res://Icons/Inherit.svg" id="4_ricvi"]
 [ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="4_x4nre"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhetb"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.501961)
+
 [sub_resource type="GDScript" id="GDScript_4k674"]
-script/source = "extends MarginContainer
+script/source = "extends Control
 
 var inherit: String
 
@@ -44,7 +56,7 @@ func update_inheritance():
 	if inherit.is_empty():
 		return
 	
-	%Inherited.show()
+	self_modulate = Color.YELLOW
 	
 	var other_template := Data.get_template(inherit)
 	if other_template.is_empty():
@@ -68,18 +80,11 @@ func update_strings(string_container: Control, strings: PackedStringArray):
 			strin.text = string
 "
 
-[node name="PresetTemplate" type="MarginContainer"]
+[node name="PresetTemplate" type="PanelContainer"]
 offset_right = 432.0
 offset_bottom = 238.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qhetb")
 script = SubResource("GDScript_4k674")
-
-[node name="Inherited" type="ReferenceRect" parent="."]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-border_color = Color(1, 1, 0, 1)
-border_width = 2.0
-editor_only = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -157,6 +162,3 @@ size_flags_horizontal = 6
 text = "Delete"
 icon = ExtResource("4_x4nre")
 alignment = 0
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
