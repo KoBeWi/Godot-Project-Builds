@@ -64,6 +64,7 @@ func save_config(config: Dictionary):
 	fa.store_string(var_to_str(config))
 
 func save_global_config():
+	## TODO: debouncing
 	var fa := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.WRITE)
 	fa.store_string(var_to_str(global_config))
 

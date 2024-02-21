@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=8 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_r1xkq"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
@@ -6,19 +6,63 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6a4qs"]
 
+[sub_resource type="GDScript" id="GDScript_yepl2"]
+resource_name = "DeleteMe"
+script/source = "@tool
+extends TabContainer
+
+func _validate_property(property: Dictionary) -> void:
+	if property.name == \"current_tab\":
+		property.usage = PROPERTY_USAGE_EDITOR
+"
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuonq"]
 bg_color = Color(0, 0, 0, 0.12549)
 
 [sub_resource type="GDScript" id="GDScript_rk2qg"]
+resource_name = "Config"
 script/source = "extends HBoxContainer
 
 func _ready() -> void:
-	%GlobalGodot.text = Data.global_config[\"godot_path\"]
-	%LocalGodot.text = Data.local_config.get(\"godot_path\", \"\")
+	register_global_setting(%GlobalGodot, \"godot_path\")
+	register_global_setting(%SteamCMD, \"steam_cmd_path\")
+	register_global_setting(%SteamOutput, \"steam_output\")
+	register_global_setting(%SteamUsername, \"steam_username\")
+	register_global_setting(%SteamPassword, \"steam_password\")
+	
+	register_local_setting(%LocalGodot, \"godot_path\")
+	register_local_setting(%SteamContentRoot, \"steam_content_root\")
 
-func _on_global_godot_path_changed() -> void:
-	Data.global_config[\"godot_path\"] = %GlobalGodot.text
+func register_global_setting(control: Control, setting: String):
+	register_setting(control, setting, Data.global_config, on_global_setting_changed)
+
+func register_local_setting(control: Control, setting: String):
+	register_setting(control, setting, Data.local_config, on_local_setting_changed)
+
+func register_setting(control: Control, setting: String, config: Dictionary, callback: Callable):
+	control.text = config.get(setting, \"\")
+	
+	var sygnał
+	var binds: Array
+	
+	sygnał = control.get(&\"path_changed\")
+	if sygnał:
+		binds.append(\"\")
+	else:
+		sygnał = control.get(&\"text_changed\")
+	
+	assert(not sygnał.is_null())
+	
+	binds.append_array([control, setting])
+	sygnał.connect(callback.bindv(binds))
+
+func on_global_setting_changed(dummy, control: Control, setting: String):
+	Data.global_config[setting] = control.text
 	Data.save_global_config()
+
+func on_local_setting_changed(dummy, control: Control, setting: String):
+	Data.local_config[setting] = control.text
+	Data.save_config(Data.local_config)
 "
 
 [node name="Main" type="Control"]
@@ -57,7 +101,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6a4qs")
 tab_alignment = 1
-current_tab = 3
+script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -161,14 +205,63 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
+[node name="Label6" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Global Config"
+horizontal_alignment = 1
+
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
 layout_mode = 2
-text = "Global Godot Path"
+text = "Godot Path"
 horizontal_alignment = 1
 
 [node name="GlobalGodot" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+text = "Steam CMD Path"
+horizontal_alignment = 1
+
+[node name="SteamCMD" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+text = "Steam CMD Output Folder"
+horizontal_alignment = 1
+
+[node name="SteamOutput" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+text = "Steam Username"
+horizontal_alignment = 1
+
+[node name="SteamUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+text = "Steam Password"
+horizontal_alignment = 1
+
+[node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+secret = true
+
+[node name="Label7" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Local Config"
+horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
 layout_mode = 2
@@ -182,6 +275,15 @@ layout_mode = 2
 [node name="LineEdit" parent="VBoxContainer/TabContainer/Config/VBoxContainer/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
 
+[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+layout_mode = 2
+text = "Steam Content Root"
+horizontal_alignment = 1
+
+[node name="SteamContentRoot" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Control2" type="Control" parent="VBoxContainer/TabContainer/Config"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -193,7 +295,6 @@ icon = ExtResource("2_fue2w")
 
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/VBoxContainer/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/MarginContainer/Button" to="." method="_add_template_pressed"]
-[connection signal="path_changed" from="VBoxContainer/TabContainer/Config/VBoxContainer/GlobalGodot" to="VBoxContainer/TabContainer/Config" method="_on_global_godot_path_changed"]
 [connection signal="pressed" from="Button" to="." method="go_back"]
 
 [editable path="VBoxContainer/TabContainer/Config/VBoxContainer/LocalGodot"]

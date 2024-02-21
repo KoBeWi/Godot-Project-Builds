@@ -5,6 +5,7 @@ const COLLAPSED_SIZE = 5
 var task_text: String
 var command: String
 var arguments: PackedStringArray
+var raw_text: String
 
 var thread: Thread
 var output: Array
@@ -21,7 +22,8 @@ func _ready() -> void:
 	#arguments.append("2>&1")
 	#%Command.text = command + " " + " ".join(arguments) + " > " + logpath + " 2>&1"
 	%TaskText.text = task_text
-	%Command.text = command + " " + " ".join(arguments)
+	raw_text = command + " " + " ".join(arguments)
+	%Command.text = raw_text.replace(Data.global_config["steam_password"], "*password*") ## TODO: nie hardkodować
 	
 	thread = Thread.new()
 	thread.start(thread_method)
@@ -67,4 +69,5 @@ func expand_output() -> void:
 
 func _on_command_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		DisplayServer.clipboard_set(%Command.text)
+		## TODO: info, że się kopiuje
+		DisplayServer.clipboard_set(raw_text)

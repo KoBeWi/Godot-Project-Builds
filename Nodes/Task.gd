@@ -7,7 +7,7 @@ func _get_task_name() -> String:
 	return "Empty Task"
 
 func _get_execute_string() -> String:
-	return "Empty Task"
+	return _get_task_name()
 
 func _initialize(project_path: String):
 	pass
@@ -33,10 +33,10 @@ func _store() -> void:
 func _get_relevant_file_paths() -> PackedStringArray:
 	return PackedStringArray()
 
+func _get_task_info() -> PackedStringArray:
+	return ["Task description", "Argument Name|Description"]
+
 func get_previous_task() -> Task:
 	if get_index() == 0:
 		return null
 	return get_parent().get_child(get_index() - 1)
-
-func _get_task_info() -> PackedStringArray:
-	return ["Task description", "Argument Name|Description"]

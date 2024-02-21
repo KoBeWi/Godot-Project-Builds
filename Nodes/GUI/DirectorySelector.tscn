@@ -16,7 +16,7 @@ var text: String:
 		return line_edit.text
 
 func _ready() -> void:
-	line_edit.text_changed.connect(func(text): path_changed.emit())
+	line_edit.text_changed.connect(func(dummy): path_changed.emit())
 "
 
 [node name="DirectorySelector" type="HBoxContainer"]

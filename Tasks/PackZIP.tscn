@@ -6,9 +6,6 @@ script/source = "extends Task
 func _get_task_name() -> String:
 	return \"Pack ZIP\"
 
-func _get_execute_string() -> String:
-	return \"Pack ZIP\"
-
 func _get_command() -> String:
 	return \"%godot%\"
 
