@@ -104,7 +104,6 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -193,6 +192,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 script = SubResource("GDScript_rk2qg")
 

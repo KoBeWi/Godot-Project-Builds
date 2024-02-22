@@ -40,6 +40,7 @@ func _ready() -> void:
 
 func next_command():
 	if current_task_index == task_limbo.get_child_count():
+		%Button.show()
 		return
 	
 	current_task = task_limbo.get_child(current_task_index)
@@ -70,3 +71,6 @@ func on_success():
 		#print(output_file.get_line())
 		#
 		#OS.delay_msec(1)
+
+func go_back() -> void:
+	get_tree().change_scene_to_file("res://Scenes/Main.tscn")

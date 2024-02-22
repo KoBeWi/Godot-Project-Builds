@@ -3,13 +3,15 @@
 [sub_resource type="GDScript" id="GDScript_ftiq7"]
 script/source = "extends Task
 
-@onready var vdf_file: LineEdit = %VDFFile
+@onready var vdf_file: OptionButton = %VDFFile
+
+static var vdf_list: PackedStringArray
 
 func _get_task_name() -> String:
 	return \"Upload Steam\"
 
 func _get_execute_string() -> String:
-	return \"Steam Build (%s)\" % vdf_file.text.get_file()
+	return \"Steam Build (%s)\" % vdf_file.text
 
 func _get_command() -> String:
 	return Data.global_config.get(\"steam_cmd_path\")
@@ -29,7 +31,7 @@ func _get_arguments() -> PackedStringArray:
 	return ret
 
 func _prepare() -> void:
-	var vdf_file_path := Data.project_path.path_join(vdf_file.text)
+	var vdf_file_path := Data.project_path.path_join(vdf_file.get_selected_metadata())
 	var vdf_file_dir := vdf_file_path.get_base_dir()
 	
 	var app_build_lines := FileAccess.open(vdf_file_path, FileAccess.READ).get_as_text().split(\"\\n\")
@@ -56,13 +58,45 @@ func _prepare() -> void:
 
 func _initialize(project_path: String):
 	super(project_path)
-	## TODO: szukać VDF
+	
+	if vdf_list.is_empty():
+		scan_for_vdf(Data.project_path, vdf_list)
+	
+	for file in vdf_list:
+		vdf_file.add_item(file.get_file())
+		vdf_file.set_item_metadata(-1, file)
+		vdf_file.set_item_tooltip(-1, file)
+
+func scan_for_vdf(directory: String, list: PackedStringArray):
+	for file in DirAccess.get_files_at(directory):
+		if file.get_extension() == \"vdf\":
+			var path := directory.path_join(file)
+			
+			var f := FileAccess.open(path, FileAccess.READ)
+			for line in f.get_as_text().split(\"\\n\"):
+				if line.contains(\"AppBuild\"):
+					list.append(path.trim_prefix(Data.project_path + \"/\"))
+					break
+	
+	for dir in DirAccess.get_directories_at(directory):
+		if not dir.begins_with(\".\"):
+			scan_for_vdf(directory.path_join(dir), list)
 
 func _load():
-	vdf_file.text = data[\"vdf_path\"]
+	var file: String = data[\"vdf_path\"]
+	
+	for i in vdf_file.item_count:
+		if vdf_file.get_item_metadata(i) == file:
+			vdf_file.selected = i
+			break
 
 func _store():
-	data[\"vdf_path\"] = vdf_file.text
+	data[\"vdf_path\"] = vdf_file.get_selected_metadata()
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Uploads files to Steam based on a given VDF file and configured content paths. Requires steamcmd.exe.\",
+		\"VDF File|File used as a base to upload. Only \\\"non-simple\\\" VDF files are supported. Note that a special format is expected: ContentRoot and BuildOutput variables should be \\\"%s\\\", as they are filled by Project Builds. Also depot list should list files starting with DEP (e.g. DEP\\\"Demo.vdf\\\"). File paths are relative to the base file directory.\"] ## TODO: można w sumie dać plik podglądawy i wyświetlać go pod przyciskiem??
 
 func get_global_content_path() -> String:
 	var content_root: String = Data.local_config.get(\"steam_content_root\", \"\")
@@ -77,11 +111,16 @@ offset_right = 272.0
 offset_bottom = 58.0
 script = SubResource("GDScript_ftiq7")
 
-[node name="Label" type="Label" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 text = "VDF File"
 horizontal_alignment = 1
 
-[node name="VDFFile" type="LineEdit" parent="."]
+[node name="VDFFile" type="OptionButton" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
