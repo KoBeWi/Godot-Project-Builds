@@ -1,6 +1,7 @@
 extends Node
 
 const CONFIG_FILE = "project_builds_config.txt"
+var local_config_file: String
 
 var global_config: Dictionary
 var local_config: Dictionary
@@ -25,6 +26,12 @@ func _init() -> void:
 
 func load_project(path: String):
 	project_path = path
+	
+	var godot := ConfigFile.new()
+	godot.load(project_path.path_join("project.godot"))
+	local_config_file = godot.get_value("addons", "project_builds/config_path", CONFIG_FILE)
+	if local_config_file.is_absolute_path():
+		local_config_file = local_config_file.trim_prefix("res://")
 	
 	local_config = load_config()
 	if not local_config.is_empty():
@@ -54,13 +61,13 @@ func get_current_routine() -> Dictionary:
 	return ret
 
 func load_config() -> Dictionary:
-	var fa := FileAccess.open(project_path.path_join(CONFIG_FILE), FileAccess.READ)
+	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.READ)
 	if fa:
 		return str_to_var(fa.get_as_text())
 	return {}
 
 func save_config(config: Dictionary):
-	var fa := FileAccess.open(project_path.path_join(CONFIG_FILE), FileAccess.WRITE)
+	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.WRITE)
 	fa.store_string(var_to_str(config))
 
 func save_global_config():
