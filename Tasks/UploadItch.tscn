@@ -43,35 +43,50 @@ func _store():
 
 func _get_task_info() -> PackedStringArray:
 	return [
-		\"Uploads files to Steam based on a given VDF file and configured content paths. Requires steamcmd.exe.\",
-		\"VDF File|File used as a base to upload. Only \\\"non-simple\\\" VDF files are supported. Note that a special format is expected: ContentRoot and BuildOutput variables should be \\\"%s\\\", as they are filled by Project Builds. Also depot list should list files starting with DEP (e.g. DEP\\\"Demo.vdf\\\"). File paths are relative to the base file directory.\"] ## TODO: można w sumie dać plik podglądawy i wyświetlać go pod przyciskiem??
-
-func get_global_content_path() -> String:
-	var content_root: String = Data.local_config.get(\"steam_content_root\", \"\")
-	return Data.project_path.path_join(content_root)
-
-func get_temp_vdf_path() -> String:
-	return \"user://BuildSteam.vdf\"
+		\"Uploads files to Itch.io using butler. Remember to setup (login) butler before using this option.\",
+		\"Source Folder|The folder that will be provided for butler. It is automatically packed into ZIP before upload.\",
+		\"Channel|Channel to which the file will be uploaded.\",
+	]
 "
 
-[node name="UploadItch" type="VBoxContainer"]
+[node name="UploadItch" type="HBoxContainer"]
+offset_right = 536.0
+offset_bottom = 66.0
 script = SubResource("GDScript_5kvo4")
 
-[node name="Label" type="Label" parent="."]
+[node name="Control" type="Control" parent="."]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Source Folder"
+size_flags_horizontal = 3
 
-[node name="SourceFolder" parent="." instance=ExtResource("1_qoq5m")]
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+columns = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Source Folder"
+horizontal_alignment = 2
+
+[node name="SourceFolder" parent="GridContainer" instance=ExtResource("1_qoq5m")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+scope = 1
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
-size_flags_horizontal = 4
 text = "Channel"
+horizontal_alignment = 2
 
-[node name="Channel" type="LineEdit" parent="."]
+[node name="Channel" type="LineEdit" parent="GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3

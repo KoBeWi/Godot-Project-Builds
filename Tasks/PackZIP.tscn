@@ -2,6 +2,7 @@
 
 [sub_resource type="GDScript" id="GDScript_ess8h"]
 script/source = "extends Task
+## TODO: custom
 
 func _get_task_name() -> String:
 	return \"Pack ZIP\"

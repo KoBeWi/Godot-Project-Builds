@@ -140,5 +140,7 @@ horizontal_alignment = 1
 
 [node name="CustomPath" parent="." instance=ExtResource("1_ftqqe")]
 layout_mode = 2
+mode = 2
+scope = 1
 
 [connection signal="item_selected" from="HBoxContainer/PresetList" to="." method="_on_preset_list_item_selected"]

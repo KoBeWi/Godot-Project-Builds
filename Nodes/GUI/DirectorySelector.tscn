@@ -5,8 +5,14 @@
 [sub_resource type="GDScript" id="GDScript_af0jw"]
 script/source = "extends HBoxContainer
 
+enum Mode { SELECT_FOLDER, OPEN_FILE, SAVE_FILE }
+enum Scope {GLOBAL, PROJECT }
+
 @onready var line_edit: LineEdit = $LineEdit
 @onready var file_dialog: FileDialog = $FileDialog
+
+@export var mode: Mode
+@export var scope: Scope
 
 signal path_changed
 
@@ -18,12 +24,26 @@ var text: String:
 
 func _ready() -> void:
 	line_edit.text_changed.connect(func(dummy): path_changed.emit())
+	match mode:
+		Mode.SELECT_FOLDER:
+			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
+		Mode.OPEN_FILE:
+			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+		Mode.SAVE_FILE:
+			file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+	
+	if scope == Scope.PROJECT:
+		file_dialog.current_dir = Data.project_path
 
 func open_dialog() -> void:
 	file_dialog.popup_centered_ratio(0.5)
 
-func _on_file_dialog_file_selected(path: String) -> void:
-	text = path
+func _path_selected(path: String) -> void:
+	if scope == Scope.PROJECT:
+		text = path.trim_prefix(Data.project_path + \"/\")
+	else:
+		text = path
+	
 	path_changed.emit()
 "
 
@@ -47,4 +67,5 @@ file_mode = 0
 access = 2
 
 [connection signal="pressed" from="Button" to="." method="open_dialog"]
-[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_path_selected"]
+[connection signal="file_selected" from="FileDialog" to="." method="_path_selected"]

@@ -3,9 +3,11 @@
 [sub_resource type="GDScript" id="GDScript_ftiq7"]
 script/source = "extends Task
 
+const TEMP_VDF_PATH = \"user://BuildSteam.vdf\"
+
 @onready var vdf_file: OptionButton = %VDFFile
 
-static var vdf_list: PackedStringArray
+static var vdf_list: PackedStringArray ## TODO: czyścić to po zmianie projektu/ albo wgl czytać jak się otworzy projekt
 
 func _get_task_name() -> String:
 	return \"Upload Steam\"
@@ -24,7 +26,7 @@ func _get_arguments() -> PackedStringArray:
 	ret.append(Data.global_config.get(\"steam_password\", \"\"))
 	
 	ret.append(\"+run_app_build\")
-	ret.append(ProjectSettings.globalize_path(get_temp_vdf_path()))
+	ret.append(ProjectSettings.globalize_path(TEMP_VDF_PATH))
 	
 	ret.append(\"+quit\")
 	
@@ -53,7 +55,7 @@ func _prepare() -> void:
 			line = str(line.substr(0, j - 4), \"\\\"\", vdf_file_dir.path_join(depot_name), \"\\\"\")
 			app_build_lines[i] = line
 	
-	var temp_vdf := FileAccess.open(get_temp_vdf_path(), FileAccess.WRITE)
+	var temp_vdf := FileAccess.open(TEMP_VDF_PATH, FileAccess.WRITE)
 	temp_vdf.store_string(\"\\n\".join(app_build_lines))
 
 func _initialize(project_path: String):
@@ -101,26 +103,34 @@ func _get_task_info() -> PackedStringArray:
 func get_global_content_path() -> String:
 	var content_root: String = Data.local_config.get(\"steam_content_root\", \"\")
 	return Data.project_path.path_join(content_root)
-
-func get_temp_vdf_path() -> String:
-	return \"user://BuildSteam.vdf\"
 "
 
-[node name="UploadSteam" type="VBoxContainer"]
-offset_right = 272.0
-offset_bottom = 58.0
+[node name="UploadSteam" type="HBoxContainer"]
+offset_right = 522.0
+offset_bottom = 23.0
 script = SubResource("GDScript_ftiq7")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 8.0
 alignment = 1
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 text = "VDF File"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
 [node name="VDFFile" type="OptionButton" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3

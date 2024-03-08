@@ -115,6 +115,7 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -203,7 +204,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 script = SubResource("GDScript_rk2qg")
 
@@ -240,6 +240,7 @@ horizontal_alignment = 1
 [node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
+mode = 1
 
 [node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
@@ -257,6 +258,7 @@ horizontal_alignment = 1
 [node name="SteamContentRoot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam2" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
+scope = 1
 
 [node name="Itch2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 auto_translate_mode = 1
@@ -304,6 +306,7 @@ horizontal_alignment = 1
 [node name="GlobalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
+mode = 1
 
 [node name="Steam" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 layout_mode = 2
@@ -318,6 +321,7 @@ horizontal_alignment = 1
 [node name="SteamCMD" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
+mode = 1
 
 [node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2
@@ -327,6 +331,7 @@ horizontal_alignment = 1
 [node name="SteamOutput" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
+mode = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2
@@ -362,6 +367,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+mode = 1
 
 [node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
 auto_translate_mode = 1
