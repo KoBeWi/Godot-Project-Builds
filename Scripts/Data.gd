@@ -25,7 +25,7 @@ func _init() -> void:
 	if global_config_file:
 		global_config = str_to_var(global_config_file.get_as_text())
 	else:
-		global_config["godot_path"] = ""
+		global_config["godot_path"] = OS.get_executable_path()
 	
 	save_local_timer = Timer.new()
 	save_local_timer.wait_time = 0.5
