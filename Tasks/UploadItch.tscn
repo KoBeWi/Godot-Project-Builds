@@ -1,16 +1,77 @@
-[gd_scene load_steps=2 format=3 uid="uid://xt4wel0slqe4"]
+[gd_scene load_steps=3 format=3 uid="uid://xt4wel0slqe4"]
+
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_qoq5m"]
 
 [sub_resource type="GDScript" id="GDScript_5kvo4"]
 script/source = "extends Task
 
-func TODO():
-	\"butler\"
-	\"push\"
-	\"C:/Users/Tomek/Desktop/projekty/Gwiazdka/.gdignore/Gwiazdka/Gwiazdka Linux\" # folder path
-	\"kobewi/star-adventures:linux\" # user, game, channel
+@onready var source_folder: Control = %SourceFolder
+@onready var channel: LineEdit = %Channel
+
+func _get_task_name() -> String:
+	return \"Upload Itch\"
+
+func _get_execute_string() -> String:
+	return \"Itch Upload (Channel: \\\"%s\\\")\" % channel.text
+
+func _get_command() -> String:
+	return Data.global_config.get(\"itch_butler_path\")
+
+func _get_arguments() -> PackedStringArray:
+	var ret: PackedStringArray
+	
+	ret.append(\"push\")
+	ret.append(source_folder.text)
+	
+	var username: String = Data.global_config.get(\"itch_username\")
+	var game_name: String = Data.local_config.get(\"itch_game_name\")
+	var channel_name: String = channel.text
+	if channel_name.is_empty():
+		channel_name = Data.local_config.get(\"itch_default_channel\")
+	
+	ret.append(\"%s/%s:%s\" % [username, game_name, channel_name])
+	
+	return ret
+
+func _load():
+	source_folder.text =  data[\"source_folder\"]
+	channel.text =  data[\"channel\"]
+
+func _store():
+	data[\"source_folder\"] = source_folder.text
+	data[\"channel\"] = channel.text
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Uploads files to Steam based on a given VDF file and configured content paths. Requires steamcmd.exe.\",
+		\"VDF File|File used as a base to upload. Only \\\"non-simple\\\" VDF files are supported. Note that a special format is expected: ContentRoot and BuildOutput variables should be \\\"%s\\\", as they are filled by Project Builds. Also depot list should list files starting with DEP (e.g. DEP\\\"Demo.vdf\\\"). File paths are relative to the base file directory.\"] ## TODO: można w sumie dać plik podglądawy i wyświetlać go pod przyciskiem??
+
+func get_global_content_path() -> String:
+	var content_root: String = Data.local_config.get(\"steam_content_root\", \"\")
+	return Data.project_path.path_join(content_root)
+
+func get_temp_vdf_path() -> String:
+	return \"user://BuildSteam.vdf\"
 "
 
-[node name="UploadItch" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="UploadItch" type="VBoxContainer"]
 script = SubResource("GDScript_5kvo4")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Source Folder"
+
+[node name="SourceFolder" parent="." instance=ExtResource("1_qoq5m")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Channel"
+
+[node name="Channel" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
