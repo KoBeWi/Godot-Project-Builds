@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://xt4wel0slqe4"]
+
+[sub_resource type="GDScript" id="GDScript_5kvo4"]
+script/source = "extends Task
+
+func TODO():
+	\"butler\"
+	\"push\"
+	\"C:/Users/Tomek/Desktop/projekty/Gwiazdka/.gdignore/Gwiazdka/Gwiazdka Linux\" # folder path
+	\"kobewi/star-adventures:linux\" # user, game, channel
+"
+
+[node name="UploadItch" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = SubResource("GDScript_5kvo4")

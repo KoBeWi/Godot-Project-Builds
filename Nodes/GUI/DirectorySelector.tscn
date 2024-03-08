@@ -6,6 +6,7 @@
 script/source = "extends HBoxContainer
 
 @onready var line_edit: LineEdit = $LineEdit
+@onready var file_dialog: FileDialog = $FileDialog
 
 signal path_changed
 
@@ -17,6 +18,13 @@ var text: String:
 
 func _ready() -> void:
 	line_edit.text_changed.connect(func(dummy): path_changed.emit())
+
+func open_dialog() -> void:
+	file_dialog.popup_centered_ratio(0.5)
+
+func _on_file_dialog_file_selected(path: String) -> void:
+	text = path
+	path_changed.emit()
 "
 
 [node name="DirectorySelector" type="HBoxContainer"]
@@ -31,3 +39,12 @@ size_flags_horizontal = 3
 [node name="Button" type="Button" parent="."]
 layout_mode = 2
 icon = ExtResource("1_34bwh")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Otwórz"
+file_mode = 0
+access = 2
+
+[connection signal="pressed" from="Button" to="." method="open_dialog"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

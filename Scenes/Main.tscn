@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=10 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_r1xkq"]
+[ext_resource type="PackedScene" uid="uid://dwmijfw6b7ngj" path="res://Nodes/GUI/FoldableContainer.tscn" id="2_12ltr"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_ood4h"]
 
@@ -25,10 +26,13 @@ script/source = "extends HBoxContainer
 
 func _ready() -> void:
 	register_global_setting(%GlobalGodot, \"godot_path\")
+	
 	register_global_setting(%SteamCMD, \"steam_cmd_path\")
 	register_global_setting(%SteamOutput, \"steam_output\")
 	register_global_setting(%SteamUsername, \"steam_username\")
 	register_global_setting(%SteamPassword, \"steam_password\")
+	
+	register_global_setting(%ItchButlerPath, \"itch_butler_path\")
 	
 	register_local_setting(%LocalGodot, \"godot_path\")
 	register_local_setting(%SteamContentRoot, \"steam_content_root\")
@@ -64,6 +68,10 @@ func on_local_setting_changed(dummy, control: Control, setting: String):
 	Data.local_config[setting] = control.text
 	Data.save_config(Data.local_config)
 "
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1o4l0"]
+content_margin_left = 4.0
+content_margin_right = 4.0
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -200,88 +208,167 @@ script = SubResource("GDScript_rk2qg")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Config"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1o4l0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="Label6" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="Label6" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "Global Config"
 horizontal_alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+layout_mode = 2
+title = "Godot"
+folded = true
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer"]
 layout_mode = 2
 text = "Godot Path"
 horizontal_alignment = 1
 
-[node name="GlobalGodot" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+[node name="GlobalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="FoldableContainer2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+layout_mode = 2
+title = "Steam"
+folded = true
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2"]
 layout_mode = 2
 text = "Steam CMD Path"
 horizontal_alignment = 1
 
-[node name="SteamCMD" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+[node name="SteamCMD" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2"]
 layout_mode = 2
 text = "Steam CMD Output Folder"
 horizontal_alignment = 1
 
-[node name="SteamOutput" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+[node name="SteamOutput" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2"]
 layout_mode = 2
 text = "Steam Username"
 horizontal_alignment = 1
 
-[node name="SteamUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="SteamUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2"]
 layout_mode = 2
 text = "Steam Password"
 horizontal_alignment = 1
 
-[node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 secret = true
 
-[node name="Label7" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="FoldableContainer3" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+layout_mode = 2
+title = "Itch"
+folded = true
+
+[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Itch Butler Path"
+horizontal_alignment = 1
+
+[node name="ItchButlerPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer3" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Itch Username"
+horizontal_alignment = 1
+
+[node name="ItchUsername3" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer3"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label7" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "Local Config"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="FoldableContainer4" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+layout_mode = 2
+title = "Godot"
+folded = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer4"]
 layout_mode = 2
 text = "Godot Path For This Project"
 horizontal_alignment = 1
 
-[node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+[node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer4" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/VBoxContainer/LocalGodot" index="0"]
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer4/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
 
-[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/VBoxContainer"]
+[node name="FoldableContainer5" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+layout_mode = 2
+title = "Steam"
+folded = true
+
+[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer5"]
 layout_mode = 2
 text = "Steam Content Root"
 horizontal_alignment = 1
 
-[node name="SteamContentRoot" parent="VBoxContainer/TabContainer/Config/VBoxContainer" instance=ExtResource("2_ood4h")]
+[node name="SteamContentRoot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer5" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FoldableContainer6" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+auto_translate_mode = 1
+layout_mode = 2
+title = "Itch"
+folded = true
+
+[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer6"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Itch Game Name"
+horizontal_alignment = 1
+
+[node name="ItchGameName" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer6"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Itch Default Channel"
+horizontal_alignment = 1
+
+[node name="ItchDefaultChannel" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer6"]
+unique_name_in_owner = true
+auto_translate_mode = 1
 layout_mode = 2
 
 [node name="Control2" type="Control" parent="VBoxContainer/TabContainer/Config"]
@@ -297,4 +384,4 @@ icon = ExtResource("2_fue2w")
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/MarginContainer/Button" to="." method="_add_template_pressed"]
 [connection signal="pressed" from="Button" to="." method="go_back"]
 
-[editable path="VBoxContainer/TabContainer/Config/VBoxContainer/LocalGodot"]
+[editable path="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/FoldableContainer4/LocalGodot"]
