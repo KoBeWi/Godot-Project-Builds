@@ -13,6 +13,9 @@ var templates: Array[Dictionary]
 
 var current_routine: Dictionary
 
+var save_local_timer: Timer
+var save_global_timer: Timer
+
 func _init() -> void:
 	for task in DirAccess.get_files_at("res://Tasks"):
 		if task.get_extension() == "tscn":
@@ -23,6 +26,17 @@ func _init() -> void:
 		global_config = str_to_var(global_config_file.get_as_text())
 	else:
 		global_config["godot_path"] = ""
+	
+	save_local_timer = Timer.new()
+	save_local_timer.wait_time = 0.5
+	save_local_timer.one_shot = true
+	add_child(save_local_timer)
+	
+	save_global_timer = save_local_timer.duplicate()
+	add_child(save_global_timer)
+	
+	save_local_timer.timeout.connect(save_local_config)
+	save_global_timer.timeout.connect(save_global_config)
 
 func load_project(path: String):
 	project_path = path
@@ -33,10 +47,12 @@ func load_project(path: String):
 	if local_config_file.is_absolute_path():
 		local_config_file = local_config_file.trim_prefix("res://")
 	
-	local_config = load_config()
-	if not local_config.is_empty():
-		routines.assign(local_config["routines"])
-		templates.assign(local_config["templates"])
+	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.READ)
+	if fa:
+		local_config = str_to_var(fa.get_as_text())
+
+	routines = local_config["routines"]
+	templates = local_config["templates"]
 
 func register_task(scene: String):
 	var data := Dictionary()
@@ -60,31 +76,6 @@ func get_current_routine() -> Dictionary:
 	current_routine = {}
 	return ret
 
-func load_config() -> Dictionary:
-	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.READ)
-	if fa:
-		return str_to_var(fa.get_as_text())
-	return {}
-
-func save_config(config: Dictionary):
-	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.WRITE)
-	fa.store_string(var_to_str(config))
-
-func save_global_config():
-	## TODO: debouncing
-	var fa := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.WRITE)
-	fa.store_string(var_to_str(global_config))
-
-func save_templates():
-	var config := load_config() ## TODO: zamienić na local_config
-	config["templates"] = templates
-	save_config(config)
-
-func save_routines():
-	var config := load_config()
-	config["routines"] = routines
-	save_config(config)
-
 func get_template(template_name: String) -> Dictionary:
 	for template in templates:
 		if template["name"] == template_name:
@@ -93,3 +84,24 @@ func get_template(template_name: String) -> Dictionary:
 
 func get_godot_path() -> String:
 	return local_config.get("godot_path", global_config["godot_path"])
+
+func queue_save_local_config():
+	save_local_timer.start()
+
+func save_local_config():
+	save_local_timer.stop()
+	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.WRITE)
+	fa.store_string(var_to_str(local_config))
+
+func queue_save_global_config():
+	save_global_timer.start()
+
+func save_global_config():
+	save_global_timer.stop()
+	var fa := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.WRITE)
+	fa.store_string(var_to_str(global_config))
+
+func _exit_tree() -> void:
+	if not project_path.is_empty():
+		save_local_config()
+	save_global_config()

@@ -23,8 +23,9 @@ func _ready() -> void:
 		task_container.add_child(preview)
 
 func _exit_tree() -> void:
-	save_templates()
-	Data.save_routines()
+	if Data.project_path.is_empty():
+		return
+	sync_templates()
 
 func _add_template_pressed() -> Control:
 	var template := preload("res://Nodes/PresetTemplate.tscn").instantiate()
@@ -70,13 +71,15 @@ func inherit_template(template: Control):
 
 func delete_template(template: Control):
 	template.queue_free()
-	save_templates()
+	sync_templates()
+	Data.queue_save_local_config()
 
-func save_templates():
+func sync_templates():
 	Data.templates.assign(template_container.get_children().map(func(template: Control) -> Dictionary:
 		return template.get_data()))
-	
-	Data.save_templates()
 
 func go_back() -> void:
+	sync_templates()
+	Data.save_local_config()
+	Data.project_path = ""
 	get_tree().change_scene_to_file("res://Scenes/ProjectManager.tscn")

@@ -65,11 +65,11 @@ func register_setting(control: Control, setting: String, config: Dictionary, cal
 
 func on_global_setting_changed(dummy, control: Control, setting: String):
 	Data.global_config[setting] = control.text
-	Data.save_global_config()
+	Data.queue_save_global_config()
 
 func on_local_setting_changed(dummy, control: Control, setting: String):
 	Data.local_config[setting] = control.text
-	Data.save_config(Data.local_config)
+	Data.queue_save_local_config()
 "
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1o4l0"]
@@ -115,7 +115,6 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -204,6 +203,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 script = SubResource("GDScript_rk2qg")
 
