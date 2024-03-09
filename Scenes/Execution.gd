@@ -27,7 +27,7 @@ func _ready() -> void:
 	
 	var routine := Data.get_current_routine()
 	for task in routine["tasks"]:
-		var task_instance: Task = load("res://Tasks/%s.tscn" % task["scene"]).instantiate()
+		var task_instance := Task.create_instance(task["scene"])
 		task_limbo.add_child(task_instance)
 		
 		task_instance._initialize(Data.project_path)

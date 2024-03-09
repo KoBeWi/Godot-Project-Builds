@@ -12,8 +12,8 @@ var task: Task
 func _ready() -> void:
 	update_buttons.call_deferred()
 
-func set_task(task_scene: PackedScene) -> Task:
-	task = task_scene.instantiate()
+func set_task_scene(scene: String) -> Task:
+	task = Task.create_instance(scene)
 	%TaskName.text = task._get_task_name()
 	%TaskHere.add_child(task)
 	return task

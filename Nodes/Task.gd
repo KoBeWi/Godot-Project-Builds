@@ -3,13 +3,16 @@ class_name Task
 
 var data: Dictionary
 
+static func create_instance(scene: String) -> Task:
+	return load("res://Tasks/%s.tscn" % scene).instantiate()
+
 func _get_task_name() -> String:
 	return "Empty Task"
 
 func _get_execute_string() -> String:
 	return _get_task_name()
 
-func _initialize(project_path: String):
+func _initialize(project_path: String): ## TODO: po co project path
 	pass
 
 func _get_command() -> String:

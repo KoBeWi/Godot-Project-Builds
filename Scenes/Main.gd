@@ -17,6 +17,7 @@ func _ready() -> void:
 		var temp := _add_template_pressed()
 		temp.set_data(template)
 	
+	## TODO: nie robić na raz? (żeby mniej lagowało)
 	for task in Data.tasks:
 		var preview := preload("res://Nodes/TaskPreview.tscn").instantiate()
 		preview.task = task

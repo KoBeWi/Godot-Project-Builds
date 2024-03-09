@@ -1,0 +1,124 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh4e5n3xxf3n"]
+
+[sub_resource type="GDScript" id="GDScript_boi7e"]
+script/source = "extends Task
+
+@onready var limbo: Node2D = %Limbo ## TODO: nie działa previous task
+@onready var sub_routine_list: OptionButton = %SubRoutine
+
+var task_list: Array[Dictionary]
+var task_index: int
+var current_task: Task
+
+func _get_task_name() -> String:
+	return \"Sub-Routine\"
+
+func _get_execute_string() -> String:
+	return \"Sub-Routine: %s\" % current_task._get_task_name()
+
+func _initialize(project_path: String):
+	if not is_node_ready():
+		await ready
+	
+	var current_routine
+	if owner:
+		current_routine = owner.get(&\"routine\")
+	if not current_routine:
+		current_routine = {}
+	
+	for i in Data.routines.size():
+		var rout := Data.routines[i]
+		if rout == current_routine:
+			continue
+		
+		sub_routine_list.add_item(rout[\"name\"])
+		sub_routine_list.set_item_metadata(-1, rout[\"name\"])
+
+func _get_command() -> String:
+	return current_task._get_command()
+
+func _get_arguments() -> PackedStringArray:
+	return current_task._get_arguments()
+
+func _prepare() -> void:
+	if task_list.is_empty():
+		var routine_name: String = data[\"routine\"]
+		
+		for rout in Data.routines:
+			if rout[\"name\"] == routine_name:
+				task_list.assign(rout[\"tasks\"])
+				break
+	
+	var task_data := task_list[task_index]
+	current_task = Task.create_instance(task_data[\"scene\"])
+	limbo.add_child(current_task)
+	
+	current_task._initialize(Data.project_path)
+	current_task._prepare()
+
+func _cleanup() -> void:
+	current_task._cleanup()
+	task_index += 1
+	
+	if task_index < task_list.size():
+		var next: Task = load(scene_file_path).instantiate()
+		next.task_list = task_list
+		next.task_index = task_index
+		
+		get_parent().add_child(next)
+		get_parent().move_child(next, get_index() + 1)
+
+func _load() -> void:
+	var routine_name: String = data[\"routine\"]
+	
+	for i in sub_routine_list.item_count:
+		if sub_routine_list.get_item_metadata(i) == routine_name:
+			sub_routine_list.selected = i
+			break
+
+func _store() -> void:
+	data[\"routine\"] = sub_routine_list.get_selected_metadata()
+
+func _get_task_info() -> PackedStringArray:
+	return [\"Task description\", \"Argument Name|Description\"]
+"
+
+[node name="SubRoutine" type="HBoxContainer"]
+offset_right = 377.0
+offset_bottom = 23.0
+script = SubResource("GDScript_boi7e")
+
+[node name="Control" type="Control" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Limbo" type="Node2D" parent="Control"]
+unique_name_in_owner = true
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 8.0
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Routine"
+horizontal_alignment = 2
+
+[node name="SubRoutine" type="OptionButton" parent="HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

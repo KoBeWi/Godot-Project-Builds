@@ -20,7 +20,7 @@ script/source = "extends Control
 var task: Dictionary
 
 func _ready() -> void:
-	var task_instance: Task = load(\"res://Tasks/%s.tscn\" % task[\"scene\"]).instantiate()
+	var task_instance := Task.create_instance(task[\"scene\"])
 	%TaskContainer.add_child(task_instance)
 	
 	%TaskName.text = task_instance._get_task_name()

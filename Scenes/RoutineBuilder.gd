@@ -27,7 +27,8 @@ func create_task(scene: String) -> Task:
 	var container := preload("res://Nodes/TaskContainer.tscn").instantiate()
 	task_list.add_child(container)
 	
-	var task: Task = container.set_task(load("res://Tasks/%s.tscn" % scene))
+	var task: Task = container.set_task_scene(scene)
+	task.owner = self
 	task._initialize(Data.project_path)
 	return task
 
