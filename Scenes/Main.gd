@@ -1,8 +1,8 @@
 extends Control
 
-@onready var template_container: VBoxContainer = %TemplateContainer
-@onready var routine_container: VBoxContainer = %RoutineContainer
-@onready var task_container: VBoxContainer = %TaskContainer
+@onready var template_container: Control = %TemplateContainer
+@onready var routine_container: Control = %RoutineContainer
+@onready var task_container: Control = %TaskContainer
 
 func _ready() -> void:
 	var config := ConfigFile.new()

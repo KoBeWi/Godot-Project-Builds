@@ -25,8 +25,16 @@ var data: Dictionary
 func set_routine_data(d: Dictionary):
 	data = d
 	%Name.text = data[\"name\"]
-	%TaskCount.text %= data[\"tasks\"].size()
-	# TODO: lista zadań
+	
+	var task_list: PackedStringArray
+	task_list.append(%TaskList.text % data[\"tasks\"].size())
+	
+	for task in data[\"tasks\"]:
+		var instance := Task.create_instance(task[\"scene\"])
+		task_list.append(instance._get_task_name())
+		instance.queue_free()
+	
+	%TaskList.text = \"\\n\".join(task_list)
 
 func connect_execute(target: Callable):
 	%Execute.pressed.connect(target)
@@ -36,8 +44,10 @@ func connect_edit(target: Callable):
 "
 
 [node name="Routinepreview" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 0)
 offset_right = 303.0
 offset_bottom = 214.0
+size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_e2baq")
 script = SubResource("GDScript_s214c")
 
@@ -51,7 +61,7 @@ theme_override_font_sizes/font_size = 20
 text = "Routine Name"
 horizontal_alignment = 1
 
-[node name="TaskCount" type="Label" parent="VBoxContainer"]
+[node name="TaskList" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "%d tasks"

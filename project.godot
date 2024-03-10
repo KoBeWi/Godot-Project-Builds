@@ -34,6 +34,8 @@ gdscript/warnings/confusable_identifier=0
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/subwindows/embed_subwindows=false
 
 [editor]

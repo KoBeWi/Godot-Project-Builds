@@ -5,7 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_ood4h"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6a4qs"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x81aq"]
+bg_color = Color(0, 0, 0, 0.12549)
+border_width_top = 4
+border_color = Color(0.16, 0.16, 0.16, 0.752941)
 
 [sub_resource type="GDScript" id="GDScript_yepl2"]
 resource_name = "DeleteMe"
@@ -110,42 +113,35 @@ horizontal_alignment = 1
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_6a4qs")
+theme_override_styles/panel = SubResource("StyleBoxFlat_x81aq")
 tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
-[node name="Routines" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+[node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Routines"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Routines"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Routines/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Routines"]
 layout_mode = 2
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Routines/VBoxContainer/MarginContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Routines/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Add Routine"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Routines/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Routines"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_nuonq")
 
-[node name="RoutineContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Routines/VBoxContainer/ScrollContainer"]
+[node name="RoutineContainer" type="HFlowContainer" parent="VBoxContainer/TabContainer/Routines/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+alignment = 1
 
 [node name="Control2" type="Control" parent="VBoxContainer/TabContainer/Routines"]
 layout_mode = 2
@@ -389,7 +385,7 @@ layout_mode = 0
 text = "Back"
 icon = ExtResource("2_fue2w")
 
-[connection signal="pressed" from="VBoxContainer/TabContainer/Routines/VBoxContainer/MarginContainer/Button" to="." method="_add_routine_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/MarginContainer/Button" to="." method="_add_template_pressed"]
 [connection signal="pressed" from="Button" to="." method="go_back"]
 
