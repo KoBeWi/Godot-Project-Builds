@@ -21,16 +21,11 @@ func _get_command() -> String:
 	return \"%godot%\"
 
 func _get_arguments() -> PackedStringArray:
-	var ret: PackedStringArray
-	ret.append(\"--headless\")
+	export_debug = debug.button_pressed
+	var ret := super()
 	
 	ret.append(\"--path\")
 	ret.append(Data.project_path)
-	
-	if debug.button_pressed:
-		ret.append(\"--export-debug\")
-	else:
-		ret.append(\"--export-release\")
 	
 	ret.append(CUSTOM_PRESET)
 	
@@ -79,6 +74,7 @@ func _prepare() -> void:
 	
 	if not template[\"export_path\"].is_empty():
 		export_presets.set_value(new_section, \"export_path\", template[\"export_path\"])
+		override_path = true
 	set_export_path(export_presets.get_value(new_section, \"export_path\", \"\"))
 	
 	new_section = \"preset.%d.options\" % custom_preset
@@ -87,6 +83,7 @@ func _prepare() -> void:
 		export_presets.set_value(new_section, key, export_presets.get_value(section, key))
 	
 	export_presets.save(preset_path)
+	super()
 
 func _cleanup() -> void:
 	var export_presets := load_presets()

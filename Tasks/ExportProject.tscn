@@ -19,24 +19,13 @@ func _get_command() -> String:
 	return \"%godot%\"
 
 func _get_arguments() -> PackedStringArray:
-	var ret: PackedStringArray
-	ret.append(\"--headless\")
+	export_debug = debug.button_pressed
+	var ret := super()
 	
 	ret.append(\"--path\")
 	ret.append(Data.project_path)
 	
-	if debug.button_pressed:
-		ret.append(\"--export-debug\")
-	else:
-		ret.append(\"--export-release\")
-	
-	if preset_list.selected == 0:
-		ret.append(custom_preset_name.text)
-	else:
-		ret.append(preset_list.get_item_text(preset_list.selected))
-	
-	if not custom_path.text.is_empty():
-		ret.append(custom_path.text)
+	ret.append(get_preset_name())
 	
 	return ret
 
@@ -54,6 +43,23 @@ func _initialize(project_path: String):
 			continue
 		
 		preset_list.add_item(export_presets.get_value(section, \"name\"))
+
+func _prepare():
+	var path: String
+	if not custom_path.text.is_empty():
+		path = custom_path.text
+		override_path = true
+	else:
+		var export_presets := load_presets()
+		if export_presets:
+			var preset_name := get_preset_name()
+			for section in export_presets.get_sections():
+				if export_presets.get_value(section, \"name\", \"\") == preset_name:
+					path = export_presets.get_value(section, \"export_path\", \"\")
+					break
+	
+	set_export_path(path)
+	super()
 
 func _load():
 	var preset_text: String = data[\"preset\"]
@@ -83,6 +89,12 @@ func _store():
 
 func _on_preset_list_item_selected(index: int) -> void:
 	custom_preset_name.set_noexist(index != 0)
+
+func get_preset_name() -> String:
+	if preset_list.selected == 0:
+		return custom_preset_name.text
+	else:
+		return preset_list.get_item_text(preset_list.selected)
 
 func _get_task_info() -> PackedStringArray:
 	return [

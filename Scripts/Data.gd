@@ -50,6 +50,12 @@ func load_project(path: String):
 	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.READ)
 	if fa:
 		local_config = str_to_var(fa.get_as_text())
+	else:
+		local_config = {}
+		routines.clear()
+		local_config["routines"]  = routines
+		templates.clear()
+		local_config["templates"]  = templates
 
 	routines = local_config["routines"]
 	templates = local_config["templates"]
