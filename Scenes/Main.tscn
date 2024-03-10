@@ -50,7 +50,10 @@ func register_local_setting(control: Control, setting: String):
 	register_setting(control, setting, Data.local_config, on_local_setting_changed)
 
 func register_setting(control: Control, setting: String, config: Dictionary, callback: Callable):
-	control.text = config.get(setting, \"\")
+	if setting in config:
+		control.text = config[setting]
+	else:
+		config[setting] = \"\"
 	
 	var sygnał
 	var binds: Array

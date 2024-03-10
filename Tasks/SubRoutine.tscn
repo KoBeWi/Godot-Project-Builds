@@ -53,7 +53,9 @@ func _prepare() -> void:
 	current_task = Task.create_instance(task_data[\"scene\"])
 	limbo.add_child(current_task)
 	
+	current_task.data = task_data[\"data\"]
 	current_task._initialize(Data.project_path)
+	current_task._load()
 	current_task._prepare()
 
 func _cleanup() -> void:

@@ -16,7 +16,7 @@ func _get_execute_string() -> String:
 	return \"Steam Build (%s)\" % vdf_file.text
 
 func _get_command() -> String:
-	return Data.global_config.get(\"steam_cmd_path\")
+	return Data.global_config.get(\"steam_cmd_path\", \"\")
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
@@ -45,7 +45,7 @@ func _prepare() -> void:
 			line = line.replace(\"%s\", get_global_content_path())
 			app_build_lines[i] = line
 		elif line.contains(\"BuildOutput\"):
-			line = line.replace(\"%s\", Data.global_config.get(\"steam_output\"))
+			line = line.replace(\"%s\", Data.global_config.get(\"steam_output\", \"\"))
 			app_build_lines[i] = line
 		elif line.contains(\"DEP\\\"\"):
 			var j := line.find(\"DEP\\\"\") + 4

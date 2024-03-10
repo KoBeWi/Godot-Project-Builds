@@ -15,6 +15,9 @@ script/source = "extends \"res://Tasks/ExportTask.gd\"
 func _get_task_name() -> String:
 	return \"Export Project\"
 
+func _get_execute_string() -> String:
+	return \"Export Project (%s)\" % get_preset_name()
+
 func _get_command() -> String:
 	return \"%godot%\"
 
