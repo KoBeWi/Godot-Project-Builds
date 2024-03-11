@@ -6,17 +6,6 @@ extends Control
 var current_task_index: int
 var current_task: Task
 
-class CommandItem: # TODO: usunąć
-	var command: String
-	var arguments: PackedStringArray
-	
-	func get_command() -> String:
-		var ret := command
-		ret = ret.replace("%godot%", Data.get_godot_path())
-		return ret
-
-var commands: Array[CommandItem]
-
 var output_thread: Thread
 var output_end: bool
 

@@ -35,11 +35,28 @@ func _ready() -> void:
 	register_global_setting(%SteamUsername, \"steam_username\")
 	register_global_setting(%SteamPassword, \"steam_password\")
 	
+	register_global_setting(%PipelineBuilderPath, \"pipeline_builder_path\")
+	register_global_setting(%GOGUsername, \"gog_username\")
+	register_global_setting(%GOGPassword, \"gog_password\")
+	
+	register_global_setting(%BuildPatchToolPath, \"build_patch_tool_path\")
+	register_global_setting(%EpicOrganizationID, \"epic_organization_id\")
+	register_global_setting(%EpicClientID, \"epic_client_id\")
+	register_global_setting(%EpicClientSecret, \"epic_client_secret\")
+	
 	register_global_setting(%ItchButlerPath, \"itch_butler_path\")
 	register_global_setting(%ItchUsername, \"itch_username\")
 	
 	register_local_setting(%LocalGodot, \"godot_path\")
+	
 	register_local_setting(%SteamContentRoot, \"steam_content_root\")
+	
+	register_local_setting(%GOGContentRoot, \"gog_content_root\")
+	
+	register_local_setting(%EpicProductID, \"epic_product_id\")
+	register_local_setting(%EpicArtifactID, \"epic_artifact_id\")
+	register_local_setting(%EpicCloudDir, \"epic_cloud_dir\")
+	
 	register_local_setting(%ItchGameName, \"itch_game_name\")
 	register_local_setting(%ItchDefaultChannel, \"itch_default_channel\")
 
@@ -259,6 +276,64 @@ unique_name_in_owner = true
 layout_mode = 2
 scope = 1
 
+[node name="GOG2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+auto_translate_mode = 1
+layout_mode = 2
+title = "GOG"
+folded = true
+
+[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG2"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "GOG Content Root"
+horizontal_alignment = 1
+
+[node name="GOGContentRoot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG2" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+scope = 1
+
+[node name="Epic2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+auto_translate_mode = 1
+layout_mode = 2
+title = "Epic"
+folded = true
+
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Epic Product ID"
+horizontal_alignment = 1
+
+[node name="EpicProductID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Epic Artifact ID"
+horizontal_alignment = 1
+
+[node name="EpicArtifactID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Epic Cloud Directory"
+horizontal_alignment = 1
+
+[node name="EpicCloudDir" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+scope = 1
+
 [node name="Itch2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 auto_translate_mode = 1
 layout_mode = 2
@@ -348,6 +423,99 @@ horizontal_alignment = 1
 
 [node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 unique_name_in_owner = true
+layout_mode = 2
+secret = true
+
+[node name="GOG" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+auto_translate_mode = 1
+layout_mode = 2
+title = "GOG"
+folded = true
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Pipeline Builder Path"
+horizontal_alignment = 1
+
+[node name="PipelineBuilderPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+mode = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "GOG Username"
+horizontal_alignment = 1
+
+[node name="GOGUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "GOG Password"
+horizontal_alignment = 1
+
+[node name="GOGPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+secret = true
+
+[node name="Epic" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+auto_translate_mode = 1
+layout_mode = 2
+title = "Epic"
+folded = true
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Build Patch Tool Path"
+horizontal_alignment = 1
+
+[node name="BuildPatchToolPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+mode = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Organization ID"
+horizontal_alignment = 1
+
+[node name="EpicOrganizationID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Client ID"
+horizontal_alignment = 1
+
+[node name="EpicClientID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Client Secret"
+horizontal_alignment = 1
+
+[node name="EpicClientSecret" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+unique_name_in_owner = true
+auto_translate_mode = 1
 layout_mode = 2
 secret = true
 

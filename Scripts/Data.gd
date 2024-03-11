@@ -89,7 +89,11 @@ func get_template(template_name: String) -> Dictionary:
 	return {}
 
 func get_godot_path() -> String:
-	return local_config.get("godot_path", global_config["godot_path"])
+	var local_godot: String = local_config.get("godot_path", "")
+	if local_godot.is_empty():
+		return global_config["godot_path"]
+	else:
+		return local_godot
 
 func queue_save_local_config():
 	save_local_timer.start()

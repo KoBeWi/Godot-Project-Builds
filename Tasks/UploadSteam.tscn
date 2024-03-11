@@ -2,6 +2,8 @@
 
 [sub_resource type="GDScript" id="GDScript_ftiq7"]
 script/source = "extends Task
+## TODO: branch?
+## zmienić VDF na format() jak w GOG
 
 const TEMP_VDF_PATH = \"user://BuildSteam.vdf\"
 
@@ -59,8 +61,6 @@ func _prepare() -> void:
 	temp_vdf.store_string(\"\\n\".join(app_build_lines))
 
 func _initialize(project_path: String):
-	super(project_path)
-	
 	if vdf_list.is_empty():
 		scan_for_vdf(Data.project_path, vdf_list)
 	
@@ -68,21 +68,6 @@ func _initialize(project_path: String):
 		vdf_file.add_item(file.get_file())
 		vdf_file.set_item_metadata(-1, file)
 		vdf_file.set_item_tooltip(-1, file)
-
-func scan_for_vdf(directory: String, list: PackedStringArray):
-	for file in DirAccess.get_files_at(directory):
-		if file.get_extension() == \"vdf\":
-			var path := directory.path_join(file)
-			
-			var f := FileAccess.open(path, FileAccess.READ)
-			for line in f.get_as_text().split(\"\\n\"):
-				if line.contains(\"AppBuild\"):
-					list.append(path.trim_prefix(Data.project_path + \"/\"))
-					break
-	
-	for dir in DirAccess.get_directories_at(directory):
-		if not dir.begins_with(\".\"):
-			scan_for_vdf(directory.path_join(dir), list)
 
 func _load():
 	var file: String = data[\"vdf_path\"]
@@ -99,6 +84,21 @@ func _get_task_info() -> PackedStringArray:
 	return [
 		\"Uploads files to Steam based on a given VDF file and configured content paths. Requires steamcmd.exe.\",
 		\"VDF File|File used as a base to upload. Only \\\"non-simple\\\" VDF files are supported. Note that a special format is expected: ContentRoot and BuildOutput variables should be \\\"%s\\\", as they are filled by Project Builds. Also depot list should list files starting with DEP (e.g. DEP\\\"Demo.vdf\\\"). File paths are relative to the base file directory.\"] ## TODO: można w sumie dać plik podglądawy i wyświetlać go pod przyciskiem??
+
+func scan_for_vdf(directory: String, list: PackedStringArray):
+	for file in DirAccess.get_files_at(directory):
+		if file.get_extension() == \"vdf\":
+			var path := directory.path_join(file)
+			
+			var f := FileAccess.open(path, FileAccess.READ)
+			for line in f.get_as_text().split(\"\\n\"):
+				if line.contains(\"AppBuild\"):
+					list.append(path.trim_prefix(Data.project_path + \"/\"))
+					break
+	
+	for dir in DirAccess.get_directories_at(directory):
+		if not dir.begins_with(\".\"):
+			scan_for_vdf(directory.path_join(dir), list)
 
 func get_global_content_path() -> String:
 	var content_root: String = Data.local_config.get(\"steam_content_root\", \"\")
