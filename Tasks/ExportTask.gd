@@ -6,6 +6,7 @@ var export_debug: bool
 var override_path: bool
 var preset_path: String
 var export_path: String
+var export_preset: String
 
 func _initialize(project_path: String):
 	preset_path = project_path.path_join("export_presets.cfg")
@@ -48,12 +49,17 @@ func _get_arguments() -> PackedStringArray:
 	else:
 		ret.append("--headless")
 	
+	ret.append("--path")
+	ret.append(Data.project_path)
+	
 	if export_debug:
 		ret.append("--export-debug")
 	elif is_godot_3:
 		ret.append("--export")
 	else:
 		ret.append("--export-release")
+	
+	ret.append(export_preset)
 	
 	if override_path:
 		ret.append(export_path)

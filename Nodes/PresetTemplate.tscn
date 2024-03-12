@@ -129,13 +129,12 @@ layout_mode = 2
 
 [node name="Label5" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
-text = "Export Path"
+text = "Export Base"
 
 [node name="ExportPath" parent="VBoxContainer/GridContainer" instance=ExtResource("2_at7ma")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-mode = 2
 scope = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]

@@ -41,6 +41,11 @@ func connect_execute(target: Callable):
 
 func connect_edit(target: Callable):
 	%Edit.pressed.connect(target)
+
+func delete() -> void:
+	Data.routines.erase(data)
+	Data.queue_save_local_config()
+	queue_free()
 "
 
 [node name="Routinepreview" type="PanelContainer"]
@@ -100,3 +105,5 @@ size_flags_vertical = 10
 text = "Delete"
 icon = ExtResource("2_064c3")
 alignment = 0
+
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="delete"]

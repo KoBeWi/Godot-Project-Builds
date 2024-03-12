@@ -21,17 +21,6 @@ func _get_execute_string() -> String:
 func _get_command() -> String:
 	return \"%godot%\"
 
-func _get_arguments() -> PackedStringArray:
-	export_debug = debug.button_pressed
-	var ret := super()
-	
-	ret.append(\"--path\")
-	ret.append(Data.project_path)
-	
-	ret.append(get_preset_name())
-	
-	return ret
-
 func _initialize(project_path: String):
 	super(project_path)
 	
@@ -62,6 +51,9 @@ func _prepare():
 					break
 	
 	set_export_path(path)
+	export_debug = debug.button_pressed
+	export_preset = get_preset_name()
+	
 	super()
 
 func _load():
