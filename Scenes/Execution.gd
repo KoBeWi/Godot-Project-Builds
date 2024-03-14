@@ -29,7 +29,7 @@ func _ready() -> void:
 
 func next_command():
 	if current_task_index == task_limbo.get_child_count():
-		%Button.show()
+		finish()
 		return
 	
 	current_task = task_limbo.get_child(current_task_index)
@@ -52,6 +52,17 @@ func next_command():
 func on_success():
 	current_task._cleanup()
 	next_command()
+
+func finish():
+	%Button.show()
+	
+	var total_time: float
+	for command in commands_container.get_children():
+		total_time += command.timer
+	
+	var intime := int(total_time)
+	%Time.text %= [intime / 3600, intime / 60 % 60, intime % 60]
+	%Time.show()
 
 #func output_process():
 	#var output_file := FileAccess.open("res://log.txt", FileAccess.READ)

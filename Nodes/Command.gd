@@ -2,6 +2,8 @@ extends Control
 
 const COLLAPSED_SIZE = 5
 
+@onready var time: Label = %Time
+
 var task_text: String
 var command: String
 var arguments: PackedStringArray
@@ -11,6 +13,8 @@ var thread: Thread
 var output: Array
 var output_lines: Array[String]
 var result: int
+
+var timer: float
 
 signal success
 signal fail
@@ -33,6 +37,9 @@ func thread_method():
 
 func _process(delta: float) -> void:
 	if thread.is_alive():
+		timer += delta
+		var intime := int(timer)
+		time.text = "%02d:%02d:%02d" % [intime / 3600, intime / 60 % 60, intime % 60]
 		return
 	
 	thread.wait_to_finish()
@@ -62,11 +69,11 @@ func _process(delta: float) -> void:
 		if output_lines.size() <= COLLAPSED_SIZE:
 			expand_output()
 		else:
-			%OutputLabel.text = "\n".join(output_lines.slice(-COLLAPSED_SIZE - 1))
+			%OutputLabel.text = "\n".join(output_lines.slice(-COLLAPSED_SIZE - 1)).trim_suffix("\n")
 			%ExpandButton.text %= output_lines.size() - 5
 
 func expand_output() -> void:
-	%OutputLabel.text = "\n".join(output_lines)
+	%OutputLabel.text = "\n".join(output_lines).trim_suffix("\n")
 	%ExpandButton.hide()
 
 func _on_command_gui_input(event: InputEvent) -> void:
