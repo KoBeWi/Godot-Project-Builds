@@ -43,6 +43,7 @@ func _add_routine_pressed() -> void:
 func add_routine(data: Dictionary):
 	var routine := preload("res://Nodes/RoutinePreview.tscn").instantiate()
 	routine_container.add_child(routine)
+	routine.owner = self
 	routine.set_routine_data(data)
 	routine.connect_execute(exec_routine.bind(data))
 	routine.connect_edit(edit_routine.bind(data))
@@ -74,6 +75,10 @@ func delete_template(template: Control):
 	template.queue_free()
 	sync_templates()
 	Data.queue_save_local_config()
+
+func sync_routines():
+	Data.routines.assign(routine_container.get_children().map(func(routine: Control) -> Dictionary:
+		return routine.data))
 
 func sync_templates():
 	Data.templates.assign(template_container.get_children().map(func(template: Control) -> Dictionary:

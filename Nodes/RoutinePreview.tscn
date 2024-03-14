@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cctfsldanqcig"]
+[gd_scene load_steps=9 format=3 uid="uid://cctfsldanqcig"]
 
 [ext_resource type="Texture2D" uid="uid://dnlqsyyx311xx" path="res://Icons/Duplicate.svg" id="1_1u4fl"]
+[ext_resource type="Texture2D" uid="uid://cp6em75230mi1" path="res://Icons/ArrowLeft.svg" id="1_17425"]
 [ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_hqapv"]
 [ext_resource type="Texture2D" uid="uid://cfbagouqtgqfs" path="res://Icons/Edit.svg" id="1_m46hf"]
+[ext_resource type="Texture2D" uid="uid://bv4tqa6ixyi1h" path="res://Icons/ArrowRight.svg" id="2_0d0yc"]
 [ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="2_064c3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2baq"]
@@ -20,7 +22,13 @@ border_color = Color(1, 1, 1, 0.501961)
 [sub_resource type="GDScript" id="GDScript_s214c"]
 script/source = "extends Control
 
+@onready var move_left: Button = %MoveLeft
+@onready var move_right: Button = %MoveRight
+
 var data: Dictionary
+
+func _ready() -> void:
+	update_buttons.call_deferred()
 
 func set_routine_data(d: Dictionary):
 	data = d
@@ -46,6 +54,25 @@ func delete() -> void:
 	Data.routines.erase(data)
 	Data.queue_save_local_config()
 	queue_free()
+
+func update_buttons():
+	move_left.disabled = get_index() == 0
+	move_right.disabled = get_index() == get_parent().get_child_count() - 1
+
+func refresh_parent():
+	owner.sync_routines()
+	Data.queue_save_local_config()
+	
+	for child in get_parent().get_children():
+		child.update_buttons()
+
+func _on_move_left_pressed() -> void:
+	get_parent().move_child(self, get_index() - 1)
+	refresh_parent()
+
+func _on_move_right_pressed() -> void:
+	get_parent().move_child(self, get_index() + 1)
+	refresh_parent()
 "
 
 [node name="Routinepreview" type="PanelContainer"]
@@ -59,12 +86,27 @@ script = SubResource("GDScript_s214c")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MoveLeft" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+icon = ExtResource("1_17425")
+
+[node name="Name" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
 text = "Routine Name"
 horizontal_alignment = 1
+
+[node name="MoveRight" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+icon = ExtResource("2_0d0yc")
 
 [node name="TaskList" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -106,4 +148,6 @@ text = "Delete"
 icon = ExtResource("2_064c3")
 alignment = 0
 
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveLeft" to="." method="_on_move_left_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveRight" to="." method="_on_move_right_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button2" to="." method="delete"]
