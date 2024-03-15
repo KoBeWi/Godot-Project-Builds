@@ -48,6 +48,14 @@ func _store():
 	data[\"build_root\"] = build_root.text
 	data[\"executable_name\"] = executable_name.text
 	data[\"version_prefix\"] = version_prefix.text
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Uploads files to Epic Games. Requires Build Patch Tool.\",
+		\"Build Root|The folder with your exported game content.\",
+		\"Executable Name|Name of the executable used when launching the game.\",
+		\"Version Prefix|Each upload needs unique version string, so use this option to add a (platform-specific etc.) prefix to your base version.\",
+	]
 "
 
 [node name="UploadEpic" type="GridContainer"]
@@ -59,6 +67,7 @@ script = SubResource("GDScript_qbsc0")
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
 text = "Build Root"
+horizontal_alignment = 2
 
 [node name="BuildRoot" parent="." instance=ExtResource("1_nh5oq")]
 layout_mode = 2
@@ -69,6 +78,7 @@ scope = 1
 auto_translate_mode = 1
 layout_mode = 2
 text = "Executable Name"
+horizontal_alignment = 2
 
 [node name="ExecutableName" type="LineEdit" parent="."]
 layout_mode = 2
@@ -78,6 +88,7 @@ size_flags_horizontal = 3
 auto_translate_mode = 1
 layout_mode = 2
 text = "Version Prefix"
+horizontal_alignment = 2
 
 [node name="VersionPrefix" type="LineEdit" parent="."]
 auto_translate_mode = 1

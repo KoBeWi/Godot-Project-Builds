@@ -16,7 +16,7 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return \"Sub-Routine: %s\" % current_task._get_task_name()
 
-func _initialize(project_path: String):
+func _initialize():
 	if not is_node_ready():
 		await ready
 	
@@ -54,7 +54,7 @@ func _prepare() -> void:
 	limbo.add_child(current_task)
 	
 	current_task.data = task_data[\"data\"]
-	current_task._initialize(Data.project_path)
+	current_task._initialize()
 	current_task._load()
 	current_task._prepare()
 

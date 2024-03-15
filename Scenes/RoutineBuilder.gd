@@ -29,7 +29,7 @@ func create_task(scene: String) -> Task:
 	
 	var task: Task = container.set_task_scene(scene)
 	task.owner = self
-	task._initialize(Data.project_path)
+	task._initialize()
 	return task
 
 func _back_pressed() -> void:

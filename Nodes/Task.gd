@@ -12,7 +12,7 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return _get_task_name()
 
-func _initialize(project_path: String): ## TODO: po co project path
+func _initialize():
 	pass
 
 func _get_command() -> String:
@@ -37,7 +37,10 @@ func _get_relevant_file_paths() -> PackedStringArray:
 	return PackedStringArray()
 
 func _get_task_info() -> PackedStringArray:
-	return ["Task description", "Argument Name|Description"]
+	return [
+		"Task description",
+		"Argument Name|Description",
+	]
 
 func get_previous_task() -> Task:
 	if get_index() == 0:

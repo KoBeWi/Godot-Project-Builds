@@ -28,39 +28,13 @@ func _get_arguments() -> PackedStringArray:
 	ret.append(Data.global_config.get(\"steam_password\", \"\"))
 	
 	ret.append(\"+run_app_build\")
-	ret.append(ProjectSettings.globalize_path(TEMP_VDF_PATH))
+	ret.append(Data.project_path.path_join(vdf_file.get_selected_metadata()))
 	
 	ret.append(\"+quit\")
 	
 	return ret
 
-func _prepare() -> void:
-	var vdf_file_path := Data.project_path.path_join(vdf_file.get_selected_metadata())
-	var vdf_file_dir := vdf_file_path.get_base_dir()
-	
-	var app_build_lines := FileAccess.open(vdf_file_path, FileAccess.READ).get_as_text().split(\"\\n\")
-	
-	for i in app_build_lines.size():
-		var line := app_build_lines[i]
-		
-		if line.contains(\"ContentRoot\"):
-			line = line.replace(\"%s\", get_global_content_path())
-			app_build_lines[i] = line
-		elif line.contains(\"BuildOutput\"):
-			line = line.replace(\"%s\", Data.global_config.get(\"steam_output\", \"\"))
-			app_build_lines[i] = line
-		elif line.contains(\"DEP\\\"\"):
-			var j := line.find(\"DEP\\\"\") + 4
-			var k := line.find(\"\\\"\", j)
-			var depot_name := line.substr(j, k - j)
-			
-			line = str(line.substr(0, j - 4), \"\\\"\", vdf_file_dir.path_join(depot_name), \"\\\"\")
-			app_build_lines[i] = line
-	
-	var temp_vdf := FileAccess.open(TEMP_VDF_PATH, FileAccess.WRITE)
-	temp_vdf.store_string(\"\\n\".join(app_build_lines))
-
-func _initialize(project_path: String):
+func _initialize():
 	if vdf_list.is_empty():
 		scan_for_vdf(Data.project_path, vdf_list)
 	
@@ -82,8 +56,9 @@ func _store():
 
 func _get_task_info() -> PackedStringArray:
 	return [
-		\"Uploads files to Steam based on a given VDF file and configured content paths. Requires steamcmd.exe.\",
-		\"VDF File|File used as a base to upload. Only \\\"non-simple\\\" VDF files are supported. Note that a special format is expected: ContentRoot and BuildOutput variables should be \\\"%s\\\", as they are filled by Project Builds. Also depot list should list files starting with DEP (e.g. DEP\\\"Demo.vdf\\\"). File paths are relative to the base file directory.\"] ## TODO: można w sumie dać plik podglądawy i wyświetlać go pod przyciskiem??
+		\"Uploads files to Steam based on the given VDF file. Requires steamcmd.exe.\",
+		\"VDF File|File used as a base to upload.\",
+	]
 
 func scan_for_vdf(directory: String, list: PackedStringArray):
 	for file in DirAccess.get_files_at(directory):

@@ -19,7 +19,7 @@ func _ready() -> void:
 		var task_instance := Task.create_instance(task["scene"])
 		task_limbo.add_child(task_instance)
 		
-		task_instance._initialize(Data.project_path)
+		task_instance._initialize()
 		task_instance.data = task["data"]
 		task_instance._load()
 	

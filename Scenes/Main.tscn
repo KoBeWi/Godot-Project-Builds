@@ -49,10 +49,6 @@ func _ready() -> void:
 	
 	register_local_setting(%LocalGodot, \"godot_path\")
 	
-	register_local_setting(%SteamContentRoot, \"steam_content_root\")
-	
-	register_local_setting(%GOGContentRoot, \"gog_content_root\")
-	
 	register_local_setting(%EpicProductID, \"epic_product_id\")
 	register_local_setting(%EpicArtifactID, \"epic_artifact_id\")
 	register_local_setting(%EpicCloudDir, \"epic_cloud_dir\")
@@ -250,7 +246,7 @@ folded = true
 
 [node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2"]
 layout_mode = 2
-text = "Godot Path For This Project"
+text = "Godot Exec For This Project"
 horizontal_alignment = 1
 
 [node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2" instance=ExtResource("2_ood4h")]
@@ -261,39 +257,6 @@ mode = 1
 [node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
 
-[node name="Steam2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
-layout_mode = 2
-title = "Steam"
-folded = true
-
-[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam2"]
-layout_mode = 2
-text = "Steam Content Root"
-horizontal_alignment = 1
-
-[node name="SteamContentRoot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam2" instance=ExtResource("2_ood4h")]
-unique_name_in_owner = true
-layout_mode = 2
-scope = 1
-
-[node name="GOG2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
-auto_translate_mode = 1
-layout_mode = 2
-title = "GOG"
-folded = true
-
-[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG2"]
-auto_translate_mode = 1
-layout_mode = 2
-text = "GOG Content Root"
-horizontal_alignment = 1
-
-[node name="GOGContentRoot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG2" instance=ExtResource("2_ood4h")]
-unique_name_in_owner = true
-auto_translate_mode = 1
-layout_mode = 2
-scope = 1
-
 [node name="Epic2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 auto_translate_mode = 1
 layout_mode = 2
@@ -303,7 +266,7 @@ folded = true
 [node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Epic Product ID"
+text = "Product ID"
 horizontal_alignment = 1
 
 [node name="EpicProductID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
@@ -314,7 +277,7 @@ layout_mode = 2
 [node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Epic Artifact ID"
+text = "Artifact ID"
 horizontal_alignment = 1
 
 [node name="EpicArtifactID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
@@ -325,7 +288,7 @@ layout_mode = 2
 [node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Epic Cloud Directory"
+text = "Cloud Directory"
 horizontal_alignment = 1
 
 [node name="EpicCloudDir" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2" instance=ExtResource("2_ood4h")]
@@ -343,7 +306,7 @@ folded = true
 [node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Itch Game Name"
+text = "Game Name"
 horizontal_alignment = 1
 
 [node name="ItchGameName" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
@@ -353,7 +316,7 @@ layout_mode = 2
 [node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Itch Default Channel"
+text = "Default Channel"
 horizontal_alignment = 1
 
 [node name="ItchDefaultChannel" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
@@ -409,7 +372,7 @@ mode = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2
-text = "Steam Username"
+text = "Username"
 horizontal_alignment = 1
 
 [node name="SteamUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
@@ -418,7 +381,7 @@ layout_mode = 2
 
 [node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2
-text = "Steam Password"
+text = "Password"
 horizontal_alignment = 1
 
 [node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
@@ -447,7 +410,7 @@ mode = 1
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "GOG Username"
+text = "Username"
 horizontal_alignment = 1
 
 [node name="GOGUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
@@ -458,7 +421,7 @@ layout_mode = 2
 [node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "GOG Password"
+text = "Password"
 horizontal_alignment = 1
 
 [node name="GOGPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
@@ -527,7 +490,7 @@ folded = true
 [node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Itch Butler Path"
+text = "Butler Path"
 horizontal_alignment = 1
 
 [node name="ItchButlerPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch" instance=ExtResource("2_ood4h")]
@@ -539,7 +502,7 @@ mode = 1
 [node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Itch Username"
+text = "Username"
 horizontal_alignment = 1
 
 [node name="ItchUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]

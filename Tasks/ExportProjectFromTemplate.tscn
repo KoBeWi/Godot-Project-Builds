@@ -21,8 +21,8 @@ func _get_execute_string() -> String:
 func _get_command() -> String:
 	return \"%godot%\"
 
-func _initialize(project_path: String):
-	super(project_path)
+func _initialize():
+	super()
 	
 	var export_presets := load_presets()
 	if not export_presets:

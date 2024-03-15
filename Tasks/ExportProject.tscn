@@ -1,16 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://m4tjlhu18ode"]
+[gd_scene load_steps=3 format=3 uid="uid://m4tjlhu18ode"]
 
-[ext_resource type="Script" path="res://Nodes/GUI/Disablabler.gd" id="1_e328v"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_ftqqe"]
 
 [sub_resource type="GDScript" id="GDScript_mlhhy"]
 script/source = "extends \"res://Tasks/ExportTask.gd\"
 
 @onready var preset_list: OptionButton = %PresetList
-@onready var custom_preset_name: LineEdit = %CustomPresetName
 @onready var debug: CheckBox = %Debug
 @onready var custom_path: Control = $CustomPath
-## TODO: export_path
 
 func _get_task_name() -> String:
 	return \"Export Project\"
@@ -21,10 +18,8 @@ func _get_execute_string() -> String:
 func _get_command() -> String:
 	return \"%godot%\"
 
-func _initialize(project_path: String):
-	super(project_path)
-	
-	preset_list.add_item(\"Custom\")
+func _initialize():
+	super()
 	
 	var export_presets := load_presets()
 	if not export_presets:
@@ -69,34 +64,22 @@ func _load():
 		preset_list.selected = 0
 		custom_path.text = preset_text
 	
-	_on_preset_list_item_selected(preset_list.selected)
-	
 	debug.button_pressed = data[\"debug\"]
 	custom_path.text = data[\"custom_path\"]
 
 func _store():
-	if preset_list.selected == 0:
-		data[\"preset\"] = custom_preset_name.text
-	else:
-		data[\"preset\"] = preset_list.get_item_text(preset_list.selected)
+	data[\"preset\"] = preset_list.get_item_text(preset_list.selected)
 	data[\"debug\"] = debug.button_pressed
 	data[\"custom_path\"] = custom_path.text
 
-func _on_preset_list_item_selected(index: int) -> void:
-	custom_preset_name.set_noexist(index != 0)
-
 func get_preset_name() -> String:
-	if preset_list.selected == 0:
-		return custom_preset_name.text
-	else:
-		return preset_list.get_item_text(preset_list.selected)
+	return preset_list.get_item_text(preset_list.selected)
 
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Exports the project using one of defined export presets.\",
 		\"Preset|Preset name from the project's presets defined in the Export dialog.\",
 		\"Debug|If enabled, exports a debug build.\",
-		\"Custom Path|If not empty, overrides the path defined in the preset.\",
 	]
 "
 
@@ -115,25 +98,6 @@ text = "Select Preset"
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CustomPresetName" type="LineEdit" parent="HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-placeholder_text = "Preset Name"
-script = ExtResource("1_e328v")
-
-[node name="Control2" type="Control" parent="HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
 [node name="Debug" type="CheckBox" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
@@ -149,5 +113,3 @@ horizontal_alignment = 1
 layout_mode = 2
 mode = 2
 scope = 1
-
-[connection signal="item_selected" from="HBoxContainer/PresetList" to="." method="_on_preset_list_item_selected"]

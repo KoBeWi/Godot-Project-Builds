@@ -8,8 +8,8 @@ var preset_path: String
 var export_path: String
 var export_preset: String
 
-func _initialize(project_path: String):
-	preset_path = project_path.path_join("export_presets.cfg")
+func _initialize():
+	preset_path = Data.project_path.path_join("export_presets.cfg")
 	
 	if is_godot_3 == null:
 		var output: Array

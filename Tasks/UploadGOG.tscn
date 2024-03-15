@@ -25,7 +25,7 @@ func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
 	
 	ret.append(\"build-game\")
-	ret.append(ProjectSettings.globalize_path(TEMP_JSON_PATH))
+	ret.append(Data.project_path.path_join(json_file.get_selected_metadata()))
 	
 	ret.append(\"--version\")
 	ret.append(\"1.0\") ## TODO
@@ -39,19 +39,7 @@ func _get_arguments() -> PackedStringArray:
 	
 	return ret
 
-func _prepare() -> void:
-	var json_file_path := Data.project_path.path_join(json_file.get_selected_metadata())
-	var json_data: Dictionary = load(json_file_path).data
-	var content_path := get_global_content_path()
-	
-	for product in json_data[\"project\"][\"products\"]:
-		for depot in product[\"depots\"]:
-			depot[\"folder\"] = depot[\"folder\"].format({ \"content_root\": content_path })
-	
-	var temp_json := FileAccess.open(TEMP_JSON_PATH, FileAccess.WRITE)
-	temp_json.store_string(JSON.stringify(json_data))
-
-func _initialize(project_path: String):
+func _initialize():
 	if json_list.is_empty():
 		scan_for_json(Data.project_path, json_list)
 	
@@ -72,7 +60,10 @@ func _store():
 	data[\"json_path\"] = json_file.get_selected_metadata()
 
 func _get_task_info() -> PackedStringArray:
-	return [\"Task description\", \"Argument Name|Description\"]
+	return [
+		\"Uploads files to GOG based on the given JSON file. Requires Pipeline Builder.\",
+		\"JSON File|File used as a base to upload.\",
+	]
 
 func scan_for_json(directory: String, list: PackedStringArray):
 	for file in DirAccess.get_files_at(directory):
@@ -99,6 +90,8 @@ func get_global_content_path() -> String:
 "
 
 [node name="UploadGog" type="HBoxContainer"]
+offset_right = 415.0
+offset_bottom = 23.0
 script = SubResource("GDScript_a0t4t")
 
 [node name="Control" type="Control" parent="."]
