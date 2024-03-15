@@ -4,6 +4,9 @@ extends Control
 @onready var routine_container: Control = %RoutineContainer
 @onready var task_container: Control = %TaskContainer
 
+var task_queue: Array[Dictionary]
+var task_queue_index: int
+
 func _ready() -> void:
 	var config := ConfigFile.new()
 	config.load(Data.project_path.path_join("project.godot"))
@@ -17,11 +20,34 @@ func _ready() -> void:
 		var temp := _add_template_pressed()
 		temp.set_data(template)
 	
-	## TODO: nie robić na raz? (żeby mniej lagowało)
-	for task in Data.tasks:
-		var preview := preload("res://Nodes/TaskPreview.tscn").instantiate()
-		preview.task = task
-		task_container.add_child(preview)
+	task_queue.assign(Data.tasks.values())
+	
+	if Data.first_load:
+		for task in Data.static_initialize_tasks:
+			task._initialize_project()
+		
+		process_files(Data.project_path)
+		Data.first_load = false
+
+func process_files(directory: String):
+	for file in DirAccess.get_files_at(directory):
+		for task in Data.static_initialize_tasks:
+			task._process_file(directory.path_join(file))
+	
+	for dir in DirAccess.get_directories_at(directory):
+		if not dir.begins_with("."):
+			process_files(directory.path_join(dir))
+
+func _process(delta: float) -> void:
+	var task := task_queue[task_queue_index]
+	
+	var preview := preload("res://Nodes/TaskPreview.tscn").instantiate()
+	preview.task = task
+	task_container.add_child(preview)
+	
+	task_queue_index += 1
+	if task_queue_index == task_queue.size():
+		set_process(false)
 
 func _exit_tree() -> void:
 	if Data.project_path.is_empty():

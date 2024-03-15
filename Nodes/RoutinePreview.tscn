@@ -38,9 +38,8 @@ func set_routine_data(d: Dictionary):
 	task_list.append(%TaskList.text % data[\"tasks\"].size())
 	
 	for task in data[\"tasks\"]:
-		var instance := Task.create_instance(task[\"scene\"])
-		task_list.append(instance._get_task_name())
-		instance.queue_free()
+		var task_info: Dictionary = Data.tasks[task[\"scene\"]]
+		task_list.append(task_info[\"name\"])
 	
 	%TaskList.text = \"\\n\".join(task_list)
 

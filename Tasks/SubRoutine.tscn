@@ -82,7 +82,10 @@ func _store() -> void:
 	data[\"routine\"] = sub_routine_list.get_selected_metadata()
 
 func _get_task_info() -> PackedStringArray:
-	return [\"Task description\", \"Argument Name|Description\"]
+	return [
+		\"Inlines another routine to allow running other routines as part of routines.\",
+		\"Routine|Name of the routine to run. Automatically lists all configured routines.\"
+	]
 "
 
 [node name="SubRoutine" type="HBoxContainer"]

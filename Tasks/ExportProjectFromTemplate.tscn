@@ -18,9 +18,6 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return \"Export Project From Template (preset %s, template %s)\" % [data[\"preset\"], data[\"template\"]]
 
-func _get_command() -> String:
-	return \"%godot%\"
-
 func _initialize():
 	super()
 	

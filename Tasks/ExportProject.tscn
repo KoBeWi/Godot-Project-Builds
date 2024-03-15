@@ -15,9 +15,6 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return \"Export Project (%s)\" % get_preset_name()
 
-func _get_command() -> String:
-	return \"%godot%\"
-
 func _initialize():
 	super()
 	
@@ -72,15 +69,15 @@ func _store():
 	data[\"debug\"] = debug.button_pressed
 	data[\"custom_path\"] = custom_path.text
 
-func get_preset_name() -> String:
-	return preset_list.get_item_text(preset_list.selected)
-
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Exports the project using one of defined export presets.\",
 		\"Preset|Preset name from the project's presets defined in the Export dialog.\",
 		\"Debug|If enabled, exports a debug build.\",
 	]
+
+func get_preset_name() -> String:
+	return preset_list.get_item_text(preset_list.selected)
 "
 
 [node name="ExportProject" type="VBoxContainer"]

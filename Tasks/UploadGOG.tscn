@@ -6,17 +6,41 @@ script/source = "extends Task
 ## TODO: branch
 ## TODO: default branch?
 
-const TEMP_JSON_PATH = \"user://BuildGOG.json\"
-
 @onready var json_file: OptionButton = %JSONFile
 
-static var json_list: PackedStringArray ## TODO: czyścić to po zmianie projektu/ albo wgl czytać jak się otworzy projekt
+static var json_list: PackedStringArray
+
+func _init() -> void:
+	has_static_configuration = true
 
 func _get_task_name() -> String:
 	return \"Upload GOG\"
 
 func _get_execute_string() -> String:
 	return \"GOG Build (%s)\" % json_file.text
+
+static func _initialize_project():
+	json_list.clear()
+
+static func _process_file(file: String):
+	if file.get_extension() != \"json\":
+		return
+	
+	var json: JSON = load(file)
+	if not json.data is Dictionary:
+		return
+	
+	var json_data: Dictionary = json.data
+	if not \"project\" in json_data or not \"baseProductId\" in json_data[\"project\"]:
+		return
+	
+	json_list.append(file.trim_prefix(Data.project_path + \"/\"))
+
+func _initialize():
+	for file in json_list:
+		json_file.add_item(file.get_file())
+		json_file.set_item_metadata(-1, file)
+		json_file.set_item_tooltip(-1, file)
 
 func _get_command() -> String:
 	return Data.global_config.get(\"pipeline_builder_path\", \"\")
@@ -35,18 +59,9 @@ func _get_arguments() -> PackedStringArray:
 	
 	ret.append(\"--password\")
 	ret.append(Data.global_config.get(\"gog_password\", \"\"))
-	ret.append(\"--offline\")
+	#ret.append(\"--offline\")
 	
 	return ret
-
-func _initialize():
-	if json_list.is_empty():
-		scan_for_json(Data.project_path, json_list)
-	
-	for file in json_list:
-		json_file.add_item(file.get_file())
-		json_file.set_item_metadata(-1, file)
-		json_file.set_item_tooltip(-1, file)
 
 func _load():
 	var file: String = data[\"json_path\"]
@@ -61,32 +76,9 @@ func _store():
 
 func _get_task_info() -> PackedStringArray:
 	return [
-		\"Uploads files to GOG based on the given JSON file. Requires Pipeline Builder.\",
+		\"Uploads files to GOG based on the given JSON file, using Pipeline Builder.\",
 		\"JSON File|File used as a base to upload.\",
 	]
-
-func scan_for_json(directory: String, list: PackedStringArray):
-	for file in DirAccess.get_files_at(directory):
-		if file.get_extension() == \"json\":
-			var path := directory.path_join(file)
-			
-			var json: JSON = load(path)
-			if not json.data is Dictionary:
-				continue
-			
-			var json_data: Dictionary = json.data
-			if not \"project\" in json_data or not \"baseProductId\" in json_data[\"project\"]:
-				continue
-			
-			list.append(path.trim_prefix(Data.project_path + \"/\"))
-	
-	for dir in DirAccess.get_directories_at(directory):
-		if not dir.begins_with(\".\"):
-			scan_for_json(directory.path_join(dir), list)
-
-func get_global_content_path() -> String:
-	var content_root: String = Data.local_config.get(\"gog_content_root\", \"\")
-	return Data.project_path.path_join(content_root)
 "
 
 [node name="UploadGog" type="HBoxContainer"]

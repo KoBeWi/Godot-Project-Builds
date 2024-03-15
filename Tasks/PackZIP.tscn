@@ -3,12 +3,13 @@
 [sub_resource type="GDScript" id="GDScript_ess8h"]
 script/source = "extends Task
 ## TODO: custom files
+## w sumie można po prostu podać folder i ew. filtr -> relevant path do wywalenia
 
 func _get_task_name() -> String:
 	return \"Pack ZIP\"
 
 func _get_command() -> String:
-	return OS.get_executable_path()
+	return OS.get_executable_path()##TODO: sprawdzić jak działa przy eksporcie
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray

@@ -51,7 +51,7 @@ func _store():
 
 func _get_task_info() -> PackedStringArray:
 	return [
-		\"Uploads files to Epic Games. Requires Build Patch Tool.\",
+		\"Uploads files to Epic Games using Build Patch Tool.\",
 		\"Build Root|The folder with your exported game content.\",
 		\"Executable Name|Name of the executable used when launching the game.\",
 		\"Version Prefix|Each upload needs unique version string, so use this option to add a (platform-specific etc.) prefix to your base version.\",

@@ -9,7 +9,7 @@ func _ready() -> void:
 	routine = Data.get_current_routine()
 	%RoutineName.text = routine["name"]
 	
-	for task in Data.tasks:
+	for task in Data.tasks.values():
 		add_task.get_popup().add_item(task["name"])
 		add_task.get_popup().set_item_metadata(-1, task["scene"])
 	

@@ -19,27 +19,8 @@ func _initialize():
 			else:
 				is_godot_3 = true
 
-func _prepare():
-	var base_dir := export_path.get_base_dir()
-	DirAccess.make_dir_recursive_absolute(base_dir)
-
-func load_presets() -> ConfigFile:
-	var config_file := ConfigFile.new()
-	if config_file.load(preset_path) == OK:
-		return config_file
-	return null
-
-func set_export_path(path: String):
-	if path.begins_with("res://"):
-		export_path = path.replace("res://", Data.project_path)
-	else:
-		export_path = Data.project_path.path_join(path)
-
-func _get_relevant_file_paths() -> PackedStringArray:
-	var paths: PackedStringArray
-	paths.append(export_path)
-	paths.append(export_path.get_basename() + ".pck")
-	return paths
+func _get_command() -> String:
+	return "%godot%"
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
@@ -65,3 +46,25 @@ func _get_arguments() -> PackedStringArray:
 		ret.append(export_path)
 	
 	return ret
+
+func _prepare():
+	var base_dir := export_path.get_base_dir()
+	DirAccess.make_dir_recursive_absolute(base_dir)
+
+func _get_relevant_file_paths() -> PackedStringArray:
+	var paths: PackedStringArray
+	paths.append(export_path)
+	paths.append(export_path.get_basename() + ".pck")
+	return paths
+
+func load_presets() -> ConfigFile:
+	var config_file := ConfigFile.new()
+	if config_file.load(preset_path) == OK:
+		return config_file
+	return null
+
+func set_export_path(path: String):
+	if path.begins_with("res://"):
+		export_path = path.replace("res://", Data.project_path)
+	else:
+		export_path = Data.project_path.path_join(path)

@@ -7,7 +7,10 @@ var global_config: Dictionary
 var local_config: Dictionary
 var project_path: String
 
-var tasks: Array[Dictionary]
+var first_load: bool
+var static_initialize_tasks: Array[Script]
+
+var tasks: Dictionary#[String, Dictionary]
 var routines: Array[Dictionary]
 var templates: Array[Dictionary]
 
@@ -40,6 +43,7 @@ func _init() -> void:
 
 func load_project(path: String):
 	project_path = path
+	first_load = true
 	
 	var godot := ConfigFile.new()
 	godot.load(project_path.path_join("project.godot"))
@@ -62,13 +66,16 @@ func load_project(path: String):
 
 func register_task(scene: String):
 	var data := Dictionary()
-	data["scene"] = scene.get_file().get_basename()
+	var scene_base := scene.get_file().get_basename()
+	data["scene"] = scene_base
 	
 	var instance: Task = load(scene).instantiate()
 	data["name"] = instance._get_task_name()
+	if instance.has_static_configuration:
+		static_initialize_tasks.append(instance.get_script())
 	instance.free()
 	
-	tasks.append(data)
+	tasks[scene_base] = data
 
 func create_routine() -> Dictionary:
 	var routine := Dictionary()

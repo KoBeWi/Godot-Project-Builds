@@ -257,6 +257,9 @@ mode = 1
 [node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
 
+[node name="FileDialog" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot" index="2"]
+ok_button_text = "Open"
+
 [node name="Epic2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 auto_translate_mode = 1
 layout_mode = 2

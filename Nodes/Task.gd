@@ -2,15 +2,19 @@ extends Control
 class_name Task
 
 var data: Dictionary
-
-static func create_instance(scene: String) -> Task:
-	return load("res://Tasks/%s.tscn" % scene).instantiate()
+var has_static_configuration: bool
 
 func _get_task_name() -> String:
 	return "Empty Task"
 
 func _get_execute_string() -> String:
 	return _get_task_name()
+
+static func _initialize_project():
+	pass
+
+static func _process_file(path: String):
+	pass
 
 func _initialize():
 	pass
@@ -41,6 +45,9 @@ func _get_task_info() -> PackedStringArray:
 		"Task description",
 		"Argument Name|Description",
 	]
+
+static func create_instance(scene: String) -> Task:
+	return load("res://Tasks/%s.tscn" % scene).instantiate()
 
 func get_previous_task() -> Task:
 	if get_index() == 0:
