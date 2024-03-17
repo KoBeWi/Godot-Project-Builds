@@ -2,9 +2,11 @@ extends Control
 
 @onready var task_limbo: Node2D = %TaskLimbo
 @onready var commands_container: VBoxContainer = %CommandsContainer
+@onready var error_container: Control = %Errors
 
 var current_task_index: int
 var current_task: Task
+var task_error: String
 
 var output_thread: Thread
 var output_end: bool
@@ -14,6 +16,8 @@ func _ready() -> void:
 	#output_thread = Thread.new()
 	#output_thread.start(output_process)
 	
+	var errors: PackedStringArray
+	
 	var routine := Data.get_current_routine()
 	for task in routine["tasks"]:
 		var task_instance := Task.create_instance(task["scene"])
@@ -22,8 +26,23 @@ func _ready() -> void:
 		task_instance._initialize()
 		task_instance.data = task["data"]
 		task_instance._load()
+		
+		if not task_instance._prevalidate():
+			errors.append("%s: %s" % [task_instance._get_execute_string(), task_instance.error_message])
 	
 	#item.arguments = ["a", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Build.zip", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.exe", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.pck"]
+	
+	if not errors.is_empty():
+		%ErrorsParent.show()
+		
+		for error in errors:
+			var label := Label.new()
+			label.text = error
+			label.modulate = Color.RED
+			error_container.add_child(label)
+		
+		finish()
+		return
 	
 	next_command()
 
@@ -33,16 +52,17 @@ func next_command():
 		return
 	
 	current_task = task_limbo.get_child(current_task_index)
-	current_task._prepare()
-	
 	var command := preload("res://Nodes/Command.tscn").instantiate()
+	
+	if current_task._validate():
+		current_task._prepare()
+	else:
+		command.error = current_task.error_message
+	
 	command.task_text = current_task._get_execute_string()
-	
-	var command_text := current_task._get_command()
-	command_text = command_text.replace("%godot%", Data.get_godot_path())
-	command.command = command_text
-	
+	command.command = current_task._get_command()
 	command.arguments = current_task._get_arguments()
+	
 	command.success.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 	command.fail.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED) ## TODO inny
 	commands_container.add_child(command)

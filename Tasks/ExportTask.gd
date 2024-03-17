@@ -1,6 +1,6 @@
 extends Task
 
-static var is_godot_3: Variant
+static var is_godot_3: bool
 
 var export_debug: bool
 var override_path: bool
@@ -8,19 +8,30 @@ var preset_path: String
 var export_path: String
 var export_preset: String
 
+func _init() -> void:
+	has_static_configuration = true
+
+static func _initialize_project():##TODO: aktualizować to po zmianie ścieżki
+	var output: Array
+	if OS.execute(Data.get_godot_path(), ["--version"], output) == OK:
+		if output[0].begins_with("4"):
+			is_godot_3 = false
+		else:
+			is_godot_3 = true
+
 func _initialize():
 	preset_path = Data.project_path.path_join("export_presets.cfg")
+
+func _prevalidate() -> bool:
+	var godot_path := Data.get_godot_path()
+	if OS.execute(godot_path, ["--version"]) != OK:
+		error_message = "Godot executable (%s) is not valid." % godot_path
+		return false
 	
-	if is_godot_3 == null:
-		var output: Array
-		if OS.execute(Data.get_godot_path(), ["--version"], output) == OK:
-			if output[0].begins_with("4"):
-				is_godot_3 = false
-			else:
-				is_godot_3 = true
+	return true
 
 func _get_command() -> String:
-	return "%godot%"
+	return Data.get_godot_path()
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
@@ -50,12 +61,6 @@ func _get_arguments() -> PackedStringArray:
 func _prepare():
 	var base_dir := export_path.get_base_dir()
 	DirAccess.make_dir_recursive_absolute(base_dir)
-
-func _get_relevant_file_paths() -> PackedStringArray:
-	var paths: PackedStringArray
-	paths.append(export_path)
-	paths.append(export_path.get_basename() + ".pck")
-	return paths
 
 func load_presets() -> ConfigFile:
 	var config_file := ConfigFile.new()

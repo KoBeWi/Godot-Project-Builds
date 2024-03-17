@@ -102,6 +102,12 @@ func get_godot_path() -> String:
 	else:
 		return local_godot
 
+func resolve_path(path: String) -> String:
+	if path.is_absolute_path():
+		return path
+	else:
+		return Data.project_path.path_join(path)
+
 func queue_save_local_config():
 	save_local_timer.start()
 

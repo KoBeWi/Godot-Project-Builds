@@ -8,6 +8,7 @@ var task_text: String
 var command: String
 var arguments: PackedStringArray
 var raw_text: String
+var error: String
 
 var thread: Thread
 var output: Array
@@ -26,6 +27,18 @@ func _ready() -> void:
 	#arguments.append("2>&1")
 	#%Command.text = command + " " + " ".join(arguments) + " > " + logpath + " 2>&1"
 	%TaskText.text = task_text
+	
+	if not error.is_empty():
+		%Status.text = "Invalid"
+		%Status.modulate = Color.RED
+		%Command.text = error
+		%Command.modulate = Color.RED
+		%Code.text = ""
+		%Animation.queue_free()
+		fail.emit()
+		set_process(false)
+		return
+	
 	raw_text = command + " " + " ".join(arguments)
 	%Command.text = raw_text.replace(Data.global_config["steam_password"], "*password*") ## TODO: nie hardkodować
 	

@@ -16,6 +16,14 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return \"Pack folder \\\"%s\\\" into \\\"%s\\\"\" % [source_directory.text.get_file(), target_path.text.get_file()]
 
+func _validate() -> bool:
+	var path := Data.resolve_path(source_directory.text)
+	if not DirAccess.dir_exists_absolute(path):
+		error_message = \"Source directory (%s) does not exist.\" % path
+		return false
+	
+	return true
+
 func _get_command() -> String:
 	return OS.get_executable_path()##TODO: sprawdzić jak działa przy eksporcie
 
@@ -31,12 +39,15 @@ func _get_arguments() -> PackedStringArray:
 	
 	ret.append(\"--\")
 	
-	ret.append(source_directory.text)
-	ret.append(target_path.text)
-	ret.append(\"--include\")
-	ret.append_array(file_filter.text.split(\" \"))
-	ret.append(\"--exclude\")
-	ret.append_array(file_filter2.text.split(\" \"))
+	ret.append(Data.resolve_path(source_directory.text))
+	ret.append(Data.resolve_path(target_path.text))
+	
+	if not file_filter.text.is_empty():
+		ret.append(\"--include\")
+		ret.append_array(file_filter.text.split(\" \"))
+	if not file_filter2.text.is_empty():
+		ret.append(\"--exclude\")
+		ret.append_array(file_filter2.text.split(\" \"))
 	
 	return ret
 

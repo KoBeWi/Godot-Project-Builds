@@ -7,6 +7,7 @@ var exclude_filters: PackedStringArray
 var quit_error: int
 
 func _init() -> void:
+	## TODO: make dir jak nie ma
 	var args: Array[String]
 	args.assign(OS.get_cmdline_user_args())
 	if args.size() < 2:

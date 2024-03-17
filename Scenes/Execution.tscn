@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqm1wdopgkdkp"]
+[gd_scene load_steps=3 format=3 uid="uid://dqm1wdopgkdkp"]
 
 [ext_resource type="Script" path="res://Scenes/Execution.gd" id="1_rwjih"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsvn6"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0.501961)
 
 [node name="Execution" type="ScrollContainer"]
 anchors_preset = 15
@@ -14,6 +21,22 @@ script = ExtResource("1_rwjih")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="ErrorsParent" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tsvn6")
+
+[node name="Errors" type="VBoxContainer" parent="VBoxContainer/ErrorsParent"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ErrorsParent/Errors"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "Some tasks are invalid!"
+horizontal_alignment = 1
 
 [node name="CommandsContainer" type="VBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
