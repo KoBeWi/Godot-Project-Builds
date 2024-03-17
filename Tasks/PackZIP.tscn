@@ -1,12 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://dw4t3o5hj774w"]
+[gd_scene load_steps=3 format=3 uid="uid://dw4t3o5hj774w"]
+
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_smuq5"]
 
 [sub_resource type="GDScript" id="GDScript_ess8h"]
 script/source = "extends Task
-## TODO: custom files
-## w sumie można po prostu podać folder i ew. filtr -> relevant path do wywalenia
+
+@onready var source_directory: Control = %SourceDirectory
+@onready var target_path: Control = %TargetPath
+@onready var file_filter: LineEdit = %FileFilter
+@onready var file_filter2: LineEdit = %FileFilter2
 
 func _get_task_name() -> String:
 	return \"Pack ZIP\"
+
+func _get_execute_string() -> String:
+	return \"Pack folder \\\"%s\\\" into \\\"%s\\\"\" % [source_directory.text.get_file(), target_path.text.get_file()]
 
 func _get_command() -> String:
 	return OS.get_executable_path()##TODO: sprawdzić jak działa przy eksporcie
@@ -23,70 +31,95 @@ func _get_arguments() -> PackedStringArray:
 	
 	ret.append(\"--\")
 	
-	ret.append_array(get_previous_task()._get_relevant_file_paths())
-	ret.append(%ZIPName.text)
+	ret.append(source_directory.text)
+	ret.append(target_path.text)
+	ret.append(\"--include\")
+	ret.append_array(file_filter.text.split(\" \"))
+	ret.append(\"--exclude\")
+	ret.append_array(file_filter2.text.split(\" \"))
 	
 	return ret
 
 func _load():
-	%ZIPName.text = data[\"zip_name\"]
+	source_directory.text = data[\"source\"]
+	target_path.text = data[\"destination\"]
+	file_filter.text = data[\"include_files\"]
+	file_filter2.text = data[\"exclude_files\"]
 
 func _store():
-	data[\"zip_name\"] = %ZIPName.text
+	data[\"source\"] = source_directory.text
+	data[\"destination\"] = target_path.text
+	data[\"include_files\"] = file_filter.text
+	data[\"exclude_files\"] = file_filter2.text
 
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Packs specified files in a ZIP archive.\",
-		\"File List|List of files to pack. \\\"From Previous Task\\\" will try to fetch them from the task above, e.g. list of exported files from project export.\",
-		\"Target Directory|The directory where the ZIP will be created.\",
-		\"Target File Name|Name of the ZIP archive (excluding the extension).\",
+		\"Source Directory|Files from this directory will be packed.\",
+		\"Target File Path|Path of the target ZIP archive.\",
+		\"Include Files|List of filters for files from the directory. Example: \\\"*.exe *.pck\\\". If empty, all files will be packed. Otherwise only files that match the filter will be included.\",
+		\"Exclude Files|Filters files from the directory. Files that match this filter will be excluded.\",
 	]
 "
 
 [node name="MakeZip" type="VBoxContainer"]
-offset_right = 444.0
+offset_right = 734.0
 offset_bottom = 101.0
 script = SubResource("GDScript_ess8h")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="HBoxContainer"]
-layout_mode = 2
-text = "File List"
-
-[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
-layout_mode = 2
-selected = 0
-item_count = 2
-popup/item_0/text = "From Previous Task"
-popup/item_0/id = 0
-popup/item_1/text = "Custom"
-popup/item_1/id = 1
-
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 4
 columns = 2
 
 [node name="Label2" type="Label" parent="GridContainer"]
 layout_mode = 2
-text = "Target Directory"
+size_flags_horizontal = 8
+text = "Source Directory"
+horizontal_alignment = 2
 
-[node name="OptionButton2" type="OptionButton" parent="GridContainer"]
+[node name="SourceDirectory" parent="GridContainer" instance=ExtResource("1_smuq5")]
+unique_name_in_owner = true
 layout_mode = 2
-selected = 0
-item_count = 2
-popup/item_0/text = "From Previous Task"
-popup/item_0/id = 0
-popup/item_1/text = "Custom"
-popup/item_1/id = 1
+size_flags_horizontal = 3
+scope = 1
 
 [node name="Label3" type="Label" parent="GridContainer"]
 layout_mode = 2
-text = "Target File Name"
+size_flags_horizontal = 8
+text = "Target File Path"
+horizontal_alignment = 2
 
-[node name="ZIPName" type="LineEdit" parent="GridContainer"]
+[node name="TargetPath" parent="GridContainer" instance=ExtResource("1_smuq5")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+mode = 2
+scope = 1
+filters = PackedStringArray("*.zip")
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Include Files"
+horizontal_alignment = 2
+
+[node name="FileFilter" type="LineEdit" parent="GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Space-separated list of filters, e.g. \"*.exe\". Leave empty to include all."
+
+[node name="Label4" type="Label" parent="GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Exclude Files"
+horizontal_alignment = 2
+
+[node name="FileFilter2" type="LineEdit" parent="GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Space-separated list of filters. Leave empty to exclude none."

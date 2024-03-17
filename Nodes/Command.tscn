@@ -209,6 +209,7 @@ text = "Expand %d lines"
 [node name="OutputLabel" type="TextEdit" parent="MarginContainer/VBoxContainer/Output"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
 editable = false
 scroll_fit_content_height = true
 

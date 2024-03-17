@@ -13,6 +13,7 @@ enum Scope {GLOBAL, PROJECT }
 
 @export var mode: Mode
 @export var scope: Scope
+@export var filters: PackedStringArray
 
 signal path_changed
 
@@ -34,6 +35,8 @@ func _ready() -> void:
 	
 	if scope == Scope.PROJECT:
 		file_dialog.current_dir = Data.project_path
+	
+	file_dialog.filters = filters
 
 func open_dialog() -> void:
 	file_dialog.popup_centered_ratio(0.5)
@@ -62,7 +65,7 @@ icon = ExtResource("1_34bwh")
 
 [node name="FileDialog" type="FileDialog" parent="."]
 title = "Open a File"
-ok_button_text = "Otwórz"
+ok_button_text = "Open"
 file_mode = 0
 access = 2
 

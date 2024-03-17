@@ -1,51 +1,99 @@
 extends SceneTree
 
 var root_path: String
+var include_filters: PackedStringArray
+var exclude_filters: PackedStringArray
+
+var quit_error: int
 
 func _init() -> void:
 	var args: Array[String]
 	args.assign(OS.get_cmdline_user_args())
 	if args.size() < 2:
-		printerr("Not enough arguments. Required 2 (at least one file path + ZIP name), received %d" % args.size())
+		printerr("Not enough arguments. Required 2+ (source, destination, [filters]), received %d" % args.size())
 		quit(ERR_INVALID_PARAMETER)
 		return
 	
-	var file_name: String = args.pop_back()
-	if not file_name.get_extension() == "zip":
-		file_name += ".zip"
+	root_path = args[0]
+	var target_path := args[1]
 	
-	root_path = args[0].get_base_dir()
-	if not root_path.ends_with("/"):
-		root_path = root_path + "/"
+	var mode := 0
+	for i in range(2, args.size()):
+		var arg := args[i]
+		if arg == "--include":
+			mode = 1
+		elif arg == "--exclude":
+			mode = 2
+		else:
+			if mode == 1:
+				include_filters.append(arg)
+			elif mode == 2:
+				exclude_filters.append(arg)
 	
 	var zip := ZIPPacker.new()
-	var zip_path := root_path.path_join(file_name)
-	print("Creating ZIP file: %s" % zip_path)
+	print("Creating ZIP file: %s" % target_path)
 	
-	var error := zip.open(zip_path)
+	var error := zip.open(target_path)
 	if error != OK:
 		printerr("Creating failed, error %d" % error)
 		quit(error)
 		return
 	
-	for file in args:
-		pack(zip, file)
+	pack_files(zip, root_path)
 	
 	zip.close()
-	print("Packing finished")
+	if quit_error == OK:
+		print("Packing finished")
+	else:
+		printerr("Packing failed")
 	
-	quit()
+	quit(quit_error)
+
+func pack_files(zip: ZIPPacker, dir: String):
+	var da := DirAccess.open(dir)
+	if not da:
+		printerr("Error opening directory: %s" % dir)
+		quit_error = DirAccess.get_open_error()
+		return
+	
+	da.include_hidden = true
+	
+	for file in da.get_files():
+		var skip := not include_filters.is_empty()
+		for filter in include_filters:
+			if file.match(filter):
+				skip = false
+				break
+		
+		if not skip:
+			for filter in exclude_filters:
+				if file.match(filter):
+					skip = true
+					break
+		
+		if not skip:
+			pack(zip, dir.path_join(file))
+		
+		if quit_error != OK:
+			return
+	
+	for d in da.get_directories():
+		pack_files(zip, dir.path_join(d))
+		
+		if quit_error != OK:
+			return
 
 func pack(zip: ZIPPacker, file: String):
-	var target_file := file.trim_prefix(root_path)
+	var target_file := file.trim_prefix(root_path + "/")
 	
 	print("Packing file: %s" % target_file)
 	var data := FileAccess.get_file_as_bytes(file)
 	if data.is_empty():
 		var error := FileAccess.get_open_error()
-		printerr("Error reading file: %d" % error)
-		quit(error)
-		return
+		if error != OK:
+			printerr("Error reading file: %d" % error)
+			quit_error = error
+			return
 	
 	zip.start_file(target_file)
 	zip.write_file(data)
