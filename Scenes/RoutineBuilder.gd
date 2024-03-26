@@ -44,6 +44,6 @@ func _back_pressed() -> void:
 	
 	routine["name"] = %RoutineName.text
 	routine["tasks"] = routine_tasks
-	Data.queue_save_global_config()
+	Data.queue_save_local_config()
 	
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")

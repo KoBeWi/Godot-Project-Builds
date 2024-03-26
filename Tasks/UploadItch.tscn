@@ -14,6 +14,27 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return \"Itch Upload (Channel: \\\"%s\\\")\" % channel.text
 
+func _prevalidate() -> bool:
+	var butler_path: String = Data.global_config.get(\"itch_butler_path\", \"\")
+	if butler_path.is_empty():
+		error_message = \"Butler path is empty.\"
+	elif not FileAccess.file_exists(butler_path):
+		error_message = \"Butler path does not point to any file.\"
+	#else: ## TODO: This won't work until OS.execute() is better.
+		#var output: Array
+		#OS.execute(butler_path, [\"login\"], output)
+		#if output.is_empty() or output[0] != \"Your local credentials are valid!\":
+			#error_message = \"Butler executable invalid or user not logged in.\"
+			#return false
+	
+	return error_message.is_empty()
+
+func _validate() -> bool:
+	if not DirAccess.dir_exists_absolute(Data.project_path.path_join(source_folder.text)):
+		error_message = \"The provided source directory does not exist.\"
+		return false
+	return true
+
 func _get_command() -> String:
 	return Data.global_config.get(\"itch_butler_path\", \"\")
 

@@ -35,6 +35,24 @@ func _initialize():
 		vdf_file.set_item_metadata(-1, file)
 		vdf_file.set_item_tooltip(-1, file)
 
+func _prevalidate() -> bool:
+	if Data.global_config.get(\"steam_cmd_path\", \"\").is_empty():
+		error_message = \"Steam CMD path is empty.\"
+	elif not FileAccess.file_exists(Data.global_config.get(\"steam_cmd_path\", \"\")):
+		error_message = \"Steam CMD path does not point to any file.\"
+	elif Data.global_config.get(\"steam_username\", \"\").is_empty():
+		error_message = \"Steam username is empty.\"
+	elif Data.global_config.get(\"steam_password\", \"\").is_empty():
+		error_message = \"Steam password is empty.\"
+	
+	return error_message.is_empty()
+
+func _validate() -> bool:
+	if not FileAccess.file_exists(Data.project_path.path_join(get_vdf_path())):
+		error_message = \"The provided VDF file does not exist.\"
+		return false
+	return true
+
 func _get_command() -> String:
 	return Data.global_config.get(\"steam_cmd_path\", \"\")
 
@@ -46,7 +64,7 @@ func _get_arguments() -> PackedStringArray:
 	ret.append(Data.global_config.get(\"steam_password\", \"\"))
 	
 	ret.append(\"+run_app_build\")
-	ret.append(Data.project_path.path_join(vdf_file.get_selected_metadata()))
+	ret.append(Data.project_path.path_join(get_vdf_path()))
 	
 	ret.append(\"+quit\")
 	
@@ -61,7 +79,7 @@ func _load():
 			break
 
 func _store():
-	data[\"vdf_path\"] = vdf_file.get_selected_metadata()
+	data[\"vdf_path\"] = get_vdf_path()
 
 func _get_task_info() -> PackedStringArray:
 	return [
@@ -69,9 +87,12 @@ func _get_task_info() -> PackedStringArray:
 		\"VDF File|File used as a base to upload. Only \\\"non-simple\\\" VDF files are supported.\",
 	]
 
-func get_global_content_path() -> String:
-	var content_root: String = Data.local_config.get(\"steam_content_root\", \"\")
-	return Data.project_path.path_join(content_root)
+func get_vdf_path() -> String:
+	var metadata = vdf_file.get_selected_metadata()
+	if metadata is String:
+		return metadata
+	else:
+		return \"\"
 "
 
 [node name="UploadSteam" type="HBoxContainer"]

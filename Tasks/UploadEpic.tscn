@@ -20,6 +20,35 @@ script/source = "extends Task
 func _get_task_name() -> String:
 	return \"Upload Epic\"
 
+func _prevalidate() -> bool:
+	if Data.global_config.get(\"build_patch_tool_path\", \"\").is_empty():
+		error_message = \"Build Patch Tool path is empty.\"
+	elif not FileAccess.file_exists(Data.global_config.get(\"build_patch_tool_path\", \"\")):
+		error_message = \"Build Patch Tool path does not point to any file.\"
+	elif Data.global_config.get(\"epic_organization_id\", \"\").is_empty():
+		error_message = \"Epic organization ID is empty.\"
+	elif Data.global_config.get(\"epic_client_id\", \"\").is_empty():
+		error_message = \"Epic client ID is empty.\"
+	elif Data.global_config.get(\"epic_client_secret\", \"\").is_empty():
+		error_message = \"Epic client secret is empty.\"
+	elif Data.local_config.get(\"epic_product_id\", \"\").is_empty():
+		error_message = \"Epic product ID is empty.\"
+	elif Data.local_config.get(\"epic_artifact_id\", \"\").is_empty():
+		error_message = \"Epic artifact ID is empty.\"
+	elif executable_name.text.is_empty():
+		error_message = \"Executable name is empty.\"
+	
+	return error_message.is_empty()
+
+func _validate() -> bool:
+	if not DirAccess.dir_exists_absolute(Data.project_path.path_join(build_root.text)):
+		error_message = \"The provided build root folder does not exist.\"
+		return false
+	elif not FileAccess.file_exists(Data.project_path.path_join(build_root.text).path_join(executable_name.text)):
+		error_message = \"The executable does not exist in build root folder.\"
+		return false
+	return true
+
 func _get_command() -> String:
 	return Data.global_config.get(\"build_patch_tool_path\", \"\")
 

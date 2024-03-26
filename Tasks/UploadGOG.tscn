@@ -42,6 +42,24 @@ func _initialize():
 		json_file.set_item_metadata(-1, file)
 		json_file.set_item_tooltip(-1, file)
 
+func _prevalidate() -> bool:
+	if Data.global_config.get(\"pipeline_builder_path\", \"\").is_empty():
+		error_message = \"Pipeline Builder path is empty.\"
+	elif not FileAccess.file_exists(Data.global_config.get(\"pipeline_builder_path\", \"\")):
+		error_message = \"Pipeline Builder path does not point to any file.\"
+	elif Data.global_config.get(\"gog_username\", \"\").is_empty():
+		error_message = \"GOG username is empty.\"
+	elif Data.global_config.get(\"gog_password\", \"\").is_empty():
+		error_message = \"GOG password is empty.\"
+	
+	return error_message.is_empty()
+
+func _validate() -> bool:
+	if not FileAccess.file_exists(Data.project_path.path_join(get_json_path())):
+		error_message = \"The provided JSON file does not exist.\"
+		return false
+	return true
+
 func _get_command() -> String:
 	return Data.global_config.get(\"pipeline_builder_path\", \"\")
 
@@ -49,7 +67,7 @@ func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
 	
 	ret.append(\"build-game\")
-	ret.append(Data.project_path.path_join(json_file.get_selected_metadata()))
+	ret.append(Data.project_path.path_join(get_json_path()))
 	
 	ret.append(\"--version\")
 	ret.append(\"1.0\") ## TODO
@@ -72,13 +90,20 @@ func _load():
 			break
 
 func _store():
-	data[\"json_path\"] = json_file.get_selected_metadata()
+	data[\"json_path\"] = get_json_path()
 
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Uploads files to GOG based on the given JSON file, using Pipeline Builder.\",
 		\"JSON File|File used as a base to upload.\",
 	]
+
+func get_json_path() -> String:
+	var metadata = json_file.get_selected_metadata()
+	if metadata is String:
+		return metadata
+	else:
+		return \"\"
 "
 
 [node name="UploadGog" type="HBoxContainer"]
