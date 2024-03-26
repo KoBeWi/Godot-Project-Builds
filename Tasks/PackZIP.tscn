@@ -16,6 +16,12 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return \"Pack folder \\\"%s\\\" into \\\"%s\\\"\" % [source_directory.text.get_file(), target_path.text.get_file()]
 
+func _initialize() -> void:
+	defaults[\"source\"] = \"\"
+	defaults[\"destination\"] = \"\"
+	defaults[\"include_files\"] = \"\"
+	defaults[\"exclude_files\"] = \"\"
+
 func _validate() -> bool:
 	var path := Data.resolve_path(source_directory.text)
 	if not DirAccess.dir_exists_absolute(path):

@@ -14,8 +14,12 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return \"Itch Upload (Channel: \\\"%s\\\")\" % channel.text
 
+func _initialize() -> void:
+	defaults[\"source_folder\"] = \"\"
+	defaults[\"channel\"] = \"\"
+
 func _prevalidate() -> bool:
-	var butler_path: String = Data.global_config.get(\"itch_butler_path\", \"\")
+	var butler_path: String = Data.global_config[\"itch_butler_path\"]
 	if butler_path.is_empty():
 		error_message = \"Butler path is empty.\"
 	elif not FileAccess.file_exists(butler_path):
@@ -36,7 +40,7 @@ func _validate() -> bool:
 	return true
 
 func _get_command() -> String:
-	return Data.global_config.get(\"itch_butler_path\", \"\")
+	return Data.global_config[\"itch_butler_path\"]
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
@@ -44,11 +48,11 @@ func _get_arguments() -> PackedStringArray:
 	ret.append(\"push\")
 	ret.append(Data.project_path.path_join(source_folder.text))
 	
-	var username: String = Data.global_config.get(\"itch_username\", \"\")
-	var game_name: String = Data.local_config.get(\"itch_game_name\", \"\")
+	var username: String = Data.global_config[\"itch_username\"]
+	var game_name: String = Data.local_config[\"itch_game_name\"]
 	var channel_name: String = channel.text
 	if channel_name.is_empty():
-		channel_name = Data.local_config.get(\"itch_default_channel\", \"\")
+		channel_name = Data.local_config[\"itch_default_channel\"]
 	
 	ret.append(\"%s/%s:%s\" % [username, game_name, channel_name])
 	

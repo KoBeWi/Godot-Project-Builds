@@ -1,8 +1,11 @@
 extends Control
 class_name Task
 
-var data: Dictionary
 var has_static_configuration: bool
+
+var defaults: Dictionary#[String, Variant]
+var data: Dictionary#[String, Variant]
+
 var error_message: String
 
 func _get_task_name() -> String:
@@ -11,13 +14,13 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return _get_task_name()
 
-static func _initialize_project():
+static func _initialize_project() -> void:
 	pass
 
-static func _process_file(path: String):
+static func _process_file(path: String) -> void:
 	pass
 
-func _initialize():
+func _initialize() -> void:
 	pass
 
 func _prevalidate() -> bool:
@@ -49,6 +52,14 @@ func _get_task_info() -> PackedStringArray:
 		"Task description",
 		"Argument Name|Description",
 	]
+
+func load_data(new_data: Dictionary) -> void:
+	data = new_data.merged(defaults)
+	_load()
+
+func store_data() -> Dictionary:
+	_store()
+	return data.merged(defaults)
 
 static func create_instance(scene: String) -> Task:
 	return load("res://Tasks/%s.tscn" % scene).instantiate()

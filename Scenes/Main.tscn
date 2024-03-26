@@ -28,45 +28,45 @@ resource_name = "Config"
 script/source = "extends HBoxContainer
 
 func _ready() -> void:
-	register_global_setting(%GlobalGodot, \"godot_path\")
+	register_global_setting(%GlobalGodot, \"godot_path\", OS.get_executable_path())
 	
-	register_global_setting(%SteamCMD, \"steam_cmd_path\")
-	register_global_setting(%SteamOutput, \"steam_output\")
-	register_global_setting(%SteamUsername, \"steam_username\")
-	register_global_setting(%SteamPassword, \"steam_password\")
+	register_global_setting(%SteamCMD, \"steam_cmd_path\", \"\")
+	register_global_setting(%SteamOutput, \"steam_output\", \"\")
+	register_global_setting(%SteamUsername, \"steam_username\", \"\")
+	register_global_setting(%SteamPassword, \"steam_password\", \"\")
 	
-	register_global_setting(%PipelineBuilderPath, \"pipeline_builder_path\")
-	register_global_setting(%GOGUsername, \"gog_username\")
-	register_global_setting(%GOGPassword, \"gog_password\")
+	register_global_setting(%PipelineBuilderPath, \"pipeline_builder_path\", \"\")
+	register_global_setting(%GOGUsername, \"gog_username\", \"\")
+	register_global_setting(%GOGPassword, \"gog_password\", \"\")
 	
-	register_global_setting(%BuildPatchToolPath, \"build_patch_tool_path\")
-	register_global_setting(%EpicOrganizationID, \"epic_organization_id\")
-	register_global_setting(%EpicClientID, \"epic_client_id\")
-	register_global_setting(%EpicClientSecret, \"epic_client_secret\")
+	register_global_setting(%BuildPatchToolPath, \"build_patch_tool_path\", \"\")
+	register_global_setting(%EpicOrganizationID, \"epic_organization_id\", \"\")
+	register_global_setting(%EpicClientID, \"epic_client_id\", \"\")
+	register_global_setting(%EpicClientSecret, \"epic_client_secret\", \"\")
 	
-	register_global_setting(%ItchButlerPath, \"itch_butler_path\")
-	register_global_setting(%ItchUsername, \"itch_username\")
+	register_global_setting(%ItchButlerPath, \"itch_butler_path\", \"\")
+	register_global_setting(%ItchUsername, \"itch_username\", \"\")
 	
-	register_local_setting(%LocalGodot, \"godot_path\")
+	register_local_setting(%LocalGodot, \"godot_path\", \"\")
 	
-	register_local_setting(%EpicProductID, \"epic_product_id\")
-	register_local_setting(%EpicArtifactID, \"epic_artifact_id\")
-	register_local_setting(%EpicCloudDir, \"epic_cloud_dir\")
+	register_local_setting(%EpicProductID, \"epic_product_id\", \"\")
+	register_local_setting(%EpicArtifactID, \"epic_artifact_id\", \"\")
+	register_local_setting(%EpicCloudDir, \"epic_cloud_dir\", \"\")
 	
-	register_local_setting(%ItchGameName, \"itch_game_name\")
-	register_local_setting(%ItchDefaultChannel, \"itch_default_channel\")
+	register_local_setting(%ItchGameName, \"itch_game_name\", \"\")
+	register_local_setting(%ItchDefaultChannel, \"itch_default_channel\", \"\")
 
-func register_global_setting(control: Control, setting: String):
-	register_setting(control, setting, Data.global_config, on_global_setting_changed)
+func register_global_setting(control: Control, setting: String, default: Variant):
+	register_setting(control, setting, default, Data.global_config, on_global_setting_changed)
 
-func register_local_setting(control: Control, setting: String):
-	register_setting(control, setting, Data.local_config, on_local_setting_changed)
+func register_local_setting(control: Control, setting: String, default: Variant):
+	register_setting(control, setting, default, Data.local_config, on_local_setting_changed)
 
-func register_setting(control: Control, setting: String, config: Dictionary, callback: Callable):
+func register_setting(control: Control, setting: String, default: Variant, config: Dictionary, callback: Callable):
 	if setting in config:
 		control.text = config[setting]
 	else:
-		config[setting] = \"\"
+		config[setting] = default
 	
 	var sygnał
 	var binds: Array
@@ -256,9 +256,6 @@ mode = 1
 
 [node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
-
-[node name="FileDialog" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot" index="2"]
-ok_button_text = "Open"
 
 [node name="Epic2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 auto_translate_mode = 1

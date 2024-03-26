@@ -17,6 +17,9 @@ func _get_execute_string() -> String:
 
 func _initialize():
 	super()
+	defaults[\"preset\"] = \"\"
+	defaults[\"debug\"] = false
+	defaults[\"custom_path\"] = \"\"
 	
 	var export_presets := load_presets()
 	if not export_presets:

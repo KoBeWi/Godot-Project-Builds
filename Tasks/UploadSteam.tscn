@@ -29,20 +29,22 @@ static func _process_file(file: String):
 			vdf_list.append(file.trim_prefix(Data.project_path + \"/\"))
 			break
 
-func _initialize():
+func _initialize() -> void:
+	defaults[\"vdf_path\"] = \"\"
+	
 	for file in vdf_list:
 		vdf_file.add_item(file.get_file())
 		vdf_file.set_item_metadata(-1, file)
 		vdf_file.set_item_tooltip(-1, file)
 
 func _prevalidate() -> bool:
-	if Data.global_config.get(\"steam_cmd_path\", \"\").is_empty():
+	if Data.global_config[\"steam_cmd_path\"].is_empty():
 		error_message = \"Steam CMD path is empty.\"
-	elif not FileAccess.file_exists(Data.global_config.get(\"steam_cmd_path\", \"\")):
+	elif not FileAccess.file_exists(Data.global_config[\"steam_cmd_path\"]):
 		error_message = \"Steam CMD path does not point to any file.\"
-	elif Data.global_config.get(\"steam_username\", \"\").is_empty():
+	elif Data.global_config[\"steam_username\"].is_empty():
 		error_message = \"Steam username is empty.\"
-	elif Data.global_config.get(\"steam_password\", \"\").is_empty():
+	elif Data.global_config[\"steam_password\"].is_empty():
 		error_message = \"Steam password is empty.\"
 	
 	return error_message.is_empty()
@@ -54,14 +56,14 @@ func _validate() -> bool:
 	return true
 
 func _get_command() -> String:
-	return Data.global_config.get(\"steam_cmd_path\", \"\")
+	return Data.global_config[\"steam_cmd_path\"]
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
 	
 	ret.append(\"+login\")
-	ret.append(Data.global_config.get(\"steam_username\", \"\"))
-	ret.append(Data.global_config.get(\"steam_password\", \"\"))
+	ret.append(Data.global_config[\"steam_username\"])
+	ret.append(Data.global_config[\"steam_password\"])
 	
 	ret.append(\"+run_app_build\")
 	ret.append(Data.project_path.path_join(get_vdf_path()))

@@ -27,8 +27,6 @@ func _init() -> void:
 	var global_config_file := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.READ)
 	if global_config_file:
 		global_config = str_to_var(global_config_file.get_as_text())
-	else:
-		global_config["godot_path"] = OS.get_executable_path()
 	
 	save_local_timer = Timer.new()
 	save_local_timer.wait_time = 0.5
@@ -96,7 +94,7 @@ func get_template(template_name: String) -> Dictionary:
 	return {}
 
 func get_godot_path() -> String:
-	var local_godot: String = local_config.get("godot_path", "")
+	var local_godot: String = local_config["godot_path"]
 	if local_godot.is_empty():
 		return global_config["godot_path"]
 	else:

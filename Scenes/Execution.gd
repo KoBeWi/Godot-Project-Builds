@@ -24,8 +24,7 @@ func _ready() -> void:
 		task_limbo.add_child(task_instance)
 		
 		task_instance._initialize()
-		task_instance.data = task["data"]
-		task_instance._load()
+		task_instance.load_data(task["data"])
 		
 		if not task_instance._prevalidate():
 			errors.append("%s: %s" % [task_instance._get_execute_string(), task_instance.error_message])
