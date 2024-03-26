@@ -34,6 +34,16 @@ func _initialize():
 		sub_routine_list.add_item(rout[\"name\"])
 		sub_routine_list.set_item_metadata(-1, rout[\"name\"])
 
+func _prevalidate() -> bool:
+	var result := current_task._prevalidate()
+	error_message = current_task.error_message
+	return result
+
+func _validate() -> bool:
+	var result := current_task._validate()
+	error_message = current_task.error_message
+	return result
+
 func _get_command() -> String:
 	return current_task._get_command()
 

@@ -34,6 +34,16 @@ func _initialize():
 	for template in Data.templates:
 		template_list.add_item(template[\"name\"])
 
+func _prevalidate() -> bool:
+	if not super():
+		return false
+	
+	var template_name: String = template_list.get_item_text(template_list.selected)
+	if Data.get_template(template_name).is_empty():
+		error_message = \"Invalid export preset template: %s.\" % template_name
+	
+	return error_message.is_empty()
+
 func _prepare() -> void:
 	var export_presets := load_presets()
 	if not export_presets:
