@@ -35,7 +35,7 @@ func _initialize():
 		sub_routine_list.set_item_metadata(-1, rout[\"name\"])
 
 func _prevalidate() -> bool:
-	var result := current_task._prevalidate()
+	var result := current_task._prevalidate() ## FIXME: to ma sprawdzać każde
 	error_message = current_task.error_message
 	return result
 
