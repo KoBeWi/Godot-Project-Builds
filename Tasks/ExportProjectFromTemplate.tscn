@@ -74,8 +74,10 @@ func _prepare() -> void:
 	export_presets.set_value(new_section, \"exclude_filter\", \", \".join(template[\"exclude_filters\"]))
 	
 	if not template[\"export_path\"].is_empty():
-		export_presets.set_value(new_section, \"export_path\", template[\"export_path\"].path_join(path_suffix.text))
-	set_export_path(export_presets.get_value(new_section, \"export_path\", \"\"))
+		set_export_path(template[\"export_path\"].path_join(path_suffix.text))
+		export_presets.set_value(new_section, \"export_path\", export_path)
+	else:
+		set_export_path(export_presets.get_value(new_section, \"export_path\", \"\"))
 	
 	new_section = \"preset.%d.options\" % custom_preset
 	section = \"preset.%d.options\" % base_preset

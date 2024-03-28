@@ -70,6 +70,6 @@ func load_presets() -> ConfigFile:
 
 func set_export_path(path: String):
 	if path.begins_with("res://"):
-		export_path = path.replace("res://", Data.project_path)
+		export_path = path.replace("res:/", Data.project_path)
 	else:
 		export_path = Data.project_path.path_join(path)
