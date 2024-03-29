@@ -33,6 +33,10 @@ func _ready() -> void:
 func set_routine_data(d: Dictionary):
 	data = d
 	%Name.text = data[\"name\"]
+	if data[\"tasks\"].is_empty():
+		%TaskList.text = \"No Takss\"
+		%Execute.disabled = true
+		return
 	
 	var task_list: PackedStringArray
 	task_list.append(%TaskList.text % data[\"tasks\"].size())

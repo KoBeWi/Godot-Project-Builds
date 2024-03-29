@@ -20,13 +20,22 @@ var save_local_timer: Timer
 var save_global_timer: Timer
 
 func _init() -> void:
-	for task in DirAccess.get_files_at("res://Tasks"):
+	var task_path: String
+	if OS.has_feature("editor"):
+		task_path = "res://Tasks"
+	else:
+		task_path = OS.get_executable_path().get_base_dir().path_join("Tasks")
+	
+	for task in DirAccess.get_files_at(task_path):
 		if task.get_extension() == "tscn":
-			register_task("res://Tasks".path_join(task))
+			register_task(task_path.path_join(task))
 	
 	var global_config_file := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.READ)
 	if global_config_file:
 		global_config = str_to_var(global_config_file.get_as_text())
+	else:
+		global_config["project_builds_path"] = ""
+		global_config["project_builds_executable"] = ""
 	
 	save_local_timer = Timer.new()
 	save_local_timer.wait_time = 0.5
@@ -38,6 +47,20 @@ func _init() -> void:
 	
 	save_local_timer.timeout.connect(save_local_config)
 	save_global_timer.timeout.connect(save_global_config)
+
+func _ready() -> void:
+	if not OS.get_cmdline_user_args().is_empty():
+		return
+	
+	var path := ProjectSettings.globalize_path("res://")
+	if path != global_config["project_builds_path"]:
+		global_config["project_builds_path"] = path
+		queue_save_global_config()
+	
+	path = OS.get_executable_path()
+	if path != global_config["project_builds_executable"]:
+		global_config["project_builds_executable"] = path
+		queue_save_global_config()
 
 func load_project(path: String):
 	project_path = path

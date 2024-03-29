@@ -8,6 +8,10 @@
 
 config_version=5
 
+[addons]
+
+project_builds/config_path="res://project_builds_config.txt"
+
 [application]
 
 config/name="Godot Project Builds"
@@ -44,7 +48,7 @@ script/search_in_file_extensions=PackedStringArray("gd", "gdshader", "tscn")
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/ProjectBuilds/plugin.cfg")
 
 [rendering]
 

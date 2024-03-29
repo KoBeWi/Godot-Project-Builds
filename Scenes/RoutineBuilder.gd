@@ -32,6 +32,9 @@ func create_task(scene: String) -> Task:
 	return task
 
 func _back_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+
+func _exit_tree() -> void:
 	var routine_tasks: Array[Dictionary]
 	
 	for task: Task in task_list.get_children().map(func(container: Node) -> Task: return container.task):
@@ -43,5 +46,3 @@ func _back_pressed() -> void:
 	routine["name"] = %RoutineName.text
 	routine["tasks"] = routine_tasks
 	Data.queue_save_local_config()
-	
-	get_tree().change_scene_to_file("res://Scenes/Main.tscn")

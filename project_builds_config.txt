@@ -1,0 +1,20 @@
+{
+"epic_artifact_id": "",
+"epic_cloud_dir": "",
+"epic_product_id": "",
+"godot_path": "",
+"itch_default_channel": "",
+"itch_game_name": "",
+"routines": Array[Dictionary]([{
+"name": "Export",
+"tasks": Array[Dictionary]([{
+"data": {
+"custom_path": "",
+"debug": false,
+"preset": "Windows Desktop"
+},
+"scene": "ExportProject"
+}])
+}]),
+"templates": Array[Dictionary]([])
+}
