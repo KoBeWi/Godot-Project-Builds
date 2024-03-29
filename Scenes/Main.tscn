@@ -55,6 +55,8 @@ func _ready() -> void:
 	
 	register_local_setting(%ItchGameName, \"itch_game_name\", \"\")
 	register_local_setting(%ItchDefaultChannel, \"itch_default_channel\", \"\")
+	
+	update_plugin_status()
 
 func register_global_setting(control: Control, setting: String, default: Variant):
 	register_setting(control, setting, default, Data.global_config, on_global_setting_changed)
@@ -89,6 +91,44 @@ func on_global_setting_changed(dummy, control: Control, setting: String):
 func on_local_setting_changed(dummy, control: Control, setting: String):
 	Data.local_config[setting] = control.text
 	Data.queue_save_local_config()
+
+func update_plugin_status():
+	var plugin_file := ConfigFile.new()
+	plugin_file.load(Data.get_res_path().path_join(\"addons/ProjectBuilds/plugin.cfg\"))
+	var current_version: String = plugin_file.get_value(\"plugin\", \"version\", \"0.0\")
+	
+	if plugin_file.load(Data.project_path.path_join(\"addons/ProjectBuilds/plugin.cfg\")) == OK:
+		var project_version: String = plugin_file.get_value(\"plugin\", \"version\", \"0.0\")
+		var old: bool
+		
+		for i in current_version.get_slice_count(\".\"):
+			if current_version.get_slice(\".\", i).to_int() > project_version.get_slice(\".\", i).to_int():
+				old = true
+				break
+		
+		if old:
+			%PluginStatus.text = \"Plugin outdated.\"
+			%PluginStatus.modulate = Color.YELLOW
+			%InstallPlugin.disabled = false
+		else:
+			%PluginStatus.text = \"Plugin installed and up-to-date.\"
+			%PluginStatus.modulate = Color.GREEN
+			%InstallPlugin.disabled = true
+	else:
+		%PluginStatus.text = \"Plugin not installed.\"
+		%PluginStatus.modulate = Color.RED
+		%InstallPlugin.disabled = false
+
+func _on_install_plugin_pressed() -> void:
+	var source_path := Data.get_res_path().path_join(\"addons/ProjectBuilds\")
+	var target_path := Data.project_path.path_join(\"addons/ProjectBuilds\")
+	DirAccess.make_dir_recursive_absolute(target_path)
+	
+	for file in DirAccess.get_files_at(source_path):
+		DirAccess.copy_absolute(source_path.path_join(file), target_path.path_join(file))
+	## TODO: uruchamiać automatycznie (ale jak??)
+	
+	update_plugin_status()
 "
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1o4l0"]
@@ -134,6 +174,7 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -215,13 +256,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 script = SubResource("GDScript_rk2qg")
-
-[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Config"]
-layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Config"]
 layout_mode = 2
@@ -233,97 +269,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="Local" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_type_variation = &"HeaderMedium"
-text = "Local Config"
-horizontal_alignment = 1
-
-[node name="Godot2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
-layout_mode = 2
-title = "Godot"
-folded = true
-
-[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2"]
-layout_mode = 2
-text = "Godot Exec For This Project"
-horizontal_alignment = 1
-
-[node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2" instance=ExtResource("2_ood4h")]
-unique_name_in_owner = true
-layout_mode = 2
-mode = 1
-
-[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot" index="0"]
-placeholder_text = "Leave empty to use global path."
-
-[node name="Epic2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
-auto_translate_mode = 1
-layout_mode = 2
-title = "Epic"
-folded = true
-
-[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
-auto_translate_mode = 1
-layout_mode = 2
-text = "Product ID"
-horizontal_alignment = 1
-
-[node name="EpicProductID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
-unique_name_in_owner = true
-auto_translate_mode = 1
-layout_mode = 2
-
-[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
-auto_translate_mode = 1
-layout_mode = 2
-text = "Artifact ID"
-horizontal_alignment = 1
-
-[node name="EpicArtifactID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
-unique_name_in_owner = true
-auto_translate_mode = 1
-layout_mode = 2
-
-[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2"]
-auto_translate_mode = 1
-layout_mode = 2
-text = "Cloud Directory"
-horizontal_alignment = 1
-
-[node name="EpicCloudDir" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic2" instance=ExtResource("2_ood4h")]
-unique_name_in_owner = true
-auto_translate_mode = 1
-layout_mode = 2
-scope = 1
-
-[node name="Itch2" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
-auto_translate_mode = 1
-layout_mode = 2
-title = "Itch"
-folded = true
-
-[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
-auto_translate_mode = 1
-layout_mode = 2
-text = "Game Name"
-horizontal_alignment = 1
-
-[node name="ItchGameName" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
-auto_translate_mode = 1
-layout_mode = 2
-text = "Default Channel"
-horizontal_alignment = 1
-
-[node name="ItchDefaultChannel" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch2"]
-unique_name_in_owner = true
-auto_translate_mode = 1
-layout_mode = 2
-
 [node name="Global" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
@@ -333,7 +278,6 @@ horizontal_alignment = 1
 [node name="Godot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 layout_mode = 2
 title = "Godot"
-folded = true
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot"]
 layout_mode = 2
@@ -348,7 +292,6 @@ mode = 1
 [node name="Steam" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 layout_mode = 2
 title = "Steam"
-folded = true
 
 [node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2
@@ -393,7 +336,6 @@ secret = true
 auto_translate_mode = 1
 layout_mode = 2
 title = "GOG"
-folded = true
 
 [node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
 auto_translate_mode = 1
@@ -434,7 +376,6 @@ secret = true
 auto_translate_mode = 1
 layout_mode = 2
 title = "Epic"
-folded = true
 
 [node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
 auto_translate_mode = 1
@@ -485,7 +426,6 @@ secret = true
 [node name="Itch" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 layout_mode = 2
 title = "Itch"
-folded = true
 
 [node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
 auto_translate_mode = 1
@@ -510,9 +450,120 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 
-[node name="Control2" type="Control" parent="VBoxContainer/TabContainer/Config"]
+[node name="ScrollContainer2" type="ScrollContainer" parent="VBoxContainer/TabContainer/Config"]
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1o4l0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Local" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Local Config"
+horizontal_alignment = 1
+
+[node name="Godot" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
+layout_mode = 2
+title = "Godot"
+
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot"]
+layout_mode = 2
+text = "Godot Exec For This Project"
+horizontal_alignment = 1
+
+[node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+layout_mode = 2
+mode = 1
+
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot" index="0"]
+placeholder_text = "Leave empty to use global path."
+
+[node name="Epic" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
+auto_translate_mode = 1
+layout_mode = 2
+title = "Epic"
+
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Product ID"
+horizontal_alignment = 1
+
+[node name="EpicProductID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Artifact ID"
+horizontal_alignment = 1
+
+[node name="EpicArtifactID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Cloud Directory"
+horizontal_alignment = 1
+
+[node name="EpicCloudDir" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+scope = 1
+
+[node name="Itch" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
+auto_translate_mode = 1
+layout_mode = 2
+title = "Itch"
+
+[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Game Name"
+horizontal_alignment = 1
+
+[node name="ItchGameName" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Default Channel"
+horizontal_alignment = 1
+
+[node name="ItchDefaultChannel" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="PluginStatus" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Plugin Status"
+horizontal_alignment = 1
+
+[node name="InstallPlugin" type="Button" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Instal Project Builds Plugin"
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
@@ -521,6 +572,7 @@ icon = ExtResource("2_fue2w")
 
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/VBoxContainer/MarginContainer/Button" to="." method="_add_template_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/InstallPlugin" to="VBoxContainer/TabContainer/Config" method="_on_install_plugin_pressed"]
 [connection signal="pressed" from="Button" to="." method="go_back"]
 
-[editable path="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot2/LocalGodot"]
+[editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot"]

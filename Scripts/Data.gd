@@ -20,12 +20,7 @@ var save_local_timer: Timer
 var save_global_timer: Timer
 
 func _init() -> void:
-	var task_path: String
-	if OS.has_feature("editor"):
-		task_path = "res://Tasks"
-	else:
-		task_path = OS.get_executable_path().get_base_dir().path_join("Tasks")
-	
+	var task_path := get_res_path().path_join("Tasks")
 	for task in DirAccess.get_files_at(task_path):
 		if task.get_extension() == "tscn":
 			register_task(task_path.path_join(task))
@@ -122,6 +117,12 @@ func get_godot_path() -> String:
 		return global_config["godot_path"]
 	else:
 		return local_godot
+
+func get_res_path() -> String:
+	if OS.has_feature("editor"):
+		return "res://"
+	else:
+		return OS.get_executable_path().get_base_dir()
 
 func resolve_path(path: String) -> String:
 	if path.is_absolute_path():

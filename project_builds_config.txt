@@ -9,12 +9,20 @@
 "name": "Export",
 "tasks": Array[Dictionary]([{
 "data": {
-"custom_path": "",
 "debug": false,
-"preset": "Windows Desktop"
+"path_suffix": "",
+"preset": "Windows Desktop",
+"template": "Main"
 },
-"scene": "ExportProject"
+"scene": "ExportProjectFromTemplate"
 }])
 }]),
-"templates": Array[Dictionary]([])
+"templates": Array[Dictionary]([{
+"custom_features": PackedStringArray(),
+"exclude_filters": PackedStringArray("Tasks/*", "addons/*"),
+"export_path": "",
+"include_filters": PackedStringArray(),
+"inherit": "",
+"name": "Main"
+}])
 }
