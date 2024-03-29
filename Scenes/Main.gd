@@ -73,6 +73,7 @@ func add_routine(data: Dictionary):
 	routine.set_routine_data(data)
 	routine.connect_execute(exec_routine.bind(data))
 	routine.connect_edit(edit_routine.bind(data))
+	routine.connect_duplicate(duplicate_routine.bind(data))
 
 func exec_routine(data: Dictionary):
 	Data.current_routine = data
@@ -81,6 +82,14 @@ func exec_routine(data: Dictionary):
 func edit_routine(data: Dictionary):
 	Data.current_routine = data
 	get_tree().change_scene_to_file("res://Scenes/RoutineBuilder.tscn")
+
+func duplicate_routine(data: Dictionary):
+	data = data.duplicate(true)
+	data["name"] += " (Copy)"
+	add_routine(data)
+	
+	sync_routines()
+	Data.queue_save_local_config()
 
 func duplicate_template(template: Control):
 	var dup := _add_template_pressed()

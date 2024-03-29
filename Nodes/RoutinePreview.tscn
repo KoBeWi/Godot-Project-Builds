@@ -53,6 +53,9 @@ func connect_execute(target: Callable):
 func connect_edit(target: Callable):
 	%Edit.pressed.connect(target)
 
+func connect_duplicate(target: Callable):
+	%Duplicate.pressed.connect(target)
+
 func delete() -> void:
 	Data.routines.erase(data)
 	Data.queue_save_local_config()
@@ -136,7 +139,8 @@ text = "Edit"
 icon = ExtResource("1_m46hf")
 alignment = 0
 
-[node name="Button" type="Button" parent="VBoxContainer/GridContainer"]
+[node name="Duplicate" type="Button" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Duplicate"

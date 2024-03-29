@@ -3,10 +3,10 @@
 [sub_resource type="GDScript" id="GDScript_boi7e"]
 script/source = "extends Task
 
-@onready var limbo: Node2D = %Limbo ## TODO: nie działa previous task
+@onready var limbo: Node2D = %Limbo
 @onready var sub_routine_list: OptionButton = %SubRoutine
 
-var task_list: Array[Dictionary]
+var task_instances: Array[Task]
 var task_index: int
 var current_task: Task
 
@@ -35,11 +35,34 @@ func _initialize():
 		sub_routine_list.set_item_metadata(-1, rout[\"name\"])
 
 func _prevalidate() -> bool:
-	var result := current_task._prevalidate() ## FIXME: to ma sprawdzać każde
+	if task_instances.is_empty():
+		var routine_name: String = data[\"routine\"]
+		
+		var task_list: Array[Dictionary]
+		for rout in Data.routines:
+			if rout[\"name\"] == routine_name:
+				task_list = rout[\"tasks\"]
+				break
+		
+		if task_list.is_empty():
+			error_message = \"Invalid routine name or no tasks.\"
+			return false
+		
+		for task in task_list:
+			var task_instance := Task.create_instance(task[\"scene\"])
+			limbo.add_child(task_instance)
+			task_instance._initialize()
+			task_instance.load_data(task[\"data\"])
+			task_instances.append(task_instance)
+	
+	current_task = task_instances[task_index]
+	var result := current_task._prevalidate()
 	error_message = current_task.error_message
 	return result
 
 func _validate() -> bool:
+	current_task = task_instances[task_index]
+	
 	var result := current_task._validate()
 	error_message = current_task.error_message
 	return result
@@ -51,29 +74,15 @@ func _get_arguments() -> PackedStringArray:
 	return current_task._get_arguments()
 
 func _prepare() -> void:
-	if task_list.is_empty():
-		var routine_name: String = data[\"routine\"]
-		
-		for rout in Data.routines:
-			if rout[\"name\"] == routine_name:
-				task_list.assign(rout[\"tasks\"])
-				break
-	
-	var task_data := task_list[task_index]
-	current_task = Task.create_instance(task_data[\"scene\"])
-	limbo.add_child(current_task)
-	
-	current_task._initialize()
-	current_task.load_data(task_data[\"data\"])
 	current_task._prepare()
 
 func _cleanup() -> void:
 	current_task._cleanup()
 	task_index += 1
 	
-	if task_index < task_list.size():
+	if task_index < task_instances.size():
 		var next: Task = load(scene_file_path).instantiate()
-		next.task_list = task_list
+		next.task_instances = task_instances
 		next.task_index = task_index
 		
 		get_parent().add_child(next)

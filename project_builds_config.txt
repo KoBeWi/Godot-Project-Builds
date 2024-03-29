@@ -6,11 +6,11 @@
 "itch_default_channel": "",
 "itch_game_name": "",
 "routines": Array[Dictionary]([{
-"name": "Export",
+"name": "Export Windows",
 "tasks": Array[Dictionary]([{
 "data": {
 "debug": false,
-"path_suffix": "",
+"path_suffix": "Windows/Project Builds.exe",
 "preset": "Windows Desktop",
 "template": "Main"
 },
@@ -30,11 +30,49 @@
 },
 "scene": "CopyFiles"
 }])
+}, {
+"name": "Export Linux",
+"tasks": Array[Dictionary]([{
+"data": {
+"debug": false,
+"path_suffix": "Linux/Project Builds.x86_64",
+"preset": "Linux",
+"template": "Main"
+},
+"scene": "ExportProjectFromTemplate"
+}, {
+"data": {
+"recursive": true,
+"source_path": "addons/ProjectBuilds",
+"target_path": ".export/Linux/addons/ProjectBuilds"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "Tasks",
+"target_path": ".export/Linux/Tasks"
+},
+"scene": "CopyFiles"
+}])
+}, {
+"name": "Export All",
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Export Windows"
+},
+"scene": "SubRoutine"
+}, {
+"data": {
+"routine": "Export Linux"
+},
+"scene": "SubRoutine"
+}])
 }]),
 "templates": Array[Dictionary]([{
 "custom_features": PackedStringArray(),
 "exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilds/*"),
-"export_path": "",
+"export_path": ".export",
 "include_filters": PackedStringArray(),
 "inherit": "",
 "name": "Main"

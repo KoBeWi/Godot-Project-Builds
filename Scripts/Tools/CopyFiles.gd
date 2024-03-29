@@ -18,6 +18,11 @@ func _init() -> void:
 	else:
 		error = copy_file(source_path, target_path)
 	
+	if error == OK:
+		print("Copying finished")
+	else:
+		printerr("Copying failed")
+	
 	quit(error)
 
 func copy_folder(source_path: String, target_path: String, recursive: bool) -> int:
