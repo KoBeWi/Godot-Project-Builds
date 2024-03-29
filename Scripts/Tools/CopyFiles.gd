@@ -12,11 +12,14 @@ func _init() -> void:
 	var folder_mode := args[2] != "file"
 	var recursive := args[2].ends_with("recursive")
 	
-	var error := OK
+	var error: int = OK
 	if folder_mode:
 		error = copy_folder(source_path, target_path, recursive)
 	else:
-		error = copy_file(source_path, target_path)
+		if target_path.ends_with("/"):
+			error = copy_file(source_path, target_path.path_join(source_path.get_file()))
+		else:
+			error = copy_file(source_path, target_path)
 	
 	if error == OK:
 		print("Copying finished successfully.")

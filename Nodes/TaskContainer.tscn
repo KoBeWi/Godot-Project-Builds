@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://fktnevmh7mia"]
+[gd_scene load_steps=6 format=3 uid="uid://fktnevmh7mia"]
 
+[ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_0viqh"]
 [ext_resource type="Texture2D" uid="uid://6orgtpcieuls" path="res://Icons/ArrowUp.svg" id="1_efkxy"]
 [ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="1_jiaey"]
 [ext_resource type="Texture2D" uid="uid://bidwkeg0fiqcn" path="res://Icons/ArrowDown.svg" id="2_r8s42"]
@@ -32,9 +33,14 @@ func move_down() -> void:
 
 func erase() -> void:
 	queue_free()
+
+func test_task() -> void:
+	owner.test_task(task)
 "
 
 [node name="TaskContainer" type="PanelContainer"]
+offset_right = 587.0
+offset_bottom = 48.0
 script = SubResource("GDScript_f3a8a")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -42,6 +48,11 @@ layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+icon = ExtResource("1_0viqh")
 
 [node name="TaskName" type="Label" parent="VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
@@ -81,6 +92,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
+[connection signal="pressed" from="VBoxContainer/MarginContainer/Button" to="." method="test_task"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Up" to="." method="move_up"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Down" to="." method="move_down"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Button3" to="." method="erase"]

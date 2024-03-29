@@ -4,6 +4,7 @@ extends Control
 @onready var add_task: MenuButton = %AddTask
 
 var routine: Dictionary
+var task_to_test: Task
 
 func _ready() -> void:
 	routine = Data.get_current_routine()
@@ -25,6 +26,7 @@ func _create_task(idx: int):
 func create_task(scene: String) -> Task:
 	var container := preload("res://Nodes/TaskContainer.tscn").instantiate()
 	task_list.add_child(container)
+	container.owner = self
 	
 	var task: Task = container.set_task_scene(scene)
 	task.owner = self
@@ -34,15 +36,30 @@ func create_task(scene: String) -> Task:
 func _back_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
+func test_task(task: Task):
+	task_to_test = task
+	get_tree().current_scene = null
+	get_parent().remove_child(self)
+
 func _exit_tree() -> void:
 	var routine_tasks: Array[Dictionary]
+	var test_data: Dictionary
 	
 	for task: Task in task_list.get_children().map(func(container: Node) -> Task: return container.task):
 		var task_data := Dictionary()
 		task_data["scene"] = task.scene_file_path.get_file().get_basename()
 		task_data["data"] = task.store_data()
 		routine_tasks.append(task_data)
+		
+		if task == task_to_test:
+			test_data = task_data
 	
 	routine["name"] = %RoutineName.text
 	routine["tasks"] = routine_tasks
 	Data.queue_save_local_config()
+	
+	if task_to_test:
+		Data.current_routine = { "name": "Test", "tasks": [ test_data ]}
+		queue_free()
+		get_tree().change_scene_to_file("res://Scenes/Execution.tscn")
+	

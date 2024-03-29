@@ -30,9 +30,9 @@ func _prevalidate() -> bool:
 		return true
 
 func _validate() -> bool:
-	if DirAccess.make_dir_absolute(source_path.text):
+	if DirAccess.dir_exists_absolute(Data.resolve_path(source_path.text)):
 		directory_mode = true
-	elif FileAccess.file_exists(source_path.text):
+	elif FileAccess.file_exists(Data.resolve_path(source_path.text)):
 		directory_mode = false
 	else:
 		error_message = \"Source path does not point to any file nor directory.\"
