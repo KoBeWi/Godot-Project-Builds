@@ -43,9 +43,9 @@ func _init() -> void:
 	
 	zip.close()
 	if quit_error == OK:
-		print("Packing finished")
+		print("Packing finished successfully!")
 	else:
-		printerr("Packing failed")
+		printerr("Packing failed, check error code.")
 	
 	quit(quit_error)
 

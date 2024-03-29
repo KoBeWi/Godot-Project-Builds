@@ -19,9 +19,9 @@ func _init() -> void:
 		error = copy_file(source_path, target_path)
 	
 	if error == OK:
-		print("Copying finished")
+		print("Copying finished successfully.")
 	else:
-		printerr("Copying failed")
+		printerr("Copying failed, check error code.")
 	
 	quit(error)
 
@@ -41,6 +41,7 @@ func copy_folder(source_path: String, target_path: String, recursive: bool) -> i
 
 func copy_file(from: String, to: String) -> int:
 	if from == to:
+		printerr("Source and target file path are the same.")
 		return ERR_INVALID_PARAMETER
 	
 	var error := DirAccess.make_dir_recursive_absolute(to.get_base_dir())

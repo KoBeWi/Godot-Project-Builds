@@ -35,30 +35,36 @@ func _initialize():
 		sub_routine_list.set_item_metadata(-1, rout[\"name\"])
 
 func _prevalidate() -> bool:
-	if task_instances.is_empty():
-		var routine_name: String = data[\"routine\"]
-		
-		var task_list: Array[Dictionary]
-		for rout in Data.routines:
-			if rout[\"name\"] == routine_name:
-				task_list = rout[\"tasks\"]
-				break
-		
-		if task_list.is_empty():
-			error_message = \"Invalid routine name or no tasks.\"
-			return false
-		
-		for task in task_list:
-			var task_instance := Task.create_instance(task[\"scene\"])
-			limbo.add_child(task_instance)
-			task_instance._initialize()
-			task_instance.load_data(task[\"data\"])
-			task_instances.append(task_instance)
+	if not task_instances.is_empty():
+		return true
 	
-	current_task = task_instances[task_index]
-	var result := current_task._prevalidate()
-	error_message = current_task.error_message
-	return result
+	var routine_name: String = data[\"routine\"]
+	
+	var task_list: Array[Dictionary]
+	for rout in Data.routines:
+		if rout[\"name\"] == routine_name:
+			task_list = rout[\"tasks\"]
+			break
+	
+	if task_list.is_empty():
+		error_message = \"Invalid routine name or no tasks.\"
+		return false
+	
+	for task in task_list:
+		var task_instance := Task.create_instance(task[\"scene\"])
+		limbo.add_child(task_instance)
+		task_instance._initialize()
+		task_instance.load_data(task[\"data\"])
+		task_instances.append(task_instance)
+		
+		var result := task_instance._prevalidate()
+		if not result:
+			current_task = task_instance
+			error_message = task_instance.error_message
+			return false
+	
+	current_task = task_instances.front()
+	return true
 
 func _validate() -> bool:
 	current_task = task_instances[task_index]
