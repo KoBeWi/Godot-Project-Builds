@@ -8,8 +8,7 @@ var quit_error: int
 
 func _init() -> void:
 	## TODO: make dir jak nie ma
-	var args: Array[String]
-	args.assign(OS.get_cmdline_user_args())
+	var args := OS.get_cmdline_user_args()
 	if args.size() < 2:
 		printerr("Not enough arguments. Required 2+ (source, destination, [filters]), received %d" % args.size())
 		quit(ERR_INVALID_PARAMETER)

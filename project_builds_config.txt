@@ -15,6 +15,13 @@
 "template": "Main"
 },
 "scene": "ExportProjectFromTemplate"
+}, {
+"data": {
+"recursive": true,
+"source_path": "addons/ProjectBuilds",
+"target_path": "addons/ProjectBuilds"
+},
+"scene": "CopyFiles"
 }])
 }]),
 "templates": Array[Dictionary]([{

@@ -31,14 +31,15 @@ func _validate() -> bool:
 	return true
 
 func _get_command() -> String:
-	return OS.get_executable_path()##TODO: sprawdzić jak działa przy eksporcie
+	return OS.get_executable_path()
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
 	ret.append(\"--headless\")
 	
-	ret.append(\"--path\")
-	ret.append(ProjectSettings.globalize_path(\"res://\"))
+	if OS.has_feature(\"editor\"):
+		ret.append(\"--path\")
+		ret.append(Data.get_res_path())
 	
 	ret.append(\"--script\")
 	ret.append(\"res://Scripts/Tools/PackZIP.gd\")

@@ -120,7 +120,7 @@ func get_godot_path() -> String:
 
 func get_res_path() -> String:
 	if OS.has_feature("editor"):
-		return "res://"
+		return ProjectSettings.globalize_path("res://")
 	else:
 		return OS.get_executable_path().get_base_dir()
 

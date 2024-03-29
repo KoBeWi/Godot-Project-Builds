@@ -1,0 +1,126 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfxyekjccdafx"]
+
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_nbxxd"]
+
+[sub_resource type="GDScript" id="GDScript_6ruue"]
+script/source = "extends Task
+
+@onready var source_path: Control = %SourcePath
+@onready var target_path: Control = %TargetPath
+@onready var recursive: CheckBox = %Recursive
+
+var directory_mode: bool
+
+func _get_task_name() -> String:
+	return \"Copy File(s)\"
+
+func _get_execute_string() -> String:
+	return \"Copy %s to %s\"
+
+func _initialize() -> void:
+	defaults[\"source_path\"] = \"\"
+	defaults[\"target_path\"] = \"\"
+	defaults[\"recursive\"] = true
+
+func _validate() -> bool:
+	if DirAccess.make_dir_absolute(source_path.text):
+		directory_mode = true
+	elif FileAccess.file_exists(source_path.text):
+		directory_mode = false
+	else:
+		error_message = \"Source path does not point to any file nor directory.\"
+	
+	if source_path.text == target_path.text:
+		error_message = \"Source and target paths are the same.\"
+	
+	return error_message.is_empty()
+
+func _get_command() -> String:
+	return OS.get_executable_path()##TODO: sprawdzić jak działa przy eksporcie
+
+func _get_arguments() -> PackedStringArray:
+	var ret: PackedStringArray
+	ret.append(\"--headless\")
+	
+	if OS.has_feature(\"editor\"):
+		ret.append(\"--path\")
+		ret.append(Data.get_res_path())
+	
+	ret.append(\"--script\")
+	ret.append(\"res://Scripts/Tools/CopyFiles.gd\")
+	
+	ret.append(\"--\")
+	
+	ret.append(Data.resolve_path(source_path.text))
+	ret.append(Data.resolve_path(target_path.text))
+	if directory_mode:
+		if recursive:
+			ret.append(\"dir_recursive\")
+		else:
+			ret.append(\"dir\")
+	else:
+		ret.append(\"file\")
+	
+	return ret
+
+func _load() -> void:
+	source_path.text = data[\"source_path\"]
+	source_path.text = data[\"target_path\"]
+	recursive.button_pressed = data[\"recursive\"]
+
+func _store() -> void:
+	data[\"source_path\"] = source_path.text
+	data[\"target_path\"] = source_path.text
+	data[\"recursive\"] = recursive.button_pressed
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Task description\",
+		\"Argument Name|Description\",
+	]
+"
+
+[node name="CopyFiles" type="GridContainer"]
+offset_right = 400.0
+offset_bottom = 101.0
+columns = 2
+script = SubResource("GDScript_6ruue")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Source Path"
+
+[node name="SourcePath" parent="." instance=ExtResource("1_nbxxd")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mode = 3
+scope = 1
+
+[node name="Label2" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Target Path"
+
+[node name="TargetPath" parent="." instance=ExtResource("1_nbxxd")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+mode = 3
+scope = 1
+
+[node name="Label3" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Recursive"
+
+[node name="Recursive" type="CheckBox" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "Recursive"

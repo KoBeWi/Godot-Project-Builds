@@ -5,7 +5,7 @@
 [sub_resource type="GDScript" id="GDScript_af0jw"]
 script/source = "extends HBoxContainer
 
-enum Mode { SELECT_FOLDER, OPEN_FILE, SAVE_FILE }
+enum Mode { SELECT_FOLDER, OPEN_FILE, SAVE_FILE, SELECT_WHATEVER }
 enum Scope {GLOBAL, PROJECT }
 
 @onready var line_edit: LineEdit = $LineEdit
@@ -32,6 +32,8 @@ func _ready() -> void:
 			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 		Mode.SAVE_FILE:
 			file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+		Mode.SELECT_WHATEVER:
+			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_ANY
 	
 	if scope == Scope.PROJECT:
 		file_dialog.current_dir = Data.project_path
