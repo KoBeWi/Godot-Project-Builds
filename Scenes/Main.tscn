@@ -174,7 +174,6 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -256,7 +255,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
+theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Config"]
@@ -311,7 +312,6 @@ horizontal_alignment = 1
 [node name="SteamOutput" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
-mode = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2

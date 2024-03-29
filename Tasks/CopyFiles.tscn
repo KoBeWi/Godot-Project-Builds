@@ -15,7 +15,7 @@ func _get_task_name() -> String:
 	return \"Copy File(s)\"
 
 func _get_execute_string() -> String:
-	return \"Copy %s to %s\"
+	return \"Copy %s to %s\" % [source_path.text, target_path.text]
 
 func _initialize() -> void:
 	defaults[\"source_path\"] = \"\"
@@ -36,7 +36,7 @@ func _validate() -> bool:
 	return error_message.is_empty()
 
 func _get_command() -> String:
-	return OS.get_executable_path()##TODO: sprawdzić jak działa przy eksporcie
+	return OS.get_executable_path()
 
 func _get_arguments() -> PackedStringArray:
 	var ret: PackedStringArray
@@ -65,12 +65,12 @@ func _get_arguments() -> PackedStringArray:
 
 func _load() -> void:
 	source_path.text = data[\"source_path\"]
-	source_path.text = data[\"target_path\"]
+	target_path.text = data[\"target_path\"]
 	recursive.button_pressed = data[\"recursive\"]
 
 func _store() -> void:
 	data[\"source_path\"] = source_path.text
-	data[\"target_path\"] = source_path.text
+	data[\"target_path\"] = target_path.text
 	data[\"recursive\"] = recursive.button_pressed
 
 func _get_task_info() -> PackedStringArray:

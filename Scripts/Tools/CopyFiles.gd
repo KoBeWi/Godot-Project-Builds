@@ -12,18 +12,27 @@ func _init() -> void:
 	var folder_mode := args[2] != "file"
 	var recursive := args[2].ends_with("recursive")
 	
+	var error := OK
 	if folder_mode:
-		copy_folder(source_path, target_path, recursive)
+		error = copy_folder(source_path, target_path, recursive)
 	else:
-		copy_file(source_path, target_path)
+		error = copy_file(source_path, target_path)
+	
+	quit(error)
 
-func copy_folder(source_path: String, target_path: String, recursive: bool):
+func copy_folder(source_path: String, target_path: String, recursive: bool) -> int:
 	for file in DirAccess.get_files_at(source_path):
-		copy_file(source_path.path_join(file), target_path.path_join(file))
+		var error := copy_file(source_path.path_join(file), target_path.path_join(file))
+		if error != OK:
+			return error
 	
 	if recursive:
 		for dir in DirAccess.get_directories_at(source_path):
-			copy_folder(source_path.path_join(dir), target_path.path_join(dir), true)
+			var error := copy_folder(source_path.path_join(dir), target_path.path_join(dir), true)
+			if error != OK:
+				return error
+	
+	return OK
 
 func copy_file(from: String, to: String) -> int:
 	if from == to:

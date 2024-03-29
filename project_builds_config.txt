@@ -19,14 +19,21 @@
 "data": {
 "recursive": true,
 "source_path": "addons/ProjectBuilds",
-"target_path": "addons/ProjectBuilds"
+"target_path": ".export/Windows/addons/ProjectBuilds"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "Tasks",
+"target_path": ".export/Windows/Tasks"
 },
 "scene": "CopyFiles"
 }])
 }]),
 "templates": Array[Dictionary]([{
 "custom_features": PackedStringArray(),
-"exclude_filters": PackedStringArray("Tasks/*", "addons/*"),
+"exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilds/*"),
 "export_path": "",
 "include_filters": PackedStringArray(),
 "inherit": "",
