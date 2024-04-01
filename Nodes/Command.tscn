@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b6hrktoise2ji"]
+[gd_scene load_steps=21 format=3 uid="uid://b6hrktoise2ji"]
 
 [ext_resource type="Script" path="res://Nodes/Command.gd" id="1_l0kiu"]
 [ext_resource type="Texture2D" uid="uid://dno0spmwh4kov" path="res://Nodes/Hourglass.png" id="2_qna3k"]
@@ -116,6 +116,23 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmsdb"]
+bg_color = Color(0, 0, 0, 0.12549)
+
+[sub_resource type="GDScript" id="GDScript_jmu3s"]
+script/source = "extends RichTextLabel
+
+@export var maximum_height: float
+
+func _ready() -> void:
+	minimum_size_changed.connect(on_minimum_size_changed)
+
+func on_minimum_size_changed():
+	if get_minimum_size().y > 300:
+		custom_minimum_size.y = 300
+		fit_content = false
+"
+
 [node name="Command" type="PanelContainer"]
 offset_right = 1000.0
 offset_bottom = 26.0
@@ -197,22 +214,29 @@ layout_mode = 2
 
 [node name="Output" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="ExpandButton" type="Button" parent="MarginContainer/VBoxContainer/Output"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Expand %d lines"
+text = "Hide Output"
 
-[node name="OutputLabel" type="TextEdit" parent="MarginContainer/VBoxContainer/Output"]
+[node name="OutputLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Output"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
-editable = false
-scroll_fit_content_height = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmsdb")
+fit_content = true
+scroll_following = true
+autowrap_mode = 2
+threaded = true
+progress_bar_delay = -1
+selection_enabled = true
+script = SubResource("GDScript_jmu3s")
+maximum_height = 600.0
 
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TaskText" to="." method="_on_command_gui_input"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Command" to="." method="_on_command_gui_input"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Output/ExpandButton" to="." method="expand_output"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Output/ExpandButton" to="." method="toggle_output"]
