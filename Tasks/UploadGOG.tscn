@@ -10,9 +10,6 @@ script/source = "extends Task
 
 static var json_list: PackedStringArray
 
-func _init() -> void:
-	has_static_configuration = true
-
 func _get_task_name() -> String:
 	return \"Upload GOG\"
 
@@ -112,6 +109,7 @@ func get_json_path() -> String:
 offset_right = 415.0
 offset_bottom = 23.0
 script = SubResource("GDScript_a0t4t")
+has_static_configuration = true
 
 [node name="Control" type="Control" parent="."]
 auto_translate_mode = 1

@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://baipfhiy5un08"]
+
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_63381"]
+
+[sub_resource type="GDScript" id="GDScript_getv1"]
+script/source = "extends \"res://Tasks/ScriptTask.gd\"
+
+@onready var target_directory: HBoxContainer = %TargetDirectory
+
+func _get_task_name() -> String:
+	return \"Clear Directory Files\"
+
+func _get_execute_string() -> String:
+	return \"Clear Files at %s\"
+
+func _initialize() -> void:
+	defaults[\"target_directory\"] = \"\"
+
+func _validate() -> bool:
+	if not DirAccess.dir_exists_absolute(Data.resolve_path(target_directory.text)):
+		error_message = \"Target directory does not exist.\"
+		return false
+	
+	return true
+
+func _get_command() -> String:
+	return OS.get_executable_path()
+
+func _get_arguments() -> PackedStringArray:
+	var ret := super()
+	
+	ret.append(Data.resolve_path(target_directory.text))
+	
+	return ret
+
+func _load() -> void:
+	target_directory.text = data[\"target_directory\"]
+
+func _store() -> void:
+	data[\"target_directory\"] = target_directory.text
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Task description\",
+		\"Argument Name|Description\",
+	]
+"
+
+[node name="ClearDirectory" type="GridContainer"]
+offset_right = 339.0
+offset_bottom = 31.0
+columns = 2
+script = SubResource("GDScript_getv1")
+script_name = "ClearDirectory.gd"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Target Directory"
+
+[node name="TargetDirectory" parent="." instance=ExtResource("1_63381")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+scope = 1

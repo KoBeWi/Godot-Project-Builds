@@ -45,6 +45,7 @@ window/subwindows/embed_subwindows=false
 [editor]
 
 script/search_in_file_extensions=PackedStringArray("gd", "gdshader", "tscn")
+script/templates_search_path="res://Scripts/Templates"
 
 [editor_plugins]
 

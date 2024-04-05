@@ -7,9 +7,6 @@ script/source = "extends Task
 
 static var vdf_list: PackedStringArray
 
-func _init() -> void:
-	has_static_configuration = true
-
 func _get_task_name() -> String:
 	return \"Upload Steam\"
 
@@ -101,6 +98,7 @@ func get_vdf_path() -> String:
 offset_right = 522.0
 offset_bottom = 23.0
 script = SubResource("GDScript_ftiq7")
+has_static_configuration = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2

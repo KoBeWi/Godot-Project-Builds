@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_smuq5"]
 
 [sub_resource type="GDScript" id="GDScript_ess8h"]
-script/source = "extends Task
+script/source = "extends \"res://Tasks/ScriptTask.gd\"
 
 @onready var source_directory: Control = %SourceDirectory
 @onready var target_path: Control = %TargetPath
@@ -34,17 +34,7 @@ func _get_command() -> String:
 	return OS.get_executable_path()
 
 func _get_arguments() -> PackedStringArray:
-	var ret: PackedStringArray
-	ret.append(\"--headless\")
-	
-	if OS.has_feature(\"editor\"):
-		ret.append(\"--path\")
-		ret.append(Data.get_res_path())
-	
-	ret.append(\"--script\")
-	ret.append(\"res://Scripts/Tools/PackZIP.gd\")
-	
-	ret.append(\"--\")
+	var ret := super()
 	
 	ret.append(Data.resolve_path(source_directory.text))
 	ret.append(Data.resolve_path(target_path.text))
@@ -84,6 +74,7 @@ func _get_task_info() -> PackedStringArray:
 offset_right = 734.0
 offset_bottom = 101.0
 script = SubResource("GDScript_ess8h")
+script_name = "PackZIP.gd"
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2

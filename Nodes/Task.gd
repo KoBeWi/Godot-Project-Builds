@@ -1,8 +1,8 @@
 extends Control
 class_name Task
 
-## If [code]true[/code], the script will receive [method _initialize_project] and [method _process_file] calls when a project is opened. Set this inside [method Object._init].
-var has_static_configuration: bool
+## If [code]true[/code], the script will receive [method _initialize_project] and [method _process_file] calls when a project is opened.
+@export var has_static_configuration: bool
 
 ## Default values for data properties. Set them inside [method _initialize].
 var defaults: Dictionary#[String, Variant]
