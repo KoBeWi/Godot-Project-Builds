@@ -1,4 +1,4 @@
-extends SceneTree
+extends "res://Scripts/Tools/ScriptTask.gd"
 
 var root_path: String
 var include_filters: PackedStringArray
@@ -7,19 +7,18 @@ var exclude_filters: PackedStringArray
 var quit_error: int
 
 func _init() -> void:
-	## TODO: make dir jak nie ma
-	var args := OS.get_cmdline_user_args()
-	if args.size() < 2:
-		printerr("Not enough arguments. Required 2+ (source, destination, [filters]), received %d" % args.size())
-		quit(ERR_INVALID_PARAMETER)
+	add_expected_argument("source", "Source folder with files.")
+	add_expected_argument("destination", "Destination file path.")
+	add_variadic_argument("filters", "List of filters.")
+	
+	if not fetch_arguments():
 		return
 	
-	root_path = args[0]
-	var target_path := args[1]
+	root_path = arguments["source"]
+	var target_path: String = arguments["destination"]
 	
 	var mode := 0
-	for i in range(2, args.size()):
-		var arg := args[i]
+	for arg: String in arguments["filters"]:
 		if arg == "--include":
 			mode = 1
 		elif arg == "--exclude":

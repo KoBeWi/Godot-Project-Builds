@@ -1,16 +1,17 @@
-extends SceneTree
+extends "res://Scripts/Tools/ScriptTask.gd"
 
 func _init() -> void:
-	var args := OS.get_cmdline_user_args()
-	if args.size() < 3:
-		printerr("Not enough arguments. Required 3 (source, destination, mode), received %d" % args.size())
-		quit(ERR_INVALID_PARAMETER)
+	add_expected_argument("source", "Source directory for files.")
+	add_expected_argument("destination", "Destination directory for files.")
+	add_expected_argument("mode", "Either \"file\", \"dir\" or \"dir_recursive\".")
+	
+	if not fetch_arguments():
 		return
 	
-	var source_path := args[0]
-	var target_path := args[1]
-	var folder_mode := args[2] != "file"
-	var recursive := args[2].ends_with("recursive")
+	var source_path: String = arguments["source"]
+	var target_path: String = arguments["destination"]
+	var folder_mode: bool = arguments["mode"] != "file"
+	var recursive: bool = arguments["mode"].ends_with("recursive")
 	
 	var error: int = OK
 	if folder_mode:
