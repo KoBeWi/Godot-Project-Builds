@@ -9,17 +9,19 @@ var arguments: PackedStringArray
 var raw_text: String
 var error: String
 
+var log_file: FileAccess
 var program: ProgramInstance
-var output: Array
-var output_lines: Array[String]
 
 var timer: float
+var finish_code: int
 
 signal success
 signal fail
 
 func _ready() -> void:
 	%TaskText.text = task_text
+	
+	log_file.store_line("--- " + task_text + " ---\n")
 	
 	if not error.is_empty():
 		%Status.text = "Invalid"
@@ -41,6 +43,8 @@ func _ready() -> void:
 	program.start()
 
 func output_line(line: String, is_error: bool):
+	log_file.store_line(line)
+	
 	if is_error:
 		output_label.push_color(Color.RED)
 	
@@ -75,6 +79,7 @@ func _process(delta: float) -> void:
 		fail.emit()
 	
 	%Code.text = str(program.result)
+	finish_code = program.result
 
 func _on_command_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -90,8 +95,10 @@ class ProgramInstance:
 	var pid: int
 	var stdio: FileAccess
 	var stderr: FileAccess
+	var finish_mutext: Mutex
 	
 	var is_running: bool
+	var finalized: bool
 	var result: int
 	var io_thread: Thread
 	var err_thread: Thread
@@ -106,38 +113,49 @@ class ProgramInstance:
 		instance.pid = data["pid"]
 		instance.stdio = data["stdio"]
 		instance.stderr = data["stderr"]
+		instance.finish_mutext = Mutex.new()
 		instance.is_running = true
 		
 		return instance
 	
 	func start():
 		io_thread = Thread.new()
-		io_thread.start(stdio_read)
+		io_thread.start(pipe_read.bind(stdio))
 		
 		err_thread = Thread.new()
-		err_thread.start(stderr_read)
+		err_thread.start(pipe_read.bind(stderr))
 	
-	func stdio_read():
+	func pipe_read(pipe: FileAccess):
+		var is_err := pipe == stderr
+		var buffer_empty: bool
+		
 		while is_running:
-			if stdio.get_error() != OK or not OS.is_process_running(pid):
+			if pipe.get_error() != OK or not OS.is_process_running(pid):
 				break
 			
-			var line := stdio.get_line()
-			output_line.emit.call_deferred(line, false)
-		
-		if not err_thread.is_alive():
-			is_running = false
-	
-	func stderr_read():
-		while is_running:
-			if stderr.get_error() != OK or not OS.is_process_running(pid):
-				break
+			if buffer_empty:
+				output_line.emit.call_deferred("", is_err)
+			buffer_empty = false
 			
-			var line := stderr.get_line()
-			output_line.emit.call_deferred(line, true)
+			var line := pipe.get_line()
+			if line.is_empty():
+				buffer_empty = true
+			else:
+				output_line.emit.call_deferred(line, is_err)
 		
-		if not io_thread.is_alive():
+		finish_mutext.lock()
+		OS.delay_usec(1) # Prevents deadlock??
+		
+		var other: Thread
+		if is_err:
+			other = io_thread
+		else:
+			other = err_thread
+		
+		if not other.is_alive():
 			is_running = false
+		
+		finish_mutext.unlock()
 	
 	func stop():
 		if not is_running:
@@ -149,8 +167,12 @@ class ProgramInstance:
 		stderr.close()
 	
 	func finalize():
+		if not finalized:
+			return
+		
 		io_thread.wait_to_finish()
 		err_thread.wait_to_finish()
+		finalized = true
 
 func toggle_output() -> void:
 	output_label.visible = not output_label.visible

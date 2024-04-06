@@ -8,14 +8,9 @@ var current_task_index: int
 var current_task: Task
 var task_error: String
 
-var output_thread: Thread
-var output_end: bool
+var log_file: FileAccess
 
 func _ready() -> void:
-	#FileAccess.open("res://log.txt", FileAccess.WRITE)
-	#output_thread = Thread.new()
-	#output_thread.start(output_process)
-	
 	var errors: PackedStringArray
 	
 	var routine := Data.get_current_routine()
@@ -43,15 +38,29 @@ func _ready() -> void:
 		finish()
 		return
 	
+	DirAccess.make_dir_recursive_absolute("user://BuildLogs")
+	var logs: Array[String]
+	logs.assign(DirAccess.get_files_at("user://BuildLogs"))
+	if logs.size() >= 10:
+		logs.sort_custom(func(log1: String, log2: String):
+			return FileAccess.get_modified_time("user://BuildLogs".path_join(log1)))
+		
+		for logg in logs.slice(9):
+			DirAccess.remove_absolute("user://BuildLogs".path_join(logg))
+	
+	var filename := "user://" + ("BuildLogs/Log-%s.log" % Time.get_datetime_string_from_system()).replace(":", "-")
+	log_file = FileAccess.open(filename, FileAccess.WRITE)
 	next_command()
 
 func next_command():
 	if current_task_index == task_limbo.get_child_count():
 		finish()
 		return
+	log_file.store_line("")
 	
 	current_task = task_limbo.get_child(current_task_index)
 	var command := preload("res://Nodes/Command.tscn").instantiate()
+	command.log_file = log_file
 	
 	if current_task._validate():
 		current_task._prepare()
@@ -70,6 +79,12 @@ func next_command():
 
 func on_success():
 	current_task._cleanup()
+	
+	var command := commands_container.get_child(-1)
+	var intime: int = command.timer
+	log_file.store_line("\n> Finished with code %d, time: %02d:%02d:%02d." % [command.finish_code, intime / 3600, intime / 60 % 60, intime % 60])
+	log_file.flush()
+	
 	next_command()
 
 func finish():
@@ -82,14 +97,6 @@ func finish():
 	var intime := int(total_time)
 	%Time.text %= [intime / 3600, intime / 60 % 60, intime % 60]
 	%Time.show()
-
-#func output_process():
-	#var output_file := FileAccess.open("res://log.txt", FileAccess.READ)
-	#
-	#while not output_end:
-		#print(output_file.get_line())
-		#
-		#OS.delay_msec(1)
 
 func go_back() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
