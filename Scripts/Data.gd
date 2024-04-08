@@ -95,8 +95,15 @@ func register_task(scene: String):
 	tasks[scene_base] = data
 
 func create_routine() -> Dictionary:
+	var routine_name := "New Routine"
+	var tries := 1
+	
+	while routines.any(func(routine: Dictionary) -> bool: return routine["name"] == routine_name):
+		tries += 1
+		routine_name = "New Routine %d" % tries
+	
 	var routine := Dictionary()
-	routine["name"] = "New Routine"
+	routine["name"] = routine_name
 	routine["tasks"] = []
 	routines.append(routine)
 	return routine

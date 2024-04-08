@@ -16,7 +16,8 @@ metadata/_edit_lock_ = true
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="HBoxContainer2"]
+[node name="Back" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Back"
 icon = ExtResource("2_0gvmh")
@@ -70,5 +71,6 @@ size_flags_horizontal = 4
 text = "Paste Task"
 icon = ExtResource("3_c5oe2")
 
-[connection signal="pressed" from="HBoxContainer2/Button" to="." method="_back_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Back" to="." method="_back_pressed"]
+[connection signal="text_changed" from="HBoxContainer2/HBoxContainer/RoutineName" to="." method="validate_routine_name" unbinds=1]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/HBoxContainer/PasteTask" to="." method="paste_task"]

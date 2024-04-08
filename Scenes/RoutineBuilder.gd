@@ -20,6 +20,7 @@ func _ready() -> void:
 	
 	add_task.get_popup().index_pressed.connect(_create_task)
 	update_paste()
+	validate_routine_name()
 
 func _create_task(idx: int):
 	create_task(add_task.get_popup().get_item_metadata(idx))
@@ -75,3 +76,19 @@ func paste_task() -> void:
 
 func update_paste():
 	%PasteTask.disabled = Data.copied_task.is_empty()
+
+func validate_routine_name():
+	var valid := true
+	for rout in Data.routines:
+		if rout != routine and rout["name"] == %RoutineName.text:
+			valid = false
+			break
+	
+	if valid:
+		get_tree().auto_accept_quit = true
+		%RoutineName.modulate = Color.WHITE
+		%Back.disabled = false
+	else:
+		get_tree().auto_accept_quit = false
+		%RoutineName.modulate = Color.RED
+		%Back.disabled = true
