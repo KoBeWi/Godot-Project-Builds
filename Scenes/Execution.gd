@@ -1,5 +1,6 @@
 extends Control
 
+
 @onready var task_limbo: Node2D = %TaskLimbo
 @onready var commands_container: VBoxContainer = %CommandsContainer
 @onready var error_container: Control = %Errors
@@ -28,6 +29,7 @@ func _ready() -> void:
 	
 	if not errors.is_empty():
 		%ErrorsParent.show()
+		%Delay.hide()
 		
 		for error in errors:
 			var label := Label.new()
@@ -37,6 +39,9 @@ func _ready() -> void:
 		
 		finish()
 		return
+	
+	await get_tree().create_timer(1).timeout
+	%Delay.hide()
 	
 	DirAccess.make_dir_recursive_absolute("user://BuildLogs")
 	var logs: Array[String]

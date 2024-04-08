@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqm1wdopgkdkp"]
+[gd_scene load_steps=5 format=3 uid="uid://dqm1wdopgkdkp"]
 
 [ext_resource type="Script" path="res://Scenes/Execution.gd" id="1_rwjih"]
+[ext_resource type="Shortcut" path="res://Nodes/GUI/ExitShortcut.tres" id="2_qbdqm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6oq72"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsvn6"]
 content_margin_left = 8.0
@@ -21,6 +24,18 @@ script = ExtResource("1_rwjih")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Delay" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Starting in 1 seconds.
+Press Escape to cancel."
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer/Delay"]
+layout_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6oq72")
+shortcut = ExtResource("2_qbdqm")
 
 [node name="ErrorsParent" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -57,10 +72,12 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+shortcut = ExtResource("2_qbdqm")
 text = "< Back"
 
 [node name="TaskLimbo" type="Node2D" parent="."]
 unique_name_in_owner = true
 visible = false
 
+[connection signal="pressed" from="VBoxContainer/Delay/Button" to="." method="go_back"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="go_back"]

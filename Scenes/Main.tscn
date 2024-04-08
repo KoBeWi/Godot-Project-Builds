@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=11 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_r1xkq"]
 [ext_resource type="PackedScene" uid="uid://dwmijfw6b7ngj" path="res://Nodes/GUI/FoldableContainer.tscn" id="2_12ltr"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_ood4h"]
+[ext_resource type="Shortcut" path="res://Nodes/GUI/ExitShortcut.tres" id="4_bgxb8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x81aq"]
 bg_color = Color(0, 0, 0, 0.12549)
@@ -567,6 +568,7 @@ text = "Instal Project Builds Plugin"
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
+shortcut = ExtResource("4_bgxb8")
 text = "Back"
 icon = ExtResource("2_fue2w")
 

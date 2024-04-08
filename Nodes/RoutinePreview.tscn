@@ -34,7 +34,7 @@ func set_routine_data(d: Dictionary):
 	data = d
 	%Name.text = data[\"name\"]
 	if data[\"tasks\"].is_empty():
-		%TaskList.text = \"No Takss\"
+		%TaskList.text = \"No Tasks\"
 		%Execute.disabled = true
 		return
 	

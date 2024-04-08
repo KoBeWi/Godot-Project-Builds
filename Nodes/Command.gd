@@ -167,7 +167,7 @@ class ProgramInstance:
 		stderr.close()
 	
 	func finalize():
-		if not finalized:
+		if finalized:
 			return
 		
 		io_thread.wait_to_finish()
