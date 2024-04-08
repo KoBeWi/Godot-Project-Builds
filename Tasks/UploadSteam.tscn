@@ -99,6 +99,7 @@ offset_right = 522.0
 offset_bottom = 23.0
 script = SubResource("GDScript_ftiq7")
 has_static_configuration = true
+has_sensitive_data = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2

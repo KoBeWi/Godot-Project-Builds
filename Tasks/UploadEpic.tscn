@@ -97,6 +97,7 @@ offset_right = 422.0
 offset_bottom = 101.0
 columns = 2
 script = SubResource("GDScript_qbsc0")
+has_sensitive_data = true
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2

@@ -6,6 +6,8 @@ extends Control
 var task_text: String
 var command: String
 var arguments: PackedStringArray
+var sensitive_strings: PackedStringArray
+
 var raw_text: String
 var error: String
 
@@ -35,7 +37,13 @@ func _ready() -> void:
 		return
 	
 	raw_text = command + " " + " ".join(arguments)
-	%Command.text = raw_text.replace(Data.global_config["steam_password"], "*password*") ## TODO: nie hardkodować
+	if sensitive_strings.is_empty():
+		%Command.text = raw_text
+	else:
+		var command_text := raw_text
+		for string in sensitive_strings:
+			command_text = command_text.replace(string, "*".repeat(string.length()))
+		%Command.text = command_text
 	
 	var pipe_data := OS.execute_with_pipe(command, arguments)
 	program = ProgramInstance.create_for_pipe(pipe_data)

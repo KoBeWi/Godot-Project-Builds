@@ -4,6 +4,9 @@ class_name Task
 ## If [code]true[/code], the script will receive [method _initialize_project] and [method _process_file] calls when a project is opened.
 @export var has_static_configuration: bool
 
+## Set [code]true[/code] when the task is using any sensitive setting, like passwords.
+@export var has_sensitive_data: bool
+
 ## Default values for data properties. Set them inside [method _initialize].
 var defaults: Dictionary#[String, Variant]
 ## The actual data values. Use [method _load] and [method _store] for serializing it.

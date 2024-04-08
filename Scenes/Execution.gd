@@ -9,6 +9,7 @@ var current_task_index: int
 var current_task: Task
 var task_error: String
 
+var sensitive_strings: PackedStringArray
 var log_file: FileAccess
 
 func _ready() -> void:
@@ -53,6 +54,14 @@ func _ready() -> void:
 		for logg in logs.slice(9):
 			DirAccess.remove_absolute("user://BuildLogs".path_join(logg))
 	
+	for setting in Data.sensitive_settings:
+		var string: String = Data.global_config.get(setting, "")
+		if string.is_empty():
+			string = Data.local_config.get(setting, "")
+		
+		if not string.is_empty():
+			sensitive_strings.append(string)
+	
 	var filename := "user://" + ("BuildLogs/Log-%s.log" % Time.get_datetime_string_from_system()).replace(":", "-")
 	log_file = FileAccess.open(filename, FileAccess.WRITE)
 	next_command()
@@ -75,6 +84,8 @@ func next_command():
 	command.task_text = current_task._get_execute_string()
 	command.command = current_task._get_command()
 	command.arguments = current_task._get_arguments()
+	if current_task.has_sensitive_data:
+		command.sensitive_strings = sensitive_strings
 	
 	command.success.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 	command.fail.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED) ## TODO inny

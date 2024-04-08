@@ -9,6 +9,7 @@ var project_path: String
 
 var first_load: bool
 var static_initialize_tasks: Array[Script]
+var sensitive_settings: Array[String]
 
 var tasks: Dictionary#[String, Dictionary]
 var routines: Array[Dictionary]

@@ -110,6 +110,7 @@ offset_right = 415.0
 offset_bottom = 23.0
 script = SubResource("GDScript_a0t4t")
 has_static_configuration = true
+has_sensitive_data = true
 
 [node name="Control" type="Control" parent="."]
 auto_translate_mode = 1
