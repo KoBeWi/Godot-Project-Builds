@@ -6,13 +6,15 @@
 script/source = "extends HBoxContainer
 
 enum Mode { SELECT_FOLDER, OPEN_FILE, SAVE_FILE, SELECT_WHATEVER }
-enum Scope {GLOBAL, PROJECT }
+enum Scope { GLOBAL, PROJECT }
+enum MissingMode { IGNORE, WARN, ERROR }
 
 @onready var line_edit: LineEdit = $LineEdit
 @onready var file_dialog: FileDialog = $FileDialog
 
 @export var mode: Mode
 @export var scope: Scope
+@export var missing_mode: MissingMode
 @export var filters: PackedStringArray
 
 signal path_changed
@@ -20,6 +22,7 @@ signal path_changed
 var text: String:
 	set(t):
 		line_edit.text = t
+		validate()
 	get:
 		return line_edit.text
 
@@ -39,6 +42,7 @@ func _ready() -> void:
 		file_dialog.current_dir = Data.project_path
 	
 	file_dialog.filters = filters
+	validate()
 
 func open_dialog() -> void:
 	file_dialog.popup_centered_ratio(0.5)
@@ -50,6 +54,34 @@ func _path_selected(path: String) -> void:
 		text = path
 	
 	path_changed.emit()
+
+func validate():
+	if missing_mode == MissingMode.IGNORE:
+		return
+	
+	var path := line_edit.text
+	if scope == Scope.PROJECT:
+		path = Data.project_path.path_join(path)
+	
+	var valid: bool
+	if not line_edit.text.is_empty():
+		match mode:
+			Mode.OPEN_FILE:
+				valid = FileAccess.file_exists(path)
+			Mode.SELECT_FOLDER:
+				valid = DirAccess.dir_exists_absolute(path)
+			Mode.SELECT_WHATEVER:
+				valid = FileAccess.file_exists(path) or DirAccess.dir_exists_absolute(path)
+	
+	if valid:
+		modulate = Color.WHITE
+		return
+	
+	match missing_mode:
+		MissingMode.WARN:
+			modulate = Color.YELLOW
+		MissingMode.ERROR:
+			modulate = Color.RED
 "
 
 [node name="DirectorySelector" type="HBoxContainer"]
@@ -71,6 +103,7 @@ ok_button_text = "Open"
 file_mode = 0
 access = 2
 
+[connection signal="text_changed" from="LineEdit" to="." method="validate" unbinds=1]
 [connection signal="pressed" from="Button" to="." method="open_dialog"]
 [connection signal="dir_selected" from="FileDialog" to="." method="_path_selected"]
 [connection signal="file_selected" from="FileDialog" to="." method="_path_selected"]

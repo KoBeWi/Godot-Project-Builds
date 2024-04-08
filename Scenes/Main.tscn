@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dwmijfw6b7ngj" path="res://Nodes/GUI/FoldableContainer.tscn" id="2_12ltr"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_ood4h"]
-[ext_resource type="Shortcut" path="res://Nodes/GUI/ExitShortcut.tres" id="4_bgxb8"]
+[ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="4_bgxb8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x81aq"]
 bg_color = Color(0, 0, 0, 0.12549)
@@ -32,7 +32,6 @@ func _ready() -> void:
 	register_global_setting(%GlobalGodot, \"godot_path\", OS.get_executable_path())
 	
 	register_global_setting(%SteamCMD, \"steam_cmd_path\", \"\")
-	register_global_setting(%SteamOutput, \"steam_output\", \"\")
 	register_global_setting(%SteamUsername, \"steam_username\", \"\")
 	register_global_setting(%SteamPassword, \"steam_password\", \"\")
 	
@@ -290,6 +289,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 mode = 1
+missing_mode = 2
 
 [node name="Steam" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 layout_mode = 2
@@ -304,15 +304,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 mode = 1
-
-[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
-layout_mode = 2
-text = "Steam CMD Output Folder"
-horizontal_alignment = 1
-
-[node name="SteamOutput" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam" instance=ExtResource("2_ood4h")]
-unique_name_in_owner = true
-layout_mode = 2
+missing_mode = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2
@@ -349,6 +341,7 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 mode = 1
+missing_mode = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
 auto_translate_mode = 1
@@ -389,6 +382,7 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 mode = 1
+missing_mode = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
 auto_translate_mode = 1
@@ -439,6 +433,7 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 mode = 1
+missing_mode = 2
 
 [node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
 auto_translate_mode = 1
@@ -524,6 +519,7 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 scope = 1
+missing_mode = 2
 
 [node name="Itch" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
 auto_translate_mode = 1

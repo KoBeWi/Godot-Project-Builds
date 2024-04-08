@@ -136,41 +136,43 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="ExportProjectFromTemplate" type="VBoxContainer"]
+[node name="ExportProjectFromTemplate" type="GridContainer"]
+offset_right = 532.0
+offset_bottom = 120.0
+columns = 2
 script = SubResource("GDScript_mlhhy")
 
-[node name="GridContainer" type="GridContainer" parent="."]
-layout_mode = 2
-columns = 2
-
-[node name="Label" type="Label" parent="GridContainer"]
+[node name="Label" type="Label" parent="."]
 layout_mode = 2
 text = "Base Preset"
 
-[node name="PresetList" type="OptionButton" parent="GridContainer"]
+[node name="PresetList" type="OptionButton" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="GridContainer"]
+[node name="Label2" type="Label" parent="."]
 layout_mode = 2
 text = "Preset Template"
 
-[node name="TemplateList" type="OptionButton" parent="GridContainer"]
+[node name="TemplateList" type="OptionButton" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label3" type="Label" parent="GridContainer"]
+[node name="Label3" type="Label" parent="."]
 layout_mode = 2
 text = "Path Suffix"
 
-[node name="PathSuffix" type="LineEdit" parent="GridContainer"]
+[node name="PathSuffix" type="LineEdit" parent="."]
 unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Control" type="Control" parent="."]
 layout_mode = 2
 
 [node name="Debug" type="CheckBox" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 text = "Debug"

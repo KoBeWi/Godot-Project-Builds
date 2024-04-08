@@ -83,33 +83,39 @@ func get_preset_name() -> String:
 	return preset_list.get_item_text(preset_list.selected)
 "
 
-[node name="ExportProject" type="VBoxContainer"]
+[node name="ExportProject" type="GridContainer"]
+offset_right = 532.0
+offset_bottom = 120.0
+columns = 2
 script = SubResource("GDScript_mlhhy")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="Label2" type="Label" parent="."]
 layout_mode = 2
-alignment = 1
+text = "Preset"
+horizontal_alignment = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
-layout_mode = 2
-text = "Select Preset"
-
-[node name="PresetList" type="OptionButton" parent="HBoxContainer"]
+[node name="PresetList" type="OptionButton" parent="."]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Custom Path"
+horizontal_alignment = 2
+
+[node name="CustomPath" parent="." instance=ExtResource("1_ftqqe")]
+layout_mode = 2
+size_flags_horizontal = 3
+mode = 2
+scope = 1
+
+[node name="Label3" type="Control" parent="."]
+auto_translate_mode = 1
 layout_mode = 2
 
 [node name="Debug" type="CheckBox" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 text = "Debug"
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 2
-text = "Custom Path"
-horizontal_alignment = 1
-
-[node name="CustomPath" parent="." instance=ExtResource("1_ftqqe")]
-layout_mode = 2
-mode = 2
-scope = 1

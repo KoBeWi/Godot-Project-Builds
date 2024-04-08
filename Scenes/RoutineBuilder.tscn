@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/RoutineBuilder.gd" id="1_gekas"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_0gvmh"]
-[ext_resource type="Shortcut" path="res://Nodes/GUI/ExitShortcut.tres" id="2_ghd1v"]
+[ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="2_ghd1v"]
 [ext_resource type="Texture2D" uid="uid://3i2umr3kmry6" path="res://Icons/Paste.svg" id="3_c5oe2"]
 
 [node name="RoutineBuilder" type="VBoxContainer"]
