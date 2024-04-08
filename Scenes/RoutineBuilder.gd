@@ -19,6 +19,7 @@ func _ready() -> void:
 		task_instance.load_data(task["data"])
 	
 	add_task.get_popup().index_pressed.connect(_create_task)
+	update_paste()
 
 func _create_task(idx: int):
 	create_task(add_task.get_popup().get_item_metadata(idx))
@@ -26,6 +27,7 @@ func _create_task(idx: int):
 func create_task(scene: String) -> Task:
 	var container := preload("res://Nodes/TaskContainer.tscn").instantiate()
 	task_list.add_child(container)
+	container.copied.connect(update_paste)
 	container.owner = self
 	
 	var task: Task = container.set_task_scene(scene)
@@ -63,3 +65,13 @@ func _exit_tree() -> void:
 		queue_free()
 		get_tree().change_scene_to_file("res://Scenes/Execution.tscn")
 	
+func paste_task() -> void:
+	var task := Data.copied_task
+	if task.is_empty():
+		return
+	
+	var task_instance := create_task(task["scene"])
+	task_instance.load_data(task["data"])
+
+func update_paste():
+	%PasteTask.disabled = Data.copied_task.is_empty()

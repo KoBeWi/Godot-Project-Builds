@@ -1,14 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://fktnevmh7mia"]
+[gd_scene load_steps=7 format=3 uid="uid://fktnevmh7mia"]
 
 [ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_0viqh"]
 [ext_resource type="Texture2D" uid="uid://6orgtpcieuls" path="res://Icons/ArrowUp.svg" id="1_efkxy"]
 [ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="1_jiaey"]
 [ext_resource type="Texture2D" uid="uid://bidwkeg0fiqcn" path="res://Icons/ArrowDown.svg" id="2_r8s42"]
+[ext_resource type="Texture2D" uid="uid://dgcqwwuv1m48b" path="res://Icons/Copy.svg" id="4_fcytw"]
 
 [sub_resource type="GDScript" id="GDScript_f3a8a"]
 script/source = "extends PanelContainer
 
 var task: Task
+
+signal copied
 
 func _ready() -> void:
 	update_buttons.call_deferred()
@@ -32,7 +35,15 @@ func move_down() -> void:
 	update_buttons()
 
 func erase() -> void:
+	##TODO dać na double click??
 	queue_free()
+
+func copy():
+	var task_data := Dictionary()
+	task_data[\"scene\"] = task.scene_file_path.get_file().get_basename()
+	task_data[\"data\"] = task.store_data()
+	Data.copied_task = task_data
+	copied.emit()
 
 func test_task() -> void:
 	owner.test_task(task)
@@ -67,18 +78,28 @@ size_flags_horizontal = 8
 [node name="Up" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Move Up"
 icon = ExtResource("1_efkxy")
 
 [node name="Down" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Move Down"
 icon = ExtResource("2_r8s42")
+
+[node name="Button3" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Copy"
+icon = ExtResource("4_fcytw")
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Button3" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="Button4" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+auto_translate_mode = 1
 layout_mode = 2
+tooltip_text = "Delete
+Double-click to use."
 icon = ExtResource("1_jiaey")
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
@@ -95,4 +116,5 @@ theme_override_constants/margin_bottom = 10
 [connection signal="pressed" from="VBoxContainer/MarginContainer/Button" to="." method="test_task"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Up" to="." method="move_up"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Down" to="." method="move_down"]
-[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Button3" to="." method="erase"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Button3" to="." method="copy"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Button4" to="." method="erase"]

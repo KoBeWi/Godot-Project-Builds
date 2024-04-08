@@ -15,6 +15,7 @@ var routines: Array[Dictionary]
 var templates: Array[Dictionary]
 
 var current_routine: Dictionary
+var copied_task: Dictionary
 
 var save_local_timer: Timer
 var save_global_timer: Timer

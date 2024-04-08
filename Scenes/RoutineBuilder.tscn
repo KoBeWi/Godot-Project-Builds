@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbb72q773nirj"]
+[gd_scene load_steps=4 format=3 uid="uid://dbb72q773nirj"]
 
 [ext_resource type="Script" path="res://Scenes/RoutineBuilder.gd" id="1_gekas"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_0gvmh"]
+[ext_resource type="Texture2D" uid="uid://3i2umr3kmry6" path="res://Icons/Paste.svg" id="3_c5oe2"]
 
 [node name="RoutineBuilder" type="VBoxContainer"]
 anchors_preset = 15
@@ -50,11 +51,24 @@ metadata/_edit_lock_ = true
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="AddTask" type="MenuButton" parent="ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AddTask" type="MenuButton" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Add Task"
 flat = false
 
+[node name="PasteTask" type="Button" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Paste Task"
+icon = ExtResource("3_c5oe2")
+
 [connection signal="pressed" from="HBoxContainer2/Button" to="." method="_back_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/HBoxContainer/PasteTask" to="." method="paste_task"]
