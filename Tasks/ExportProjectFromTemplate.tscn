@@ -50,10 +50,6 @@ func _prevalidate() -> bool:
 
 func _prepare() -> void:
 	var export_presets := load_presets()
-	if not export_presets:
-		# TODO: raczej error
-		return
-	
 	var template := Data.get_template(template_list.get_item_text(template_list.selected))
 	
 	var base_preset := preset_list.selected

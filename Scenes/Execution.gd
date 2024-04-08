@@ -87,13 +87,13 @@ func next_command():
 	if current_task.has_sensitive_data:
 		command.sensitive_strings = sensitive_strings
 	
-	command.success.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
-	command.fail.connect(on_success, CONNECT_ONE_SHOT | CONNECT_DEFERRED) ## TODO inny
+	command.success.connect(task_finished.bind(true), CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+	command.fail.connect(task_finished.bind(false), CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 	commands_container.add_child(command)
 	
 	current_task_index += 1
 
-func on_success():
+func task_finished(success: bool):
 	current_task._cleanup()
 	
 	var command := commands_container.get_child(-1)

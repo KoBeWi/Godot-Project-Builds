@@ -1,5 +1,6 @@
 extends Task
 
+static var godot_path: String
 static var is_godot_3: bool
 
 var export_debug: bool
@@ -11,21 +12,24 @@ var export_preset: String
 func _init() -> void:
 	has_static_configuration = true
 
-static func _initialize_project():##TODO: aktualizować to po zmianie ścieżki
-	var output: Array
-	if OS.execute(Data.get_godot_path(), ["--version"], output) == OK:
-		if output[0].begins_with("4"):
-			is_godot_3 = false
-		else:
-			is_godot_3 = true
+static func _initialize_project():
+	update_godot_version()
 
 func _initialize():
 	preset_path = Data.project_path.path_join("export_presets.cfg")
+	
+	if godot_path != Data.get_godot_path():
+		update_godot_version()
 
 func _prevalidate() -> bool:
 	var godot_path := Data.get_godot_path()
 	if OS.execute(godot_path, ["--version"]) != OK:
 		error_message = "Godot executable (%s) is not valid." % godot_path
+		return false
+	
+	var presets := load_presets()
+	if not presets:
+		error_message = "Export presets file does not exist."
 		return false
 	
 	return true
@@ -61,6 +65,15 @@ func _get_arguments() -> PackedStringArray:
 func _prepare():
 	var base_dir := export_path.get_base_dir()
 	DirAccess.make_dir_recursive_absolute(base_dir)
+
+static func update_godot_version():
+	godot_path = Data.get_godot_path()
+	var output: Array
+	if OS.execute(godot_path, ["--version"], output) == OK:
+		if output[0].begins_with("4"):
+			is_godot_3 = false
+		else:
+			is_godot_3 = true
 
 func load_presets() -> ConfigFile:
 	var config_file := ConfigFile.new()
