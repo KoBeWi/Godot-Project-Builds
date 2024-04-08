@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://2g67bchptwsm"]
+
+[ext_resource type="PackedScene" uid="uid://bfbht01onlf1a" path="res://Nodes/GUI/StringContainer.tscn" id="1_siigy"]
+
+[sub_resource type="GDScript" id="GDScript_3vtsj"]
+script/source = "extends Task
+
+@onready var command: LineEdit = %Command
+@onready var arguments: Control = %Arguments
+
+func _get_task_name() -> String:
+	return \"Custom Task\"
+
+func _get_execute_string() -> String:
+	return \"Custom Task: %s\" % _get_command()
+
+func _initialize() -> void:
+	defaults[\"command\"] = \"\"
+	defaults[\"arguments\"] = PackedStringArray()
+
+func _get_command() -> String:
+	match command.text:
+		\"$godot\":
+			return OS.get_executable_path()
+		\"$local_godot\":
+			return Data.get_godot_path()
+		_:
+			return command.text
+
+func _get_arguments() -> PackedStringArray:
+	return arguments.get_strings()
+
+func _load() -> void:
+	command.text = data[\"command\"]
+	arguments.set_strings(data[\"arguments\"])
+
+func _store() -> void:
+	data[\"command\"] = command.text
+	data[\"arguments\"] = arguments.get_strings()
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Executes a custom command with the provided arguments.\",
+		\"Command|The command to execute (path to a program etc.).\",
+		\"Arguments|Launch arguments for the command.\",
+	]
+"
+
+[node name="CustomTask" type="GridContainer"]
+offset_right = 506.0
+offset_bottom = 58.0
+columns = 2
+script = SubResource("GDScript_3vtsj")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Command"
+horizontal_alignment = 2
+
+[node name="Command" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Arguments"
+horizontal_alignment = 2
+
+[node name="Arguments" parent="." instance=ExtResource("1_siigy")]
+unique_name_in_owner = true
+layout_mode = 2
