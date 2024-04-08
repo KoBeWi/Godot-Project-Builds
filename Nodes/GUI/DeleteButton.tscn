@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://m6a3ajkud85h"]
+
+[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="1_xvgi5"]
+
+[sub_resource type="GDScript" id="GDScript_v5hcl"]
+script/source = "extends Button
+
+@onready var label: Label = $Label
+
+signal confirmed
+
+var timer: float
+
+func _ready() -> void:
+	set_process(false)
+
+func _pressed() -> void:
+	if label.visible:
+		confirmed.emit()
+	else:
+		timer = 0.5
+		label.show()
+		set_process(true)
+
+func _process(delta: float) -> void:
+	timer -= delta
+	if timer <= 0:
+		label.hide()
+		set_process(false)
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_liddr"]
+content_margin_left = 2.0
+content_margin_right = 2.0
+bg_color = Color(0.145098, 0.156863, 0.188235, 1)
+
+[node name="DeleteButton" type="Button"]
+icon = ExtResource("1_xvgi5")
+script = SubResource("GDScript_v5hcl")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+z_index = 1
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_right = 174.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_liddr")
+text = "Click again to confirm"

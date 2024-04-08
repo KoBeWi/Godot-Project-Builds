@@ -129,7 +129,6 @@ func _on_install_plugin_pressed() -> void:
 	
 	for file in DirAccess.get_files_at(source_path):
 		DirAccess.copy_absolute(source_path.path_join(file), target_path.path_join(file))
-	## TODO: uruchamiać automatycznie (ale jak??)
 	
 	update_plugin_status()
 "

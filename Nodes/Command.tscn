@@ -1,7 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://b6hrktoise2ji"]
+[gd_scene load_steps=24 format=3 uid="uid://b6hrktoise2ji"]
 
 [ext_resource type="Script" path="res://Nodes/Command.gd" id="1_l0kiu"]
 [ext_resource type="Texture2D" uid="uid://dno0spmwh4kov" path="res://Nodes/Hourglass.png" id="2_qna3k"]
+[ext_resource type="Texture2D" uid="uid://csjjbw7dnc51a" path="res://Icons/Inherit.svg" id="3_kytcc"]
+[ext_resource type="Texture2D" uid="uid://dgcqwwuv1m48b" path="res://Icons/Copy.svg" id="4_0o8ph"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tas32"]
 atlas = ExtResource("2_qna3k")
@@ -116,6 +118,13 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gis47"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmsdb"]
 bg_color = Color(0, 0, 0, 0.12549)
 
@@ -209,6 +218,19 @@ mouse_filter = 0
 text = "What"
 autowrap_mode = 2
 
+[node name="Copied" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Command"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 24.0
+offset_top = 23.0
+offset_right = 183.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_gis47")
+text = "Copied to clipboard"
+
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -216,10 +238,22 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ExpandButton" type="Button" parent="MarginContainer/VBoxContainer/Output"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Output"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/Output/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Hide Output"
+text = "Toggle Output"
+icon = ExtResource("3_kytcc")
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Output/HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Copy Output"
+icon = ExtResource("4_0o8ph")
 
 [node name="OutputLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Output"]
 unique_name_in_owner = true
@@ -239,4 +273,5 @@ maximum_height = 600.0
 
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TaskText" to="." method="_on_command_gui_input"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Command" to="." method="_on_command_gui_input"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Output/ExpandButton" to="." method="toggle_output"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Output/HBoxContainer/Button2" to="." method="toggle_output"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Output/HBoxContainer/Button" to="." method="copy_output"]

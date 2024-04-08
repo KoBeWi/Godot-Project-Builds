@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_at7ma"]
 [ext_resource type="Texture2D" uid="uid://dnlqsyyx311xx" path="res://Icons/Duplicate.svg" id="3_yself"]
 [ext_resource type="Texture2D" uid="uid://csjjbw7dnc51a" path="res://Icons/Inherit.svg" id="4_ricvi"]
-[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="4_x4nre"]
+[ext_resource type="PackedScene" uid="uid://m6a3ajkud85h" path="res://Nodes/GUI/DeleteButton.tscn" id="5_bn1pp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhetb"]
 content_margin_left = 8.0
@@ -50,7 +50,7 @@ func connect_inherit(callback: Callable):
 	%Inherit.pressed.connect(callback)
 
 func connect_delete(callback: Callable):
-	%Delete.pressed.connect(callback)
+	%Delete.confirmed.connect(callback)
 
 func update_inheritance():
 	if inherit.is_empty():
@@ -156,10 +156,8 @@ text = "Inherit"
 icon = ExtResource("4_ricvi")
 alignment = 0
 
-[node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Delete" parent="VBoxContainer/HBoxContainer" instance=ExtResource("5_bn1pp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Delete"
-icon = ExtResource("4_x4nre")
-alignment = 0

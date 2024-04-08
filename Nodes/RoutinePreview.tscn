@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_hqapv"]
 [ext_resource type="Texture2D" uid="uid://cfbagouqtgqfs" path="res://Icons/Edit.svg" id="1_m46hf"]
 [ext_resource type="Texture2D" uid="uid://bv4tqa6ixyi1h" path="res://Icons/ArrowRight.svg" id="2_0d0yc"]
-[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="2_064c3"]
+[ext_resource type="PackedScene" uid="uid://m6a3ajkud85h" path="res://Nodes/GUI/DeleteButton.tscn" id="6_hh3q2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2baq"]
 content_margin_left = 8.0
@@ -147,14 +147,11 @@ text = "Duplicate"
 icon = ExtResource("1_1u4fl")
 alignment = 0
 
-[node name="Button2" type="Button" parent="VBoxContainer"]
+[node name="DeleteButton" parent="VBoxContainer" instance=ExtResource("6_hh3q2")]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 10
 text = "Delete"
-icon = ExtResource("2_064c3")
-alignment = 0
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveLeft" to="." method="_on_move_left_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveRight" to="." method="_on_move_right_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button2" to="." method="delete"]
+[connection signal="confirmed" from="VBoxContainer/DeleteButton" to="." method="delete"]

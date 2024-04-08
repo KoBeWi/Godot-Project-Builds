@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_0viqh"]
 [ext_resource type="Texture2D" uid="uid://6orgtpcieuls" path="res://Icons/ArrowUp.svg" id="1_efkxy"]
-[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="1_jiaey"]
 [ext_resource type="Texture2D" uid="uid://bidwkeg0fiqcn" path="res://Icons/ArrowDown.svg" id="2_r8s42"]
 [ext_resource type="Texture2D" uid="uid://dgcqwwuv1m48b" path="res://Icons/Copy.svg" id="4_fcytw"]
+[ext_resource type="PackedScene" uid="uid://m6a3ajkud85h" path="res://Nodes/GUI/DeleteButton.tscn" id="5_ewh0j"]
 
 [sub_resource type="GDScript" id="GDScript_f3a8a"]
 script/source = "extends PanelContainer
@@ -35,7 +35,6 @@ func move_down() -> void:
 	update_buttons()
 
 func erase() -> void:
-	##TODO dać na double click??
 	queue_free()
 
 func copy():
@@ -95,12 +94,8 @@ icon = ExtResource("4_fcytw")
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Button4" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
-auto_translate_mode = 1
+[node name="DeleteButton" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("5_ewh0j")]
 layout_mode = 2
-tooltip_text = "Delete
-Double-click to use."
-icon = ExtResource("1_jiaey")
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -117,4 +112,4 @@ theme_override_constants/margin_bottom = 10
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Up" to="." method="move_up"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Down" to="." method="move_down"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Button3" to="." method="copy"]
-[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Button4" to="." method="erase"]
+[connection signal="confirmed" from="VBoxContainer/MarginContainer/HBoxContainer/DeleteButton" to="." method="erase"]

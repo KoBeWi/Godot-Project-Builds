@@ -91,8 +91,17 @@ func _process(delta: float) -> void:
 
 func _on_command_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		## TODO: info, że się kopiuje
 		DisplayServer.clipboard_set(raw_text)
+		
+		var copied: Label = %Copied
+		copied.position = %Command.get_local_mouse_position()
+		copied.modulate.a = 1.0
+		copied.show()
+		
+		var tween := copied.create_tween()
+		tween.tween_property(copied, ^"modulate:a", 0.0, 0.5).set_delay(1)
+		tween.tween_callback(copied.hide)
+		
 
 func _exit_tree() -> void:
 	if program.is_running:
@@ -184,3 +193,6 @@ class ProgramInstance:
 
 func toggle_output() -> void:
 	output_label.visible = not output_label.visible
+
+func copy_output() -> void:
+	DisplayServer.clipboard_set(output_label.get_parsed_text())
