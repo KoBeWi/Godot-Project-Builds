@@ -121,6 +121,11 @@ func get_template(template_name: String) -> Dictionary:
 			return template
 	return {}
 
+func get_project_version() -> String:
+	var project := ConfigFile.new()
+	project.load(project_path.path_join("project.godot"))
+	return project.get_value("application", "config/version", "")
+
 func get_godot_path() -> String:
 	var local_godot: String = local_config["godot_path"]
 	if local_godot.is_empty():

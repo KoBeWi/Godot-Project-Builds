@@ -90,7 +90,7 @@ func _process(delta: float) -> void:
 	finish_code = program.result
 
 func _on_command_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		DisplayServer.clipboard_set(raw_text)
 		
 		var copied: Label = %Copied

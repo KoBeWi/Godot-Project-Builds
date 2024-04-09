@@ -43,6 +43,7 @@ func _ready() -> void:
 	register_global_setting(%EpicOrganizationID, \"epic_organization_id\", \"\")
 	register_global_setting(%EpicClientID, \"epic_client_id\", \"\")
 	register_global_setting(%EpicClientSecret, \"epic_client_secret\", \"\", true)
+	register_global_setting(%EpicClientSecretEnvVar, \"epic_client_secret_env_var\", \"\")
 	
 	register_global_setting(%ItchButlerPath, \"itch_butler_path\", \"\")
 	register_global_setting(%ItchUsername, \"itch_username\", \"\")
@@ -176,6 +177,7 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -257,7 +259,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
@@ -419,6 +420,17 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 secret = true
+
+[node name="Label7" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Client Secret Env Variable"
+horizontal_alignment = 1
+
+[node name="EpicClientSecretEnvVar" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
 
 [node name="Itch" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 layout_mode = 2

@@ -52,4 +52,5 @@ func copy_file(from: String, to: String) -> int:
 	if error != OK:
 		return error
 	
+	print("Copying %s to %s" % [from, to])
 	return DirAccess.copy_absolute(from, to)

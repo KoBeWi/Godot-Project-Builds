@@ -2,7 +2,6 @@
 
 [sub_resource type="GDScript" id="GDScript_a0t4t"]
 script/source = "extends Task
-## TODO: jakieś ustawienia wersji? (albo info skąd jest), checkbox override version
 ## TODO: branch
 ## TODO: default branch?
 
@@ -69,7 +68,7 @@ func _get_arguments() -> PackedStringArray:
 	ret.append(Data.project_path.path_join(get_json_path()))
 	
 	ret.append(\"--version\")
-	ret.append(\"1.0\") ## TODO
+	ret.append(Data.get_project_version())
 	
 	ret.append(\"--username\")
 	ret.append(Data.global_config[\"gog_username\"])

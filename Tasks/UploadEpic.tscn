@@ -5,17 +5,11 @@
 [sub_resource type="GDScript" id="GDScript_qbsc0"]
 script/source = "extends Task
 
-## TODO: ClientSecretEnvVar
-## TODO: version prefix ma być w buildzie
-
-#Version:
-#Must be between 1 and 100 characters in length
-#Should only contain characters from the following sets a-z, A-Z, 0-9, or .+-_
-#Whitespace is not allowed
-
 @onready var build_root: HBoxContainer = $BuildRoot
 @onready var executable_name: LineEdit = $ExecutableName
 @onready var version_prefix: LineEdit = $VersionPrefix
+
+var project_version: String
 
 func _get_task_name() -> String:
 	return \"Upload Epic\"
@@ -24,8 +18,18 @@ func _initialize() -> void:
 	defaults[\"build_root\"] = \"\"
 	defaults[\"executable_name\"] = \"\"
 	defaults[\"version_prefix\"] = \"\"
+	project_version = Data.get_project_version()
 
 func _prevalidate() -> bool:
+	if not Data.global_config[\"epic_client_secret_env_var\"].is_empty():
+		var env := OS.get_environment(Data.global_config[\"epic_client_secret_env_var\"])
+		if env.is_empty():
+			error_message = \"The provided Epic client secret env variable does not exist.\"
+			return false
+	elif Data.global_config[\"epic_client_secret\"].is_empty():
+		error_message = \"Epic client secret is empty and no env variable was provided.\"
+		return false
+	
 	if Data.global_config[\"build_patch_tool_path\"].is_empty():
 		error_message = \"Build Patch Tool path is empty.\"
 	elif not FileAccess.file_exists(Data.global_config[\"build_patch_tool_path\"]):
@@ -34,14 +38,25 @@ func _prevalidate() -> bool:
 		error_message = \"Epic organization ID is empty.\"
 	elif Data.global_config[\"epic_client_id\"].is_empty():
 		error_message = \"Epic client ID is empty.\"
-	elif Data.global_config[\"epic_client_secret\"].is_empty():
-		error_message = \"Epic client secret is empty.\"
 	elif Data.local_config[\"epic_product_id\"].is_empty():
 		error_message = \"Epic product ID is empty.\"
 	elif Data.local_config[\"epic_artifact_id\"].is_empty():
 		error_message = \"Epic artifact ID is empty.\"
 	elif executable_name.text.is_empty():
 		error_message = \"Executable name is empty.\"
+	elif project_version.length() < 1 or project_version.length() > 100:
+		error_message = \"Version string length wrong. Must be between 1 and 100 (inclusive).\"
+	else:
+		var reg := RegEx.create_from_string(r\"^[a-zA-Z0-9\\.\\+-_]*$\")
+		if not reg.search(project_version):
+			error_message = \"Version string invalid. Use only these characters: a-z, A-Z, 0-9, or .+-_\"
+	
+	if not Data.global_config[\"epic_client_secret_env_var\"].is_empty():
+		var env := OS.get_environment(Data.global_config[\"epic_client_secret_env_var\"])
+		if env.is_empty():
+			error_message = \"The provided Epic client secret env variable does not exist.\"
+	elif Data.global_config[\"epic_client_secret\"].is_empty():
+		error_message = \"Epic client secret is empty and no env variable was provided.\"
 	
 	return error_message.is_empty()
 
@@ -58,17 +73,22 @@ func _get_command() -> String:
 	return Data.global_config[\"build_patch_tool_path\"]
 
 func _get_arguments() -> PackedStringArray:
+	var env_var: String = Data.global_config[\"epic_client_secret_env_var\"]
+	
 	var ret: PackedStringArray
 	ret.append(\"-mode=UploadBinary\")
 	ret.append(\"-OrganizationId=\\\"%s\\\"\" % Data.global_config[\"epic_organization_id\"])
 	ret.append(\"-ClientId=\\\"%s\\\"\" % Data.global_config[\"epic_client_id\"])
-	ret.append(\"-ClientSecret=\\\"%s\\\"\" % Data.global_config[\"epic_client_secret\"])
+	if env_var.is_empty():
+		ret.append(\"-ClientSecret=\\\"%s\\\"\" % Data.global_config[\"epic_client_secret\"])
+	else:
+		ret.append(\"-ClientSecretEnvVar=\\\"%s\\\"\" % env_var)
 	ret.append(\"-ProductId=\\\"%s\\\"\" % Data.local_config[\"epic_product_id\"])
 	ret.append(\"-ArtifactId=\\\"%s\\\"\" % Data.local_config[\"epic_artifact_id\"])
 	ret.append(\"-BuildRoot=\\\"%s\\\"\" % build_root.text)
-	ret.append(\"-BuildVersion=\\\"%s-%s\\\"\" % [version_prefix.text, \"1.0\"]) ## TODO
+	ret.append(\"-BuildVersion=\\\"%s-%s\\\"\" % [version_prefix.text, Data.get_project_version()])
 	ret.append(\"-AppLaunch=\\\"%s\\\"\" % executable_name.text)
-	ret.append(\"-AppArgs=\\\"\\\"\") ## TODO?
+	#ret.append(\"-AppArgs=\\\"\\\"\")
 	ret.append(\"-CloudDir=\\\"%s\\\"\" % Data.project_path.path_join(Data.local_config[\"epic_cloud_dir\"]))
 	
 	return ret
