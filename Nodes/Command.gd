@@ -104,6 +104,9 @@ func _on_command_gui_input(event: InputEvent) -> void:
 		
 
 func _exit_tree() -> void:
+	if not program:
+		return
+	
 	if program.is_running:
 		program.stop()
 	program.finalize()
@@ -189,6 +192,7 @@ class ProgramInstance:
 		
 		io_thread.wait_to_finish()
 		err_thread.wait_to_finish()
+		result = OS.get_process_exit_code(pid)
 		finalized = true
 
 func toggle_output() -> void:

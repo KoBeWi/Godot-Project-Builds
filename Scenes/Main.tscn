@@ -567,6 +567,7 @@ text = "Instal Project Builds Plugin"
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
 shortcut = ExtResource("4_bgxb8")
+shortcut_in_tooltip = false
 text = "Back"
 icon = ExtResource("2_fue2w")
 

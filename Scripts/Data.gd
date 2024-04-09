@@ -105,6 +105,7 @@ func create_routine() -> Dictionary:
 	
 	var routine := Dictionary()
 	routine["name"] = routine_name
+	routine["on_fail"] = 0
 	routine["tasks"] = []
 	routines.append(routine)
 	return routine

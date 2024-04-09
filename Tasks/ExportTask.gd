@@ -22,7 +22,6 @@ func _initialize():
 		update_godot_version()
 
 func _prevalidate() -> bool:
-	var godot_path := Data.get_godot_path()
 	if OS.execute(godot_path, ["--version"]) != OK:
 		error_message = "Godot executable (%s) is not valid." % godot_path
 		return false

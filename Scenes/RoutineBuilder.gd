@@ -9,6 +9,7 @@ var task_to_test: Task
 func _ready() -> void:
 	routine = Data.get_current_routine()
 	%RoutineName.text = routine["name"]
+	%OnFail.selected = routine["on_fail"]
 	
 	for task in Data.tasks.values():
 		add_task.get_popup().add_item(task["name"])
@@ -59,6 +60,7 @@ func _exit_tree() -> void:
 	
 	routine["name"] = %RoutineName.text
 	routine["tasks"] = routine_tasks
+	routine["on_fail"] = %OnFail.selected
 	Data.queue_save_local_config()
 	
 	if task_to_test:

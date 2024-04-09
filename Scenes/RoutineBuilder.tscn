@@ -21,6 +21,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 shortcut = ExtResource("2_ghd1v")
+shortcut_in_tooltip = false
 text = "Back"
 icon = ExtResource("2_0gvmh")
 
@@ -37,6 +38,24 @@ text = "Routine Name"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "On Fail:"
+
+[node name="OnFail" type="OptionButton" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Abort"
+popup/item_0/id = 1
+popup/item_1/text = "Continue"
+popup/item_1/id = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2

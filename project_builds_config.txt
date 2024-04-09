@@ -7,6 +7,7 @@
 "itch_game_name": "",
 "routines": Array[Dictionary]([{
 "name": "Export Windows",
+"on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
 "debug": false,
@@ -32,6 +33,7 @@
 }])
 }, {
 "name": "Export Linux",
+"on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
 "debug": false,
@@ -57,6 +59,7 @@
 }])
 }, {
 "name": "Export All",
+"on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
 "routine": "Export Windows"

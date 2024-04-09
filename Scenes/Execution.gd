@@ -9,6 +9,7 @@ var current_task_index: int
 var current_task: Task
 var task_error: String
 
+var on_fail: int
 var sensitive_strings: PackedStringArray
 var log_file: FileAccess
 
@@ -16,6 +17,8 @@ func _ready() -> void:
 	var errors: PackedStringArray
 	
 	var routine := Data.get_current_routine()
+	on_fail = routine["on_fail"]
+	
 	for task in routine["tasks"]:
 		var task_instance := Task.create_instance(task["scene"])
 		task_limbo.add_child(task_instance)
@@ -100,6 +103,10 @@ func task_finished(success: bool):
 	var intime: int = command.timer
 	log_file.store_line("\n> Finished with code %d, time: %02d:%02d:%02d." % [command.finish_code, intime / 3600, intime / 60 % 60, intime % 60])
 	log_file.flush()
+	
+	if not success and on_fail == 0:
+		finish()
+		return
 	
 	next_command()
 
