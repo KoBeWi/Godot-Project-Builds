@@ -16,6 +16,13 @@ func _get_execute_string() -> String:
 	return \"GOG Build (%s)\" % json_file.text
 
 static func _initialize_project():
+	var cache_file := get_cache_file(\"GOGJSON\", FileAccess.READ)
+	if cache_file:
+		json_list = str_to_var(cache_file.get_as_text())
+	else:
+		json_list.clear()
+
+static func _begin_project_scan() -> void:
 	json_list.clear()
 
 static func _process_file(file: String):
@@ -32,15 +39,23 @@ static func _process_file(file: String):
 	
 	json_list.append(file.trim_prefix(Data.project_path + \"/\"))
 
+static func _end_project_scan() -> void:
+	var cache_file := get_cache_file(\"GOGJSON\", FileAccess.WRITE)
+	cache_file.store_string(var_to_str(json_list))
+
 func _initialize() -> void:
 	defaults[\"json_path\"] = \"\"
 	defaults[\"branch\"] = \"\"
 	defaults[\"branch_password\"] = \"\"
 	
-	for file in json_list:
-		json_file.add_item(file.get_file())
-		json_file.set_item_metadata(-1, file)
-		json_file.set_item_tooltip(-1, file)
+	if json_list.is_empty():
+		json_file.text = \"List empty. Run project scan from Config tab.\"
+		json_file.disabled = true
+	else:
+		for file in json_list:
+			json_file.add_item(file.get_file())
+			json_file.set_item_metadata(-1, file)
+			json_file.set_item_tooltip(-1, file)
 
 func _prevalidate() -> bool:
 	if Data.global_config[\"pipeline_builder_path\"].is_empty():

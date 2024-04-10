@@ -14,6 +14,13 @@ func _get_execute_string() -> String:
 	return \"Steam Build (%s)\" % vdf_file.text
 
 static func _initialize_project():
+	var cache_file := get_cache_file(\"SteamVDF\", FileAccess.READ)
+	if cache_file:
+		vdf_list = str_to_var(cache_file.get_as_text())
+	else:
+		vdf_list.clear()
+
+static func _begin_project_scan() -> void:
 	vdf_list.clear()
 
 static func _process_file(file: String):
@@ -26,13 +33,21 @@ static func _process_file(file: String):
 			vdf_list.append(file.trim_prefix(Data.project_path + \"/\"))
 			break
 
+static func _end_project_scan() -> void:
+	var cache_file := get_cache_file(\"SteamVDF\", FileAccess.WRITE)
+	cache_file.store_string(var_to_str(vdf_list))
+
 func _initialize() -> void:
 	defaults[\"vdf_path\"] = \"\"
 	
-	for file in vdf_list:
-		vdf_file.add_item(file.get_file())
-		vdf_file.set_item_metadata(-1, file)
-		vdf_file.set_item_tooltip(-1, file)
+	if vdf_list.is_empty():
+		vdf_file.text = \"List empty. Run project scan from Config tab.\"
+		vdf_file.disabled = true
+	else:
+		for file in vdf_list:
+			vdf_file.add_item(file.get_file())
+			vdf_file.set_item_metadata(-1, file)
+			vdf_file.set_item_tooltip(-1, file)
 
 func _prevalidate() -> bool:
 	if Data.global_config[\"steam_cmd_path\"].is_empty():

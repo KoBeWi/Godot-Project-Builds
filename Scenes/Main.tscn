@@ -213,6 +213,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Preset Templates" type="MarginContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
@@ -259,7 +260,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
@@ -565,6 +565,15 @@ layout_mode = 2
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
 layout_mode = 2
 
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Run Project Scan"
+
+[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
 [node name="PluginStatus" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -586,6 +595,7 @@ icon = ExtResource("2_fue2w")
 
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/TemplateScroll/VBoxContainer/Button" to="." method="_add_template_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Button" to="." method="run_project_scan"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/InstallPlugin" to="VBoxContainer/TabContainer/Config" method="_on_install_plugin_pressed"]
 [connection signal="pressed" from="Button" to="." method="go_back"]
 

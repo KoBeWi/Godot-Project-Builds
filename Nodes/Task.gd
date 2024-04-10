@@ -23,12 +23,20 @@ func _get_task_name() -> String:
 func _get_execute_string() -> String:
 	return _get_task_name()
 
-## Called when a project is loaded if [member has_static_configuration] is [code]true[/code]. You can use it to initialize static data specific to a project, which should be global to each instance of this task.
+## Called when a project is loaded if [member has_static_configuration] is [code]true[/code]. You can use it to initialize static data specific to a project, which should be global to each instance of this task. If you have a cache file created in [method _end_project_scan], it should be loaded here.
 static func _initialize_project() -> void:
 	pass
 
-## Called when a project is loaded if [member has_static_configuration] is [code]true[/code]. This method will be invoked for every file in the project. You can use it to collect configuration files specific for this task.
+## Called when a project is loaded for the first time or when the user starts rescan, if [member has_static_configuration] is [code]true[/code]. You can use it to clear file cache if you have one.
+static func _begin_project_scan() -> void:
+	pass
+
+## Called after [method _begin_project_scan] if [member has_static_configuration] is [code]true[/code]. This method will be invoked for every file in the project. You can use it to collect configuration files specific for this task. Since this method is not called on every project load, you need to cache the result.
 static func _process_file(path: String) -> void:
+	pass
+
+## Called when project scanning is finished. Here you can cache the result of scan using [method get_cache_file].
+static func _end_project_scan() -> void:
 	pass
 
 ## Called when the task is being initialized. Use it to fill [member defaults] and initialize child [Control] node values.
@@ -84,3 +92,8 @@ func store_data() -> Dictionary:
 
 static func create_instance(scene: String) -> Task:
 	return load("res://Tasks/%s.tscn" % scene).instantiate()
+
+## Returns a [FileAccess] instance for the specified file and flags or [code]null[/code] if file can't be created/loaded. [param file] is name of the file, which will be located in a cache directory.
+static func get_cache_file(file: String, flags: FileAccess.ModeFlags) -> FileAccess:
+	DirAccess.make_dir_absolute("user://FileCache")
+	return FileAccess.open("user://FileCache".path_join(str(Data.project_path.get_file(), " - ", file)), flags)

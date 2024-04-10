@@ -9,7 +9,13 @@ func _get_execute_string() -> String:
 static func _initialize_project() -> void:
 	pass
 
+static func _begin_project_scan() -> void:
+	pass
+
 static func _process_file(path: String) -> void:
+	pass
+
+static func _end_project_scan() -> void:
 	pass
 
 func _initialize() -> void:

@@ -25,9 +25,11 @@ func _ready() -> void:
 	if Data.first_load:
 		for task in Data.static_initialize_tasks:
 			task._initialize_project()
-		
-		process_files(Data.project_path)
 		Data.first_load = false
+		
+		if Data.initial_load:
+			run_project_scan()
+			Data.initial_load = false
 
 func process_files(directory: String):
 	for file in DirAccess.get_files_at(directory):
@@ -38,7 +40,7 @@ func process_files(directory: String):
 		if not dir.begins_with("."):
 			process_files(directory.path_join(dir))
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var task := task_queue[task_queue_index]
 	
 	var preview := preload("res://Nodes/TaskPreview.tscn").instantiate()
@@ -47,7 +49,7 @@ func _process(delta: float) -> void:
 	
 	task_queue_index += 1
 	if task_queue_index == task_queue.size():
-		set_process(false)
+		set_physics_process(false)
 
 func _exit_tree() -> void:
 	if Data.project_path.is_empty():
@@ -144,3 +146,12 @@ func go_back() -> void:
 	Data.save_local_config()
 	Data.project_path = ""
 	get_tree().change_scene_to_file("res://Scenes/ProjectManager.tscn")
+
+func run_project_scan() -> void:
+	for task in Data.static_initialize_tasks:
+		task._begin_project_scan()
+	
+	process_files(Data.project_path)
+	
+	for task in Data.static_initialize_tasks:
+		task._end_project_scan()

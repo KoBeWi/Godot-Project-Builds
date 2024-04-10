@@ -8,6 +8,7 @@ var local_config: Dictionary
 var project_path: String
 
 var first_load: bool
+var initial_load: bool
 var static_initialize_tasks: Array[Script]
 var sensitive_settings: Array[String]
 
@@ -78,6 +79,7 @@ func load_project(path: String):
 		local_config["routines"]  = routines
 		templates.clear()
 		local_config["templates"]  = templates
+		initial_load = true
 
 	routines = local_config["routines"]
 	templates = local_config["templates"]

@@ -1,3 +1,4 @@
+@tool
 extends VBoxContainer
 
 @onready var button: Button = %Button
@@ -21,6 +22,9 @@ extends VBoxContainer
 var style_box: StyleBox
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+	
 	for node in get_children():
 		if node is Control:
 			custom_minimum_size.x = maxf(custom_minimum_size.x, node.get_combined_minimum_size().x)
