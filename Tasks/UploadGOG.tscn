@@ -2,10 +2,10 @@
 
 [sub_resource type="GDScript" id="GDScript_a0t4t"]
 script/source = "extends Task
-## TODO: branch
-## TODO: default branch?
 
 @onready var json_file: OptionButton = %JSONFile
+@onready var branch: LineEdit = %Branch
+@onready var branch_password: LineEdit = %BranchPassword
 
 static var json_list: PackedStringArray
 
@@ -34,6 +34,8 @@ static func _process_file(file: String):
 
 func _initialize() -> void:
 	defaults[\"json_path\"] = \"\"
+	defaults[\"branch\"] = \"\"
+	defaults[\"branch_password\"] = \"\"
 	
 	for file in json_list:
 		json_file.add_item(file.get_file())
@@ -49,6 +51,8 @@ func _prevalidate() -> bool:
 		error_message = \"GOG username is empty.\"
 	elif Data.global_config[\"gog_password\"].is_empty():
 		error_message = \"GOG password is empty.\"
+	elif Data.get_project_version().is_empty():
+		error_message = \"Project version (application/config/version) is empty.\"
 	
 	return error_message.is_empty()
 
@@ -75,13 +79,24 @@ func _get_arguments() -> PackedStringArray:
 	
 	ret.append(\"--password\")
 	ret.append(Data.global_config[\"gog_password\"])
+	
+	if not branch.text.is_empty():
+		ret.append(\"--branch\")
+		ret.append(branch.text)
+		
+		if not branch_password.text.is_empty():
+			ret.append(\"--branch_password\")
+			ret.append(branch_password.text)
+	
 	#ret.append(\"--offline\")
 	
 	return ret
 
 func _load():
-	var file: String = data[\"json_path\"]
+	branch.text = data[\"branch\"]
+	branch.text = data[\"branch_password\"]
 	
+	var file: String = data[\"json_path\"]
 	for i in json_file.item_count:
 		if json_file.get_item_metadata(i) == file:
 			json_file.selected = i
@@ -89,11 +104,15 @@ func _load():
 
 func _store():
 	data[\"json_path\"] = get_json_path()
+	data[\"branch\"] = branch.text
+	data[\"branch_password\"] = branch_password.text
 
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Uploads files to GOG based on the given JSON file, using Pipeline Builder.\",
 		\"JSON File|File used as a base to upload.\",
+		\"Branch|Branch name to upload to.\",
+		\"Branch Password|Password for the branch if it's protected.\",
 	]
 
 func get_json_path() -> String:
@@ -105,7 +124,7 @@ func get_json_path() -> String:
 "
 
 [node name="UploadGog" type="HBoxContainer"]
-offset_right = 415.0
+offset_right = 520.0
 offset_bottom = 23.0
 script = SubResource("GDScript_a0t4t")
 has_static_configuration = true
@@ -116,12 +135,12 @@ auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="GridContainer" parent="."]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 8.0
-alignment = 1
+columns = 2
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 auto_translate_mode = 1
@@ -134,6 +153,26 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Branch"
+
+[node name="Branch" type="LineEdit" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Branch Password"
+
+[node name="BranchPassword" type="LineEdit" parent="HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
 
 [node name="Control2" type="Control" parent="."]
 auto_translate_mode = 1

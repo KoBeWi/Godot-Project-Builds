@@ -45,11 +45,11 @@ func _prevalidate() -> bool:
 	elif executable_name.text.is_empty():
 		error_message = \"Executable name is empty.\"
 	elif project_version.length() < 1 or project_version.length() > 100:
-		error_message = \"Version string length wrong. Must be between 1 and 100 (inclusive).\"
+		error_message = \"Version string invalid (application/config/version). Length must be between 1 and 100 (inclusive).\"
 	else:
 		var reg := RegEx.create_from_string(r\"^[a-zA-Z0-9\\.\\+-_]*$\")
 		if not reg.search(project_version):
-			error_message = \"Version string invalid. Use only these characters: a-z, A-Z, 0-9, or .+-_\"
+			error_message = \"Version string invalid (application/config/version). Use only these characters: a-z, A-Z, 0-9, or .+-_\"
 	
 	if not Data.global_config[\"epic_client_secret_env_var\"].is_empty():
 		var env := OS.get_environment(Data.global_config[\"epic_client_secret_env_var\"])
