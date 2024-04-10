@@ -96,15 +96,8 @@ func register_task(scene: String):
 	tasks[scene_base] = data
 
 func create_routine() -> Dictionary:
-	var routine_name := "New Routine"
-	var tries := 1
-	
-	while routines.any(func(routine: Dictionary) -> bool: return routine["name"] == routine_name):
-		tries += 1
-		routine_name = "New Routine %d" % tries
-	
 	var routine := Dictionary()
-	routine["name"] = routine_name
+	routine["name"] = get_unique_name(routines, "New Routine", "%d")
 	routine["on_fail"] = 0
 	routine["tasks"] = []
 	routines.append(routine)
@@ -144,6 +137,17 @@ func resolve_path(path: String) -> String:
 		return path
 	else:
 		return Data.project_path.path_join(path)
+
+func get_unique_name(dataset: Array[Dictionary], base: String, format_suffix: String, initial_count := 1) -> String:
+	var unique_name := base
+	var format_base := base + " " + format_suffix
+	var tries := initial_count
+	
+	while dataset.any(func(data: Dictionary) -> bool: return data["name"] == unique_name):
+		tries += 1
+		unique_name = format_base % tries
+	
+	return unique_name
 
 func queue_save_local_config():
 	save_local_timer.start()

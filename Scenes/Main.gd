@@ -94,17 +94,37 @@ func duplicate_routine(data: Dictionary):
 func duplicate_template(template: Control):
 	var dup := _add_template_pressed()
 	var data: Dictionary = template.get_data().duplicate()
-	data["name"] = data["name"] + " (Copy)"
+	data["name"] = Data.get_unique_name(Data.templates, data["name"], "(Copy %d)", 0)
+	
 	dup.set_data(data)
-	template_container.move_child(dup, template.get_index() + 1) # TODO: ustawić za inheritami
+	sync_templates()
+	Data.save_local_config()
+	
+	for other in template_container.get_children():
+		if other.get_index() > template.get_index() and other.inherit != template.get_template_name():
+			template_container.move_child(dup, other.get_index())
+			break
+	
+	await get_tree().process_frame
+	%TemplateScroll.ensure_control_visible(dup)
 
 func inherit_template(template: Control):
 	var dup := _add_template_pressed()
 	var data: Dictionary = template.get_data().duplicate()
 	data["inherit"] = data["name"]
-	data["name"] = data["name"] + " (Inherited)"
+	data["name"] = Data.get_unique_name(Data.templates, data["name"], "(Inherited %d)", 0)
+	
 	dup.set_data(data)
-	template_container.move_child(dup, template.get_index() + 1)
+	sync_templates()
+	Data.save_local_config()
+	
+	for other in template_container.get_children():
+		if other.get_index() > template.get_index() and other.inherit != template.get_template_name():
+			template_container.move_child(dup, other.get_index())
+			break
+	
+	await get_tree().process_frame
+	%TemplateScroll.ensure_control_visible(dup)
 
 func delete_template(template: Control):
 	template.queue_free()

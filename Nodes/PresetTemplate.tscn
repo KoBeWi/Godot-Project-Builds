@@ -42,6 +42,7 @@ func set_data(data: Dictionary):
 	
 	inherit = data.get(\"inherit\", \"\")
 	update_inheritance() # TODO: auto-update jak się zmieni parent
+	validate_name()
 
 func connect_duplicate(callback: Callable):
 	%Duplicate.pressed.connect(callback)
@@ -57,6 +58,8 @@ func update_inheritance():
 		return
 	
 	self_modulate = Color.YELLOW
+	%Inherits.show()
+	%Inherits.text = \"Inherits: %s\" % inherit
 	
 	var other_template := Data.get_template(inherit)
 	if other_template.is_empty():
@@ -78,11 +81,20 @@ func update_strings(string_container: Control, strings: PackedStringArray):
 		if not string in my_strings:
 			var strin: LineEdit = string_container._add_string()
 			strin.text = string
+
+func get_template_name() -> String:
+	return %Name.text
+
+func validate_name() -> void:
+	if get_parent().get_children().any(func(template: Node) -> bool: return template != self and template.get_template_name() == get_template_name()):
+		%Name.modulate = Color.RED
+	else:
+		%Name.modulate = Color.WHITE
 "
 
 [node name="PresetTemplate" type="PanelContainer"]
-offset_right = 432.0
-offset_bottom = 238.0
+offset_right = 771.0
+offset_bottom = 246.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_qhetb")
 script = SubResource("GDScript_4k674")
 
@@ -97,15 +109,27 @@ columns = 2
 [node name="Label" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Name"
+horizontal_alignment = 2
 
-[node name="Name" type="LineEdit" parent="VBoxContainer/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Name" type="LineEdit" parent="VBoxContainer/GridContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Inherits" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "Inherits: %s"
+
 [node name="Label2" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Custom Features"
+horizontal_alignment = 2
 
 [node name="CustomFeatures" parent="VBoxContainer/GridContainer" instance=ExtResource("1_egcl1")]
 unique_name_in_owner = true
@@ -114,6 +138,7 @@ layout_mode = 2
 [node name="Label3" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Include Filters"
+horizontal_alignment = 2
 
 [node name="IncludeFilters" parent="VBoxContainer/GridContainer" instance=ExtResource("1_egcl1")]
 unique_name_in_owner = true
@@ -122,6 +147,7 @@ layout_mode = 2
 [node name="Label4" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Exclude Filters"
+horizontal_alignment = 2
 
 [node name="ExcludeFilters" parent="VBoxContainer/GridContainer" instance=ExtResource("1_egcl1")]
 unique_name_in_owner = true
@@ -130,6 +156,7 @@ layout_mode = 2
 [node name="Label5" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Export Base"
+horizontal_alignment = 2
 
 [node name="ExportPath" parent="VBoxContainer/GridContainer" instance=ExtResource("2_at7ma")]
 unique_name_in_owner = true
@@ -161,3 +188,5 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Delete"
+
+[connection signal="text_changed" from="VBoxContainer/GridContainer/HBoxContainer/Name" to="." method="validate_name" unbinds=1]

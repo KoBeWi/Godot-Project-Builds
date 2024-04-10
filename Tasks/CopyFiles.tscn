@@ -66,8 +66,10 @@ func _store() -> void:
 
 func _get_task_info() -> PackedStringArray:
 	return [
-		\"Task description\",
-		\"Argument Name|Description\",
+		\"Copies the specified files or directories to a new location.\",
+		\"Source Path|File or directory path which is going to be copied.\",
+		\"Target Path|Target file/directory path where the files will be copied to..\",
+		\"Recursive|If source path is a directory, this option enables copying sub-directories.\",
 	]
 "
 

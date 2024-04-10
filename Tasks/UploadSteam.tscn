@@ -83,7 +83,7 @@ func _store():
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Uploads files to Steam based on the given VDF file, using steamcmd.exe.\",
-		\"VDF File|File used as a base to upload. Only \\\"non-simple\\\" VDF files are supported.\",
+		\"VDF File|File used as a base to upload. Only AppBuild VDF files are supported.\",
 	]
 
 func get_vdf_path() -> String:
