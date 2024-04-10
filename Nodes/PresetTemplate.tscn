@@ -22,6 +22,9 @@ border_color = Color(1, 1, 1, 0.501961)
 script/source = "extends Control
 
 var inherit: String
+var parent: Node
+
+signal changed
 
 func get_data() -> Dictionary:
 	var data: Dictionary
@@ -41,7 +44,7 @@ func set_data(data: Dictionary):
 	%ExportPath.text = data[\"export_path\"]
 	
 	inherit = data.get(\"inherit\", \"\")
-	update_inheritance() # TODO: auto-update jak się zmieni parent
+	update_inheritance()
 	validate_name()
 
 func connect_duplicate(callback: Callable):
@@ -57,14 +60,24 @@ func update_inheritance():
 	if inherit.is_empty():
 		return
 	
+	if not parent:
+		for template in get_parent().get_children():
+			if template.get_template_name() == inherit:
+				parent = template
+				parent.changed.connect(update_inheritance)
+				break
+	
+	if parent.get_template_name() != inherit:
+		inherit = parent.get_template_name()
+	
 	self_modulate = Color.YELLOW
 	%Inherits.show()
 	%Inherits.text = \"Inherits: %s\" % inherit
 	
-	var other_template := Data.get_template(inherit)
-	if other_template.is_empty():
-		return
-	
+	$Timer.start()
+
+func sync_strings() -> void:
+	var other_template: Dictionary = parent.get_data()
 	update_strings(%CustomFeatures, other_template[\"custom_features\"])
 	update_strings(%IncludeFilters, other_template[\"include_filters\"])
 	update_strings(%ExcludeFilters, other_template[\"exclude_filters\"])
@@ -74,13 +87,14 @@ func update_strings(string_container: Control, strings: PackedStringArray):
 		if string.text in strings:
 			string.editable = false
 		elif not string.editable:
-			string.queue_free()
+			string.free()
 	
 	var my_strings: PackedStringArray = string_container.get_strings()
 	for string in strings:
 		if not string in my_strings:
 			var strin: LineEdit = string_container._add_string()
 			strin.text = string
+			strin.editable = false
 
 func get_template_name() -> String:
 	return %Name.text
@@ -90,6 +104,9 @@ func validate_name() -> void:
 		%Name.modulate = Color.RED
 	else:
 		%Name.modulate = Color.WHITE
+
+func emit_changed():
+	changed.emit()
 "
 
 [node name="PresetTemplate" type="PanelContainer"]
@@ -118,6 +135,8 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Inherits" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -189,4 +208,13 @@ layout_mode = 2
 size_flags_horizontal = 6
 text = "Delete"
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="text_changed" from="VBoxContainer/GridContainer/HBoxContainer/Name" to="." method="validate_name" unbinds=1]
+[connection signal="text_changed" from="VBoxContainer/GridContainer/HBoxContainer/Name" to="." method="emit_changed" unbinds=1]
+[connection signal="changed" from="VBoxContainer/GridContainer/CustomFeatures" to="." method="emit_changed"]
+[connection signal="changed" from="VBoxContainer/GridContainer/IncludeFilters" to="." method="emit_changed"]
+[connection signal="changed" from="VBoxContainer/GridContainer/ExcludeFilters" to="." method="emit_changed"]
+[connection signal="timeout" from="Timer" to="." method="sync_strings"]

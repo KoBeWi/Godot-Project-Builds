@@ -28,4 +28,5 @@ expand_to_text_length = true
 layout_mode = 2
 icon = ExtResource("1_nij3a")
 
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="emit_changed" flags=3]
 [connection signal="pressed" from="HBoxContainer/Button" to="." method="_add_string"]
