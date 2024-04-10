@@ -10,11 +10,11 @@ config_version=5
 
 [addons]
 
-project_builds/config_path="res://project_builds_config.txt"
+project_builder/config_path="res://project_builds_config.txt"
 
 [application]
 
-config/name="Godot Project Builds"
+config/name="Godot Project Builder"
 config/tags=PackedStringArray("tool")
 run/main_scene="res://Scenes/ProjectManager.tscn"
 config/features=PackedStringArray("4.3")
@@ -51,7 +51,7 @@ script/templates_search_path="res://Scripts/Templates"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ProjectBuilds/plugin.cfg")
+enabled=PackedStringArray("res://addons/ProjectBuilder/plugin.cfg")
 
 [rendering]
 

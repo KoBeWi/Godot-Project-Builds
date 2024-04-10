@@ -12,6 +12,8 @@ func _ready() -> void:
 	config.load(Data.project_path.path_join("project.godot"))
 	
 	%Title.text %= config.get_value("application", "config/name", "[unnamed]")
+	if Data.from_plugin:
+		%Back.hide()
 	
 	for routine in Data.routines:
 		add_routine(routine)
@@ -155,3 +157,10 @@ func run_project_scan() -> void:
 	
 	for task in Data.static_initialize_tasks:
 		task._end_project_scan()
+	
+	%ScanFinished.show()
+	%ScanFinished.modulate.a = 1.0
+	
+	var tween := create_tween()
+	tween.tween_property(%ScanFinished, ^"modulate:a", 0.0, 0.5).set_delay(0.5)
+	tween.tween_callback(%ScanFinished.hide)

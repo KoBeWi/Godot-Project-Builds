@@ -9,6 +9,7 @@ func _ready() -> void:
 		else:
 			var project_path := user_arguments[i + 1]
 			if DirAccess.dir_exists_absolute(project_path):
+				Data.from_plugin = true
 				load_project.call_deferred(project_path)
 				return
 			else:

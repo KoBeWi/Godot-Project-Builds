@@ -102,10 +102,10 @@ func on_local_setting_changed(dummy, control: Control, setting: String):
 
 func update_plugin_status():
 	var plugin_file := ConfigFile.new()
-	plugin_file.load(Data.get_res_path().path_join(\"addons/ProjectBuilds/plugin.cfg\"))
+	plugin_file.load(Data.get_res_path().path_join(\"addons/ProjectBuilder/plugin.cfg\"))
 	var current_version: String = plugin_file.get_value(\"plugin\", \"version\", \"0.0\")
 	
-	if plugin_file.load(Data.project_path.path_join(\"addons/ProjectBuilds/plugin.cfg\")) == OK:
+	if plugin_file.load(Data.project_path.path_join(\"addons/ProjectBuilder/plugin.cfg\")) == OK:
 		var project_version: String = plugin_file.get_value(\"plugin\", \"version\", \"0.0\")
 		var old: bool
 		
@@ -128,8 +128,8 @@ func update_plugin_status():
 		%InstallPlugin.disabled = false
 
 func _on_install_plugin_pressed() -> void:
-	var source_path := Data.get_res_path().path_join(\"addons/ProjectBuilds\")
-	var target_path := Data.project_path.path_join(\"addons/ProjectBuilds\")
+	var source_path := Data.get_res_path().path_join(\"addons/ProjectBuilder\")
+	var target_path := Data.project_path.path_join(\"addons/ProjectBuilder\")
 	DirAccess.make_dir_recursive_absolute(target_path)
 	
 	for file in DirAccess.get_files_at(source_path):
@@ -171,7 +171,7 @@ theme_override_constants/margin_bottom = 8
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Project Builds - %s"
+text = "Project Builder - %s"
 horizontal_alignment = 1
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
@@ -182,7 +182,6 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -260,6 +259,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
@@ -318,6 +318,8 @@ horizontal_alignment = 1
 [node name="SteamUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 unique_name_in_owner = true
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 layout_mode = 2
@@ -327,6 +329,8 @@ horizontal_alignment = 1
 [node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
 unique_name_in_owner = true
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 secret = true
 
 [node name="GOG" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
@@ -357,6 +361,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
 auto_translate_mode = 1
@@ -368,6 +374,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 secret = true
 
 [node name="Epic" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
@@ -398,6 +406,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
 auto_translate_mode = 1
@@ -409,6 +419,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Label6" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
 auto_translate_mode = 1
@@ -420,6 +432,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 secret = true
 
 [node name="Label7" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
@@ -432,6 +446,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Itch" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
 layout_mode = 2
@@ -460,6 +476,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="VBoxContainer/TabContainer/Config"]
 auto_translate_mode = 1
@@ -495,6 +513,8 @@ mode = 1
 
 [node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Epic" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
 auto_translate_mode = 1
@@ -511,6 +531,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
 auto_translate_mode = 1
@@ -522,6 +544,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
 auto_translate_mode = 1
@@ -550,6 +574,8 @@ horizontal_alignment = 1
 [node name="ItchGameName" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
 unique_name_in_owner = true
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
 auto_translate_mode = 1
@@ -561,6 +587,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
 layout_mode = 2
@@ -569,6 +597,18 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Run Project Scan"
+
+[node name="ScanFinished" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Button"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 142.0
+offset_right = 249.0
+grow_vertical = 2
+text = "Scan finished!"
+vertical_alignment = 1
 
 [node name="Control" type="Control" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
 custom_minimum_size = Vector2(0, 8)
@@ -584,9 +624,10 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Instal Project Builds Plugin"
+text = "Instal Project Builder Plugin"
 
-[node name="Button" type="Button" parent="."]
+[node name="Back" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 0
 shortcut = ExtResource("4_bgxb8")
 shortcut_in_tooltip = false
@@ -597,6 +638,6 @@ icon = ExtResource("2_fue2w")
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/TemplateScroll/VBoxContainer/Button" to="." method="_add_template_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Button" to="." method="run_project_scan"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/InstallPlugin" to="VBoxContainer/TabContainer/Config" method="_on_install_plugin_pressed"]
-[connection signal="pressed" from="Button" to="." method="go_back"]
+[connection signal="pressed" from="Back" to="." method="go_back"]
 
 [editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot"]

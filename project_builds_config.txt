@@ -11,7 +11,7 @@
 "tasks": Array[Dictionary]([{
 "data": {
 "debug": false,
-"path_suffix": "Windows/Project Builds.exe",
+"path_suffix": "Windows/Project Builder.exe",
 "preset": "Windows Desktop",
 "template": "Main"
 },
@@ -19,8 +19,8 @@
 }, {
 "data": {
 "recursive": true,
-"source_path": "addons/ProjectBuilds",
-"target_path": ".export/Windows/addons/ProjectBuilds"
+"source_path": "addons/ProjectBuilder",
+"target_path": ".export/Windows/addons/ProjectBuilder"
 },
 "scene": "CopyFiles"
 }, {
@@ -37,7 +37,7 @@
 "tasks": Array[Dictionary]([{
 "data": {
 "debug": false,
-"path_suffix": "Linux/Project Builds.x86_64",
+"path_suffix": "Linux/Project Builder.x86_64",
 "preset": "Linux",
 "template": "Main"
 },
@@ -45,8 +45,8 @@
 }, {
 "data": {
 "recursive": true,
-"source_path": "addons/ProjectBuilds",
-"target_path": ".export/Linux/addons/ProjectBuilds"
+"source_path": "addons/ProjectBuilder",
+"target_path": ".export/Linux/addons/ProjectBuilder"
 },
 "scene": "CopyFiles"
 }, {
@@ -74,7 +74,7 @@
 }]),
 "templates": Array[Dictionary]([{
 "custom_features": PackedStringArray(),
-"exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilds/*"),
+"exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilder/*"),
 "export_path": ".export",
 "include_filters": PackedStringArray(),
 "inherit": "",

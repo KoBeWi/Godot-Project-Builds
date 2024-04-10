@@ -29,8 +29,6 @@ func _ready() -> void:
 		if not task_instance._prevalidate():
 			errors.append("%s: %s" % [task_instance._get_execute_string(), task_instance.error_message])
 	
-	#item.arguments = ["a", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Build.zip", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.exe", "X:/Godot/Projects/ProjectBuilds/Testing/ExportTarget/Game.pck"]
-	
 	if not errors.is_empty():
 		%ErrorsParent.show()
 		%Delay.hide()

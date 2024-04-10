@@ -41,7 +41,7 @@ func _store() -> void:
 
 func _get_task_info() -> PackedStringArray:
 	return [
-		\"Clears all files in a directory. The files are not deleted, but moved to a special Trash directory in Project Builds' user data. The operation is not recursive.\",
+		\"Clears all files in a directory. The files are not deleted, but moved to a special Trash directory in Project Builder's user data. The operation is not recursive.\",
 		\"Target Directory|The directory to be cleared.\",
 	]
 "

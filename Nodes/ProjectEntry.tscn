@@ -16,13 +16,13 @@ func set_project(path: String, callback: Callable):
 		var image := Image.load_from_file(icon_path.replace(\"res:/\", path))
 		%Icon.texture = ImageTexture.create_from_image(image)
 	
-	var local_config_file: String = config.get_value(\"addons\", \"project_builds/config_path\", Data.CONFIG_FILE)
+	var local_config_file: String = config.get_value(\"addons\", \"project_builder/config_path\", Data.CONFIG_FILE)
 	if local_config_file.is_absolute_path():
 		local_config_file = local_config_file.trim_prefix(\"res://\")
 	
 	var task := FileAccess.open(path.path_join(local_config_file), FileAccess.READ)
 	if not task:
-		%Tasks.text = \"Project builds not configured\"
+		%Tasks.text = \"Project builder not configured\"
 	else:
 		var data: Dictionary = str_to_var(task.get_as_text())
 		%Tasks.text = \"%d routines\" % data.get(\"routines\", []).size()

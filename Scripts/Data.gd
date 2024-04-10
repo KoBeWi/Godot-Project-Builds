@@ -6,6 +6,7 @@ var local_config_file: String
 var global_config: Dictionary
 var local_config: Dictionary
 var project_path: String
+var from_plugin: bool
 
 var first_load: bool
 var initial_load: bool
@@ -32,8 +33,8 @@ func _init() -> void:
 	if global_config_file:
 		global_config = str_to_var(global_config_file.get_as_text())
 	else:
-		global_config["project_builds_path"] = ""
-		global_config["project_builds_executable"] = ""
+		global_config["project_builder_path"] = ""
+		global_config["project_builder_executable"] = ""
 	
 	save_local_timer = Timer.new()
 	save_local_timer.wait_time = 0.5
@@ -51,13 +52,13 @@ func _ready() -> void:
 		return
 	
 	var path := ProjectSettings.globalize_path("res://")
-	if path != global_config["project_builds_path"]:
-		global_config["project_builds_path"] = path
+	if path != global_config["project_builder_path"]:
+		global_config["project_builder_path"] = path
 		queue_save_global_config()
 	
 	path = OS.get_executable_path()
-	if path != global_config["project_builds_executable"]:
-		global_config["project_builds_executable"] = path
+	if path != global_config["project_builder_executable"]:
+		global_config["project_builder_executable"] = path
 		queue_save_global_config()
 
 func load_project(path: String):
@@ -66,7 +67,7 @@ func load_project(path: String):
 	
 	var godot := ConfigFile.new()
 	godot.load(project_path.path_join("project.godot"))
-	local_config_file = godot.get_value("addons", "project_builds/config_path", CONFIG_FILE)
+	local_config_file = godot.get_value("addons", "project_builder/config_path", CONFIG_FILE)
 	if local_config_file.is_absolute_path():
 		local_config_file = local_config_file.trim_prefix("res://")
 	

@@ -127,7 +127,7 @@ func _get_task_info() -> PackedStringArray:
 	return [
 		\"Exports the project by creating a new preset using the selected template. An existing preset is used as a base.\",
 		\"Base Preset|Preset name from the project's presets defined in the Export dialog.\",
-		\"Preset Template|Template name from the templates defined in Project Builds.\",
+		\"Preset Template|Template name from the templates defined in Project Builder.\",
 		\"Debug|If enabled, exports a debug build.\",
 	]
 "
