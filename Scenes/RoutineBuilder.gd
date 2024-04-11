@@ -5,6 +5,7 @@ extends Control
 
 var routine: Dictionary
 var task_to_test: Task
+var discard: bool
 
 func _ready() -> void:
 	routine = Data.get_current_routine()
@@ -40,12 +41,20 @@ func create_task(scene: String) -> Task:
 func _back_pressed() -> void:
 	get_tree().change_scene_to_packed(Data.main)
 
+func _discard_pressed() -> void:
+	discard = true
+	get_tree().auto_accept_quit = true
+	get_tree().change_scene_to_packed(Data.main)
+
 func test_task(task: Task):
 	task_to_test = task
 	get_tree().current_scene = null
 	get_parent().remove_child(self)
 
 func _exit_tree() -> void:
+	if discard:
+		return
+	
 	var routine_tasks: Array[Dictionary]
 	var test_data: Dictionary
 	

@@ -39,6 +39,15 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
+[node name="Back2" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "Discard Changes"
+icon = ExtResource("2_0gvmh")
+icon_alignment = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 alignment = 1
@@ -94,4 +103,5 @@ icon = ExtResource("3_c5oe2")
 
 [connection signal="pressed" from="HBoxContainer2/Back" to="." method="_back_pressed"]
 [connection signal="text_changed" from="HBoxContainer2/HBoxContainer/RoutineName" to="." method="validate_routine_name" unbinds=1]
+[connection signal="pressed" from="HBoxContainer2/Back2" to="." method="_discard_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/HBoxContainer/PasteTask" to="." method="paste_task"]
