@@ -19,6 +19,7 @@ config/tags=PackedStringArray("tool")
 run/main_scene="res://Scenes/ProjectManager.tscn"
 config/features=PackedStringArray("4.3")
 run/low_processor_mode=true
+config/icon="res://Icons/Icon.png"
 
 [autoload]
 
