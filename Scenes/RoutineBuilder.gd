@@ -38,7 +38,7 @@ func create_task(scene: String) -> Task:
 	return task
 
 func _back_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+	get_tree().change_scene_to_packed(Data.main)
 
 func test_task(task: Task):
 	task_to_test = task

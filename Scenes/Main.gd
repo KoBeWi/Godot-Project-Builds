@@ -23,6 +23,7 @@ func _ready() -> void:
 		temp.set_data(template)
 	
 	task_queue.assign(Data.tasks.values())
+	set_physics_process(false)
 	
 	if Data.first_load:
 		for task in Data.static_initialize_tasks:
@@ -164,3 +165,7 @@ func run_project_scan() -> void:
 	var tween := create_tween()
 	tween.tween_property(%ScanFinished, ^"modulate:a", 0.0, 0.5).set_delay(0.5)
 	tween.tween_callback(%ScanFinished.hide)
+
+func tab_changed(tab: int) -> void:
+	if tab == 2 and not task_queue.is_empty():
+		set_physics_process(true)

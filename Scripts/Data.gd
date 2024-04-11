@@ -23,6 +23,8 @@ var copied_task: Dictionary
 var save_local_timer: Timer
 var save_global_timer: Timer
 
+var main: PackedScene
+
 func _init() -> void:
 	var task_path := get_res_path().path_join("Tasks")
 	for task in DirAccess.get_files_at(task_path):
@@ -46,6 +48,8 @@ func _init() -> void:
 	
 	save_local_timer.timeout.connect(save_local_config)
 	save_global_timer.timeout.connect(save_global_config)
+	
+	main = load("res://Scenes/Main.tscn")
 
 func _ready() -> void:
 	if not OS.get_cmdline_user_args().is_empty():

@@ -26,4 +26,4 @@ func _ready() -> void:
 
 func load_project(project: String):
 	Data.load_project(project)
-	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+	get_tree().change_scene_to_packed(Data.main)
