@@ -53,6 +53,7 @@ func _physics_process(delta: float) -> void:
 	task_queue_index += 1
 	if task_queue_index == task_queue.size():
 		set_physics_process(false)
+		task_queue.clear()
 
 func _exit_tree() -> void:
 	if Data.project_path.is_empty():

@@ -64,7 +64,7 @@ func _exit_tree() -> void:
 	Data.queue_save_local_config()
 	
 	if task_to_test:
-		Data.current_routine = { "name": "Test", "tasks": [ test_data ]}
+		Data.current_routine = { "name": "Test", "tasks": [ test_data ], "on_fail": 0 }
 		queue_free()
 		get_tree().change_scene_to_file("res://Scenes/Execution.tscn")
 	

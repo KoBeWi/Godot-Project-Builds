@@ -162,7 +162,6 @@ grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = 8
@@ -182,13 +181,14 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Routines"]
 layout_mode = 2
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="Button" type="Button" parent="VBoxContainer/TabContainer/Routines/MarginContainer"]
 layout_mode = 2
@@ -211,36 +211,45 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Preset Templates" type="MarginContainer" parent="VBoxContainer/TabContainer"]
-visible = false
+[node name="Preset Templates" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Preset Templates"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Preset Templates/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Add Template"
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/TabContainer/Preset Templates"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TemplateScroll" type="ScrollContainer" parent="VBoxContainer/TabContainer/Preset Templates"]
+[node name="TemplateScroll" type="ScrollContainer" parent="VBoxContainer/TabContainer/Preset Templates/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_nuonq")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Preset Templates/TemplateScroll"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Preset Templates/MarginContainer2/TemplateScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TemplateContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Preset Templates/TemplateScroll/VBoxContainer"]
+[node name="TemplateContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Preset Templates/MarginContainer2/TemplateScroll/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Preset Templates/TemplateScroll/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-text = "Add Template"
 
 [node name="Tasks" type="MarginContainer" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -636,7 +645,7 @@ icon = ExtResource("2_fue2w")
 
 [connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="tab_changed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/TemplateScroll/VBoxContainer/Button" to="." method="_add_template_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/MarginContainer/Button" to="." method="_add_template_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Button" to="." method="run_project_scan"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/InstallPlugin" to="VBoxContainer/TabContainer/Config" method="_on_install_plugin_pressed"]
 [connection signal="pressed" from="Back" to="." method="go_back"]

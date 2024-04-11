@@ -22,8 +22,14 @@ func _initialize():
 		update_godot_version()
 
 func _prevalidate() -> bool:
-	if OS.execute(godot_path, ["--version"]) != OK:
+	if OS.execute(godot_path, ["--version"], []) != OK:
 		error_message = "Godot executable (%s) is not valid." % godot_path
+		return false
+	
+	var project := ConfigFile.new()
+	project.load(Data.project_path.path_join("project.godot"))
+	if project.get_value("", "config_version", 0) == 4 and not is_godot_3:
+		error_message = "Trying to export Godot 3 project using Godot 4 executable."
 		return false
 	
 	var presets := load_presets()
