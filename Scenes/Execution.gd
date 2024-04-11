@@ -1,19 +1,23 @@
 extends Control
 
-
 @onready var task_limbo: Node2D = %TaskLimbo
 @onready var commands_container: VBoxContainer = %CommandsContainer
 @onready var error_container: Control = %Errors
 
 var current_task_index: int
 var current_task: Task
+var task_in_progress: bool
 var task_error: String
 
 var on_fail: int
 var sensitive_strings: PackedStringArray
 var log_file: FileAccess
 
+var separator_prefab: PackedScene
+
 func _ready() -> void:
+	separator_prefab = Prefab.create(%Separator)
+	
 	var errors: PackedStringArray
 	
 	var routine := Data.get_current_routine()
@@ -78,6 +82,7 @@ func next_command():
 	command.log_file = log_file
 	
 	if current_task._validate():
+		task_in_progress = true
 		current_task._prepare()
 	else:
 		command.error = current_task.error_message
@@ -96,11 +101,14 @@ func next_command():
 
 func task_finished(success: bool):
 	current_task._cleanup()
+	task_in_progress = false
 	
 	var command := commands_container.get_child(-1)
 	var intime: int = command.timer
 	log_file.store_line("\n> Finished with code %d, time: %02d:%02d:%02d." % [command.finish_code, intime / 3600, intime / 60 % 60, intime % 60])
 	log_file.flush()
+	
+	commands_container.add_child(separator_prefab.instantiate())
 	
 	if not success and on_fail == 0:
 		finish()
@@ -113,7 +121,8 @@ func finish():
 	
 	var total_time: float
 	for command in commands_container.get_children():
-		total_time += command.timer
+		if &"timer" in command:
+			total_time += command.timer
 	
 	var intime := int(total_time)
 	%Time.text %= [intime / 3600, intime / 60 % 60, intime % 60]
@@ -121,3 +130,7 @@ func finish():
 
 func go_back() -> void:
 	get_tree().change_scene_to_packed(Data.main)
+
+func _exit_tree() -> void:
+	if task_in_progress:
+		current_task._cleanup()

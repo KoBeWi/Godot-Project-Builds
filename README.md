@@ -36,9 +36,23 @@ After the task is added, you can use its controls to setup it. Reference about t
 
 At the top of the task preview is its title and various buttons. The top-left button allows you to quickly execute a single task from the routine (see [Executing](#executing)). The top-right are buttons for rearranging tasks, a Copy button and a Delete button. Copy will copy the task data into an internal clipboard and you will be able to paste the task into the same routine, other routines, or even other projects. The Delete button requires double-click to activate, to prevent accidental deleting. A deleted task cannot be recovered, as currently the Project Builder does not support undo/redo.
 
-Above the task list is the routine name field, where you can rename it. Note that each routine needs an unique name and if there is a conflict, you won't be able to leave this screen (unless you use the Discard Changes button). Clicking Back will go back to the main screen and save the routine. The routine is also saved when you close the Project Builder.
+Above the task list is the routine name field, where you can rename it. Note that each routine needs an unique name and if there is a conflict, you won't be able to leave this screen (unless you use the Discard Changes button). Aside from name, there is a dropdown for controlling what happens when a task fails (see [Executing](#executing)). Clicking Back will go back to the main screen and save the routine. The routine is also saved when you close the Project Builder.
 
 #### Executing
+
+By clicking the Execute button in a routine, by using using the quick-execute button in routine editing screen, you will enter the execution mode. If you did this by accident, you have 1 second to press Escape and cancel task (afterwards you have to close the application if you want to stop it).
+
+![](Media/RoutineExecuting.gif)
+
+Execution works simply by running tasks one after another. A task will run a commend with arguments and display the output in real time. Once a task finishes, you will see whether it succeeded or failed, its exit code, and the time it took to execute.
+
+![](Media/FinishedTask.png)
+
+Top of the task is its execution name (i.e. a more detailed task name) and the exact command that is executed when the task runs (in the example above, the task invoked Godot with `--export-release`). Below is Toggle Output button that allows you to hide output and Copy Output, which will copy it to the clipboard. Note that output is also written to log files that can be accessed from Open Log Folder on the main screen.
+
+Normally when task fails, the whole execution will stop. You can configure that in routine settings; the other option is to continue executing normally. When a routine finishes, you will see the total time it took to execute.
+
+![](Media/FinishedRoutine.png)
 
 ### Templates
 
@@ -47,6 +61,8 @@ Above the task list is the routine name field, where you can rename it. Note tha
 ### Config
 
 ### Project Builder Plugin
+
+command palette
 
 ## List of Available Tasks
 

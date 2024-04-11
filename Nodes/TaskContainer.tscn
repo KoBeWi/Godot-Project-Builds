@@ -65,6 +65,7 @@ theme_override_constants/margin_right = 4
 [node name="Button" type="Button" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
+tooltip_text = "Execute This Task"
 icon = ExtResource("1_0viqh")
 
 [node name="TaskName" type="Label" parent="VBoxContainer/MarginContainer"]

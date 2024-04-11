@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqm1wdopgkdkp"]
+[gd_scene load_steps=6 format=3 uid="uid://dqm1wdopgkdkp"]
 
 [ext_resource type="Script" path="res://Scenes/Execution.gd" id="1_rwjih"]
 [ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="2_qbdqm"]
@@ -11,6 +11,12 @@ content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
 bg_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ykpnb"]
+color = Color(1, 1, 1, 1)
+grow_begin = -50.0
+grow_end = -50.0
+thickness = 2
 
 [node name="Execution" type="ScrollContainer"]
 anchors_preset = 15
@@ -57,6 +63,12 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Separator" type="HSeparator" parent="VBoxContainer/CommandsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 30
+theme_override_styles/separator = SubResource("StyleBoxLine_ykpnb")
 
 [node name="Time" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true

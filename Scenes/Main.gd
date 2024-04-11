@@ -170,3 +170,6 @@ func run_project_scan() -> void:
 func tab_changed(tab: int) -> void:
 	if tab == 2 and not task_queue.is_empty():
 		set_physics_process(true)
+
+func open_logs() -> void:
+	OS.shell_open(ProjectSettings.globalize_path("user://BuildLogs"))

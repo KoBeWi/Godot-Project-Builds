@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=13 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_r1xkq"]
 [ext_resource type="PackedScene" uid="uid://dwmijfw6b7ngj" path="res://Nodes/GUI/FoldableContainer.tscn" id="2_12ltr"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_ood4h"]
 [ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="4_bgxb8"]
+[ext_resource type="Texture2D" uid="uid://ckqqfrho1pqcd" path="res://Icons/Script.svg" id="6_kgk8y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x81aq"]
 bg_color = Color(0, 0, 0, 0.12549)
@@ -181,7 +182,6 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -212,6 +212,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Preset Templates" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Preset Templates"]
@@ -643,11 +644,24 @@ shortcut_in_tooltip = false
 text = "Back"
 icon = ExtResource("2_fue2w")
 
+[node name="OpenLogs" type="Button" parent="."]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -57.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Open Logs Folder"
+icon = ExtResource("6_kgk8y")
+
 [connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="tab_changed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/MarginContainer/Button" to="." method="_add_template_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Button" to="." method="run_project_scan"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/InstallPlugin" to="VBoxContainer/TabContainer/Config" method="_on_install_plugin_pressed"]
 [connection signal="pressed" from="Back" to="." method="go_back"]
+[connection signal="pressed" from="OpenLogs" to="." method="open_logs"]
 
 [editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot"]
