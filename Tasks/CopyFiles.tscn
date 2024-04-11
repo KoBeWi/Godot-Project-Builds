@@ -81,9 +81,11 @@ script = SubResource("GDScript_6ruue")
 script_name = "CopyFiles.gd"
 
 [node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Source Path"
+horizontal_alignment = 2
 
 [node name="SourcePath" parent="." instance=ExtResource("1_nbxxd")]
 unique_name_in_owner = true
@@ -98,6 +100,7 @@ auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Target Path"
+horizontal_alignment = 2
 
 [node name="TargetPath" parent="." instance=ExtResource("1_nbxxd")]
 unique_name_in_owner = true
@@ -107,11 +110,10 @@ size_flags_horizontal = 3
 mode = 3
 scope = 1
 
-[node name="Label3" type="Label" parent="."]
+[node name="Control" type="Control" parent="."]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Recursive"
 
 [node name="Recursive" type="CheckBox" parent="."]
 unique_name_in_owner = true

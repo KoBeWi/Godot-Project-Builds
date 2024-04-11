@@ -80,45 +80,32 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="UploadItch" type="HBoxContainer"]
+[node name="UploadItch" type="GridContainer"]
 offset_right = 536.0
 offset_bottom = 66.0
+columns = 2
 script = SubResource("GDScript_5kvo4")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="GridContainer" type="GridContainer" parent="."]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 4.0
-columns = 2
-
-[node name="Label" type="Label" parent="GridContainer"]
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Source Folder"
 horizontal_alignment = 2
 
-[node name="SourceFolder" parent="GridContainer" instance=ExtResource("1_qoq5m")]
+[node name="SourceFolder" parent="." instance=ExtResource("1_qoq5m")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 scope = 1
 missing_mode = 1
 
-[node name="Label2" type="Label" parent="GridContainer"]
+[node name="Label2" type="Label" parent="."]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Channel"
 horizontal_alignment = 2
 
-[node name="Channel" type="LineEdit" parent="GridContainer"]
+[node name="Channel" type="LineEdit" parent="."]
 unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Control2" type="Control" parent="."]
-auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3

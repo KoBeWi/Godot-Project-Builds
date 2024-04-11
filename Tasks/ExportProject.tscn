@@ -90,6 +90,7 @@ columns = 2
 script = SubResource("GDScript_mlhhy")
 
 [node name="Label2" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Preset"
 horizontal_alignment = 2
@@ -110,7 +111,7 @@ size_flags_horizontal = 3
 mode = 2
 scope = 1
 
-[node name="Label3" type="Control" parent="."]
+[node name="Control" type="Control" parent="."]
 auto_translate_mode = 1
 layout_mode = 2
 

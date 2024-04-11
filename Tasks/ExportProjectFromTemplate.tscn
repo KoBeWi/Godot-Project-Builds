@@ -139,8 +139,10 @@ columns = 2
 script = SubResource("GDScript_mlhhy")
 
 [node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Base Preset"
+horizontal_alignment = 2
 
 [node name="PresetList" type="OptionButton" parent="."]
 unique_name_in_owner = true
@@ -150,6 +152,7 @@ size_flags_horizontal = 3
 [node name="Label2" type="Label" parent="."]
 layout_mode = 2
 text = "Preset Template"
+horizontal_alignment = 2
 
 [node name="TemplateList" type="OptionButton" parent="."]
 unique_name_in_owner = true
@@ -159,6 +162,7 @@ size_flags_horizontal = 3
 [node name="Label3" type="Label" parent="."]
 layout_mode = 2
 text = "Path Suffix"
+horizontal_alignment = 2
 
 [node name="PathSuffix" type="LineEdit" parent="."]
 unique_name_in_owner = true

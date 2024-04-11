@@ -112,42 +112,26 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="SubRoutine" type="HBoxContainer"]
+[node name="SubRoutine" type="GridContainer"]
 offset_right = 377.0
 offset_bottom = 23.0
+columns = 2
 script = SubResource("GDScript_boi7e")
 
-[node name="Control" type="Control" parent="."]
+[node name="Label" type="Label" parent="."]
 auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Limbo" type="Node2D" parent="Control"]
-unique_name_in_owner = true
-visible = false
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 8.0
-alignment = 1
-
-[node name="Label" type="Label" parent="HBoxContainer"]
-auto_translate_mode = 1
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Routine"
 horizontal_alignment = 2
 
-[node name="SubRoutine" type="OptionButton" parent="HBoxContainer"]
+[node name="SubRoutine" type="OptionButton" parent="."]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control2" type="Control" parent="."]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Limbo" type="Node2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, 27)

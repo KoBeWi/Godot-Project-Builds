@@ -53,6 +53,7 @@ columns = 2
 script = SubResource("GDScript_3vtsj")
 
 [node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Command"
 horizontal_alignment = 2

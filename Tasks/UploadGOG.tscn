@@ -138,58 +138,45 @@ func get_json_path() -> String:
 		return \"\"
 "
 
-[node name="UploadGog" type="HBoxContainer"]
+[node name="UploadGog" type="GridContainer"]
 offset_right = 520.0
 offset_bottom = 23.0
+columns = 2
 script = SubResource("GDScript_a0t4t")
 has_static_configuration = true
 has_sensitive_data = true
 
-[node name="Control" type="Control" parent="."]
+[node name="Label" type="Label" parent="."]
 auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="GridContainer" parent="."]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 8.0
-columns = 2
-
-[node name="Label" type="Label" parent="HBoxContainer"]
-auto_translate_mode = 1
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "JSON File"
 horizontal_alignment = 2
 
-[node name="JSONFile" type="OptionButton" parent="HBoxContainer"]
+[node name="JSONFile" type="OptionButton" parent="."]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Branch"
+horizontal_alignment = 2
 
-[node name="Branch" type="LineEdit" parent="HBoxContainer"]
+[node name="Branch" type="LineEdit" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="HBoxContainer"]
+[node name="Label3" type="Label" parent="."]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Branch Password"
+horizontal_alignment = 2
 
-[node name="BranchPassword" type="LineEdit" parent="HBoxContainer"]
+[node name="BranchPassword" type="LineEdit" parent="."]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
-
-[node name="Control2" type="Control" parent="."]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3

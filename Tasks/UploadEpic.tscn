@@ -120,6 +120,7 @@ script = SubResource("GDScript_qbsc0")
 has_sensitive_data = true
 
 [node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Build Root"
 horizontal_alignment = 2

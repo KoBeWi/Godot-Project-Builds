@@ -81,6 +81,7 @@ layout_mode = 2
 columns = 2
 
 [node name="Label2" type="Label" parent="GridContainer"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Source Directory"
