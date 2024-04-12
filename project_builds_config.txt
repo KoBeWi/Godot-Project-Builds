@@ -67,9 +67,25 @@
 "scene": "SubRoutine"
 }, {
 "data": {
+"destination": ".export/ProjectBuilderWindows.zip",
+"exclude_files": "",
+"include_files": "",
+"source": ".export/Windows"
+},
+"scene": "PackZIP"
+}, {
+"data": {
 "routine": "Export Linux"
 },
 "scene": "SubRoutine"
+}, {
+"data": {
+"destination": ".export/ProjectBuilderLinux.zip",
+"exclude_files": "",
+"include_files": "",
+"source": ".export/Linux"
+},
+"scene": "PackZIP"
 }])
 }]),
 "templates": Array[Dictionary]([{

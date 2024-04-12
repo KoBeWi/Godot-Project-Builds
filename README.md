@@ -1,6 +1,6 @@
 # <img src="Icons/Icon.png" width="64" height="64"> Godot Project Builder
 
-Godot Project Builder is an automation tool made in Godot Engine and focused on exporting and publishing Godot projects. The builder works by running "routines", which are composed of "tasks". Each task involves running a predefined command with customized arguments. The builder comes with numberous built-in tasks, which include exporting project, publishing to popular stores (Steam, GOG, Epic, itch.io), and file operations. Task setup is fully visual.
+Project Builder is an automation tool made in Godot Engine and focused on exporting and publishing Godot projects. The builder works by running "routines", which are composed of "tasks". Each task involves running a predefined command with customized arguments. The builder comes with numberous built-in tasks, which include exporting project, publishing to popular stores (Steam, GOG, Epic, itch.io), and file operations. Task setup is fully visual.
 
 ## Overview
 
@@ -12,7 +12,7 @@ It's similar to Godot's own Project Manager, but more minimal. It automatically 
 
 ![](Media/MainRoutines.png)
 
-It shows projects title at the top and is divided in to 4 tabs: Routines, Templates, Tasks and Config. They are explained below.
+It shows projects title at the top and is divided into 4 tabs: Routines, Templates, Tasks and Config. They are explained below.
 
 ### Routines
 
@@ -34,35 +34,35 @@ On this screen you'll see a list of all tasks assigned to the routine. You can a
 
 ![](Media/RoutineTaskList.png)
 
-After the task is added, you can use its controls to setup it. Reference about task usages and its cofniguration is available in the [Tasks](#tasks) tab or in the [task list](#list-of-available-tasks) in this README.
+After the task is added, you can use its controls to setup it. Reference about task usages and its configuration is available in the [Tasks](#tasks) tab or in the [task list](#list-of-available-tasks) in this README.
 
-At the top of the task preview is its title and various buttons. The top-left button allows you to quickly execute a single task from the routine (see [Executing](#executing)). The top-right are buttons for rearranging tasks, a Copy button and a Delete button. Copy will copy the task data into an internal clipboard and you will be able to paste the task into the same routine, other routines, or even other projects. The Delete button requires double-click to activate, to prevent accidental deleting. A deleted task cannot be recovered, as currently the Project Builder does not support undo/redo.
+At the top of the task preview is its title and various buttons. The top-left button allows you to quickly execute a single task from the routine (see [Executing](#executing)). The top-right has buttons for rearranging tasks, a Copy button and a Delete button. Copy will copy the task data into an internal clipboard and you will be able to paste the task into the same routine, other routines, or even other projects. The Delete button requires double-click to activate, to prevent accidental deleting. A deleted task cannot be recovered, as currently the Project Builder does not support undo/redo.
 
 Above the task list is the routine name field, where you can rename it. Note that each routine needs an unique name and if there is a conflict, you won't be able to leave this screen (unless you use the Discard Changes button). Aside from name, there is a dropdown for controlling what happens when a task fails (see [Executing](#executing)). Clicking Back will go back to the main screen and save the routine. The routine is also saved when you close the Project Builder.
 
 #### Executing
 
-By clicking the Execute button in a routine, by using using the quick-execute button in routine editing screen, you will enter the execution mode. If you did this by accident, you have 1 second to press Escape and cancel task (afterwards you have to close the application if you want to stop it).
+By clicking the Execute button in a routine or using using the quick-execute button in routine editing screen, you will enter the execution mode. If you did this by accident, you have 1 second to press Escape and cancel task (afterwards you have to close the application if you want to stop it).
 
 ![](Media/RoutineExecuting.gif)
 
-Execution works simply by running tasks one after another. A task will run a commend with arguments and display the output in real time. Once a task finishes, you will see whether it succeeded or failed, its exit code, and the time it took to execute.
+Execution works simply by running tasks one after another. A task will run a command with arguments and display the output in real time. Once a task finishes, you will see whether it succeeded or failed, its exit code, and the time it took to execute.
 
 ![](Media/FinishedTask.png)
 
-Top of the task is its execution name (i.e. a more detailed task name) and the exact command that is executed when the task runs (in the example above, the task invoked Godot with `--export-release`). Below is Toggle Output button that allows you to hide output and Copy Output, which will copy it to the clipboard. Note that output is also written to log files that can be accessed from Open Log Folder on the main screen.
+Top of the task is its execution name (i.e. a more detailed task name) and the exact command that is executed when the task runs (in the example above, the task invoked Godot with `--export-release`). Clicking that command will copy it to the clipboard (so you can e.g. paste it into terminal, edit and run manually). Below is Toggle Output button that allows you to hide output and Copy Output, which will copy it to the clipboard. Output is also written to log files that can be accessed from Open Log Folder on the project's main screen.
 
-Normally when task fails, the whole execution will stop. You can configure that in routine settings; the other option is to continue executing normally. When a routine finishes, you will see the total time it took to execute.
+Normally when a task fails, the whole execution will stop. You can configure that in routine settings; the other option is to continue executing normally. When a routine finishes, you will see the total time it took to execute.
 
 ![](Media/FinishedRoutine.png)
 
-The routine may also fail before being executed. This can happen if some tasks have prevalidation step, i.e. they check prematurely if their configuration is invalid and guaranteed to fail the task. E.g. Upload Steam task will fail if you didn't provide Steam CMD path.
+The routine may also fail before it starts running. This can happen when some tasks have prevalidation step, i.e. they check prematurely if their configuration is invalid and guaranteed to fail the task. E.g. Upload Steam task will fail if you didn't provide Steam CMD path.
 
 ![](Media/FailExample.png)
 
 ### Preset Templates
 
-The second tab in the main screen. It allows defining templates for export presets. It's a way to share properties like file filters or feature tags between mutliple presets, making multiple export targets easier to manage. The templates are used only by one task.
+The second tab in the main screen. It allows defining templates for export presets. It's a way to share properties like file filters or feature tags between mutliple presets, making multiple export targets easier to manage.
 
 ![](Media/MainTemplates.png)
 
@@ -80,13 +80,13 @@ The third tab in the main screen. It's a readonly list of all available tasks, w
 
 ![](Media/MainTasks.png)
 
-The tasks are listed from the Tasks directory of Project Builder. Each task its a separate scene with the root inheriting a special Task class, which extends Control. All configuration controls are part of the task scene.
+The tasks are listed from the Tasks directory of Project Builder. Each task is a separate scene with the root inheriting a special Task class, which extends Control. All configuration controls are part of the task scene.
 
 #### Custom Tasks
 
-You can create your own tasks by adding new scens to the Tasks folder. The easiest way to create a Task is by opening the Project Builder source project and creating a new scene using Task class for root. There is a script template that makes it easier.
+You can create your own tasks by adding new scenes to the Tasks folder. The easiest way to create a Task is by opening the Project Builder source project and creating a new scene using Task class for root. There is a script template that makes it easier.
 
-When implementing methods, refer to the documentation of Task class and the existing tasks implementation (the default tasks have their code in built-in scripts). If you are using a stand-alone version of Project Build, you'll have to copy your new task to the Tasks folder of your installation.
+When implementing methods, refer to the documentation of Task class and the existing tasks implementation (the default tasks have their code in built-in scripts). If you are using a stand-alone version of the Project Builder, you'll have to copy your new task to the Tasks folder of your installation. In the future there might be support for project local tasks, but currently this feature is not a priority.
 
 ### Config
 
@@ -103,7 +103,7 @@ Both configurations are also organized into foldable tabs of related settings.
 
 - **Steam**
     - **Steam CMD Path:** Path to `steamcmd.exe` that comes with Steam SDK. It's needed if you want to publish builds to Steam.
-    - **Username:** Login used for authentication when uploading games. Note that Project Builder does not support console input, so you can't use account that uses Steam app for authentication (it requires inputting a code with each login).
+    - **Username:** Login used for authentication when uploading games. Note that Project Builder does not support console input, so you can't use account that uses Steam mobile app for authentication (it requires inputting a code with each login). E-mail 2FA only requires single authentication, which you can do externally.
     - **Password:** Password for the above account. Project Builder will automatically hide password when executing a command, but while the password is not stored in the project folder, it can be found in the global configuration file of Project Builder.
 
 - **GOG**
@@ -119,13 +119,9 @@ Both configurations are also organized into foldable tabs of related settings.
 
 - **Itch**
     - **Butler Path:** Path to itch.io's Butler executable used to publish builds to itch.io.
-    - **Username:** Login used for authentication when uploading games. Note that unlike other upload tools, you are supposed to launch Butler and login to cache your credentials (this is not handled by Project Builder). This has to be done once.
+    - **Username:** Login used for authentication when uploading games. Note that unlike the other upload tools, you have to launch butler and login to cache your credentials (this is not handled by Project Builder). It has to be done once.
 
-### Required Paths
-
-This applies to tasks and configuration. You will sometimes notice that a file/directory field is marked yellow or red. This denotes required fields. If a field is yellow, it means that the target file/directory must exist at the time the task is executed, so at most it has to be created as a result of preceding tasks. If a field is red it means that the task will fail at prevalidation stage.
-
-#### Global Configuration
+#### Local Configuration
 
 - **Godot**
     - **Godot Exec For This Project:** Executable used for exporting the current project. If you leave this empty, the default one will be used. This option is useful when you have projects using different Godot versions.
@@ -140,11 +136,17 @@ This applies to tasks and configuration. You will sometimes notice that a file/d
 
 #### Project Scan
 
-At the bottom of Config tab is a Run Project Scan button. It launches a scan of all files in your project. This is required by some tasks and will run automatically when the project is opened for the first time. You can find the tasks using this option in the [List of Available Tasks](#list-of-available-tasks).
+At the bottom of the Config tab is a Run Project Scan button. It launches a scan of all files in your project. This is required by some tasks and will run automatically when the project is opened for the first time. If a task is relying on scan results (as noted [in its description](#list-of-available-tasks)), you may want to run the scan if the data is outdated. It has to be done manually, for performance reasons (crawling every file in the project can be expensive).
+
+#### Required Paths
+
+This applies to tasks and configuration. You will sometimes notice that a file/directory field is marked yellow or red. This denotes required fields. If a field is yellow, it means that the target file/directory must exist at the time the task is executed, so at most it has to be created as a result of preceding tasks. If a field is red it means that the task will fail at the prevalidation stage.
+
+![](Media/DirectoryWarning.png)![](Media/DirectoryError.png)
 
 ### Project Builder Plugin
 
-Project Builder has an optional plugin that allows for better integration with your project. Using the plugin you can change the location of your project's config file and run Project Builder directly for your project. At the bottom of the Config tab you can find the plugin status in your project:
+Project Builder has an optional plugin that allows for better integration with your project. Using the plugin you can change the location of your project's build config file and run Project Builder directly for your project. At the bottom of the Config tab you can find the plugin status in your project:
 
 ![](Media/PluginStatus.png)
 
@@ -184,10 +186,10 @@ Useful for copying additional files not included with export.
 
 ![](Media/TaskCustomTask.png)
 
-An arbitrary task for operations not covered by other tasks, and it's not worth it to make a new task type. The task allows to specify a raw command and argument list that will be invoked during execution. It's very flexible, but requires manually providing all necessary data.
+An arbitrary task for operations not covered by other tasks, to use when it's not worth it to make a new task type. The task allows to specify a raw command and argument list that will be invoked during execution. It's very flexible, but requires manually providing all necessary data.
 
 **Options**
-- **Command:** Command that will be executed. It will be invoked like from terminal, but the working directory is undefined, so you should either use absolute path or global commands.
+- **Command:** Command that will be executed. It will be invoked like from a terminal, but the working directory is undefined, so you should either use absolute path or global commands.
 - **Arguments:** List of arguments provided for the command. They are automatically wrapped in quotes when necessary.
 
 ### Export Project
@@ -210,7 +212,7 @@ Exports the project using the given base preset and [preset template](#preset-te
 **Options**
 - **Base Preset:** Base export preset from the project's preset list.
 - **Preset Template:** The template from the list of templates defined in Project Builder.
-- **Path Suffix:** Partial path that will be joined with Export Base property of the [template](#preset-templates). E.g. you can set the base path to `Export/Steam` and then you can specify suffix based on platform, like `Windows/MyGame.exe` (suffix has to include file name). If Export Base was not defined, the default path from export preset will be used.
+- **Path Suffix:** Partial path that will be joined with Export Base property of the [template](#preset-templates). E.g. you can set the base path to `Export/Steam` and then you can specify suffix based on platform, like `Windows/MyGame.exe` (suffix has to include the file name). If Export Base was not defined, the default path from export preset will be used.
 - **Debug:** Determines whether debug or release build is exported.
 
 ### Pack ZIP
@@ -222,10 +224,10 @@ Packs the given directory (including subfolders) to a ZIP archive. You can speci
 Useful when you want to pack an exported project to share it. The ZIP is created using Godot's ZIPPacker class.
 
 **Options**
-**Source Directory:** The directory which is going to be packed. The ZIP will have the same structure.
-**Target File Path:** The path to the resulting ZIP file.
-**Include Filters:** Filters applied to each processed file to determine whether it should be included. Use it when you want to pack only some files of the directory. If empty, files will be included by default.
-**Exclude Filters:** Filters applied to each processed file to determine whether it should be excluded. Use it when your directory has files that shouldn't be packed. If empty, no file will be excluded by default.
+- **Source Directory:** The directory which is going to be packed. The ZIP will have the same structure.
+- **Target File Path:** The path to the resulting ZIP file.
+- **Include Filters:** Filters applied to each processed file to determine whether it should be included. Use it when you want to pack only some files of the directory. If empty, files will be included by default.
+- **Exclude Filters:** Filters applied to each processed file to determine whether it should be excluded. Use it when your directory has files that shouldn't be packed. If empty, no file will be excluded by default.
 
 ### Sub-Routine
 
@@ -234,15 +236,15 @@ Useful when you want to pack an exported project to share it. The ZIP is created
 Includes another routine as a task. The other routine's tasks will be seamlessly added to the execution list. This is useful when you e.g. have export and upload in separate routines, but want one that does everything.
 
 **Options**
-**Routine:** The routine that will be processed by this task, from the list of routines defined in your project.
+- **Routine:** The routine that will be processed by this task, from the list of routines defined in your project.
 
 ### Upload Epic
 
-1[](Media/TaskUploadEpic.png)
+![](Media/TaskUploadEpic.png)
 
 Uploads files to Epic Games using Build Patch Tool. Uploading to Epic requires executing a lengthy command, so this task is especially helpful in getting it right. Before using it you need to fill Epic sections in your global and local configs.
 
-This task uses the project's version, which is read from `application/config/version` Project Setting of your project. Make sure it's unique for each upload. You can use [my auto versioning addon](https://github.com/KoBeWi/Godot-Auto-Export-Version) to handle that easily ;) Note that Epic imposes some limits on the version string (related to available characters and length). Refer to the [Build Patch Tool manual](https://dev.epicgames.com/docs/epic-games-store/publishing-tools/uploading-binaries/bpt-instructions-150) for details, but unless you use crazy version strings, you won't run into a problem.
+This task uses the project's version, which is read from `application/config/version` Project Setting of your project. Make sure it's unique for each upload. You can use [my auto versioning addon](https://github.com/KoBeWi/Godot-Auto-Export-Version) to handle that easily ;) Note that Epic imposes some limits on the version string (related to available characters and length). Refer to the [Build Patch Tool manual](https://dev.epicgames.com/docs/epic-games-store/publishing-tools/uploading-binaries/bpt-instructions-150#how-to-upload-a-binary) for details, but unless you use crazy version strings, you won't run into a problem.
 
 **Options**
 - **Build Root:** The root directory of the files you want to upload.
@@ -253,9 +255,9 @@ This task uses the project's version, which is read from `application/config/ver
 
 ![](Media/TaskUploadGOG.png)
 
-Uploads files to GOG using Pipeline Builder. This task has no configuration in itself, you only pick the GOG's JSON configuration file that will be used. Make sure to fill the GOG global configuration before using this task.
+Uploads files to GOG using Pipeline Builder. This task has no configuration in itself, you only pick the GOG's JSON configuration file that will be used. Make sure to fill the GOG global configuration before using this task. Like Upload Epic, this task uses project's version.
 
-** Options
+**Options**
 - **JSON File:** The JSON file used for upload. The list will show only file names, their full path is in tooltip. The list of JSONs will automatically include all GOG's JSON files in your project [when the project is scanned](#project-scan).
 - **Branch:** Optional branch where the files will be uploaded.
 - **Branch Password:** Password for the branch, if it's protected.
@@ -264,11 +266,11 @@ Uploads files to GOG using Pipeline Builder. This task has no configuration in i
 
 ![](Media/TaskUploadItch.png)
 
-Uploads files to itch.io using Butler. Before using it, fill the global and local configuration for Itch and make sure Butler has cached credentials.
+Uploads files to itch.io using butler. Before using it, fill the global and local configuration for Itch and make sure butler has cached credentials.
 
 **Options**
 - **Source Folder:** The folder containing your exported project files.
-- **Channel:** Channel where the files will be uploaded. The name is semi-important, refer to [Butler's manual](https://itch.io/docs/butler/pushing.html).
+- **Channel:** Channel where the files will be uploaded. The name is semi-important, refer to [butler's manual](https://itch.io/docs/butler/pushing.html).
 
 ### Upload Steam
 
@@ -277,7 +279,13 @@ Uploads files to itch.io using Butler. Before using it, fill the global and loca
 Uploads files to Steam using Steam CMD. Just like GOG, the whole setup is inside configuration file (but here it's VDF).
 
 **Options**
-**VDF File:** The VDF file used for upload. Same as JSON in Upload GOG task.
+- **VDF File:** The VDF file used for upload. Same as JSON in Upload GOG task.
+
+## Closing Words
+
+Project Builder evolved from build tools I created for Lumencraft. I wrote a small build system in Python, but eventually it got so many options that running from command line got annoying. From this experience I came up with a system where you can construct your various tasks from predefined building blocks, which are way easier to use.
+
+If you have ideas for more useful tasks, feel free to suggest them in the Issues page.
 
 ___
 You can find all my addons on my [profile page](https://github.com/KoBeWi).

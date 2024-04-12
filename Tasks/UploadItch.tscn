@@ -76,7 +76,7 @@ func _get_task_info() -> PackedStringArray:
 	return [
 		\"Uploads files to itch.io using butler. Remember to setup (login) butler before using this option.\",
 		\"Source Folder|The folder that will be provided for butler. It is automatically packed into ZIP before upload.\",
-		\"Channel|Channel to which the file will be uploaded.\",## może channel list w lokalnej konfiguracji?
+		\"Channel|Channel to which the file will be uploaded.\",
 	]
 "
 

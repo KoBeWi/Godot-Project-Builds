@@ -34,13 +34,13 @@ func set_routine_data(d: Dictionary):
 	data = d
 	%Name.text = data[\"name\"]
 	if data[\"tasks\"].is_empty():
-		%TaskList.text = \"No Tasks\"
+		%TaskCount.text = \"No Tasks\"
 		%Execute.disabled = true
 		return
 	
-	var task_list: PackedStringArray
-	task_list.append(%TaskList.text % data[\"tasks\"].size())
+	%TaskCount.text %= data[\"tasks\"].size()
 	
+	var task_list: PackedStringArray
 	for task in data[\"tasks\"]:
 		var task_info: Dictionary = Data.tasks[task[\"scene\"]]
 		task_list.append(task_info[\"name\"])
@@ -84,7 +84,7 @@ func _on_move_right_pressed() -> void:
 [node name="Routinepreview" type="PanelContainer"]
 custom_minimum_size = Vector2(300, 0)
 offset_right = 303.0
-offset_bottom = 214.0
+offset_bottom = 203.0
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_e2baq")
 script = SubResource("GDScript_s214c")
@@ -114,10 +114,17 @@ auto_translate_mode = 1
 layout_mode = 2
 icon = ExtResource("2_0d0yc")
 
-[node name="TaskList" type="Label" parent="VBoxContainer"]
+[node name="TaskCount" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 1
 layout_mode = 2
 text = "%d tasks"
+horizontal_alignment = 1
+
+[node name="TaskList" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.8, 0.8, 0.8, 1)
+layout_mode = 2
 horizontal_alignment = 1
 
 [node name="Execute" type="Button" parent="VBoxContainer"]
