@@ -192,11 +192,49 @@ An arbitrary task for operations not covered by other tasks, and it's not worth 
 
 ### Export Project
 
+![](Media/TaskExportProject.png)
+
+Exports the project using the given preset (it will list the presets defined in `export_presets.cfg`). Also allows to provide custom export path. If the target directory does not exist, it will be automatically created.
+
+**Options**
+- **Preset:** Export preset used to export the project.
+- **Custom Path:** If provided, the preset's path will be overriden. If empty, the default path will be used.
+- **Debug:** Determines whether debug or release build is exported.
+
 ### Export Project From Template
+
+![](Media/TaskExportProjectFromTemplate.png)
+
+Exports the project using the given base preset and [preset template](#preset-templates). It works by temporarily adding a new preset to `export_presets.cfg` file. The new preset will be a copy of the base preset with some properties modified based on the template.
+
+**Options**
+- **Base Preset:** Base export preset from the project's preset list.
+- **Preset Template:** The template from the list of templates defined in Project Builder.
+- **Path Suffix:** Partial path that will be joined with Export Base property of the [template](#preset-templates). E.g. you can set the base path to `Export/Steam` and then you can specify suffix based on platform, like `Windows/MyGame.exe` (suffix has to include file name). If Export Base was not defined, the default path from export preset will be used.
+- **Debug:** Determines whether debug or release build is exported.
 
 ### Pack ZIP
 
+![](Media/TaskPackZIP.png)
+
+Packs the given directory (including subfolders) to a ZIP archive. You can specify include and exclude filters for files, which work using globbing. You can define both include and exclude filters and they will be both evaluated for each file.
+
+Useful when you want to pack an exported project to share it. The ZIP is created using Godot's ZIPPacker class.
+
+**Options**
+**Source Directory:** The directory which is going to be packed. The ZIP will have the same structure.
+**Target File Path:** The path to the resulting ZIP file.
+**Include Filters:** Filters applied to each processed file to determine whether it should be included. Use it when you want to pack only some files of the directory. If empty, files will be included by default.
+**Exclude Filters:** Filters applied to each processed file to determine whether it should be excluded. Use it when your directory has files that shouldn't be packed. If empty, no file will be excluded by default.
+
 ### Sub-Routine
+
+![](Media/TaskSubRoutine.png)
+
+Includes another routine as a task. The other routine's tasks will be seamlessly added to the execution list. This is useful when you e.g. have export and upload in separate routines, but want one that does everything.
+
+**Options**
+**Routine:** The routine that will be processed by this task, from the list of routines defined in your project.
 
 ### Upload Epic
 
