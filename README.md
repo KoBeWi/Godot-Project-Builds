@@ -238,11 +238,47 @@ Includes another routine as a task. The other routine's tasks will be seamlessly
 
 ### Upload Epic
 
+1[](Media/TaskUploadEpic.png)
+
+Uploads files to Epic Games using Build Patch Tool. Uploading to Epic requires executing a lengthy command, so this task is especially helpful in getting it right. Before using it you need to fill Epic sections in your global and local configs.
+
+This task uses the project's version, which is read from `application/config/version` Project Setting of your project. Make sure it's unique for each upload. You can use [my auto versioning addon](https://github.com/KoBeWi/Godot-Auto-Export-Version) to handle that easily ;) Note that Epic imposes some limits on the version string (related to available characters and length). Refer to the [Build Patch Tool manual](https://dev.epicgames.com/docs/epic-games-store/publishing-tools/uploading-binaries/bpt-instructions-150) for details, but unless you use crazy version strings, you won't run into a problem.
+
+**Options**
+- **Build Root:** The root directory of the files you want to upload.
+- **Executable Name:** The executable file used for launching the application (relative to the root directory).
+- **Version Prefix:** String prefixed to your project's version. Epic requires each upload to have unique version, so you can define a per-platform prefix for each task. It will be appended to your project version with a dash, e.g. if your project has version `1.0` and prefix is `win`, the uploaded version will be `1.0-win`.
+
 ### Upload GOG
+
+![](Media/TaskUploadGOG.png)
+
+Uploads files to GOG using Pipeline Builder. This task has no configuration in itself, you only pick the GOG's JSON configuration file that will be used. Make sure to fill the GOG global configuration before using this task.
+
+** Options
+- **JSON File:** The JSON file used for upload. The list will show only file names, their full path is in tooltip. The list of JSONs will automatically include all GOG's JSON files in your project [when the project is scanned](#project-scan).
+- **Branch:** Optional branch where the files will be uploaded.
+- **Branch Password:** Password for the branch, if it's protected.
 
 ### Upload Itch
 
+![](Media/TaskUploadItch.png)
+
+Uploads files to itch.io using Butler. Before using it, fill the global and local configuration for Itch and make sure Butler has cached credentials.
+
+**Options**
+- **Source Folder:** The folder containing your exported project files.
+- **Channel:** Channel where the files will be uploaded. The name is semi-important, refer to [Butler's manual](https://itch.io/docs/butler/pushing.html).
+
 ### Upload Steam
+
+![](Media/TaskUploadSteam.png)
+
+Uploads files to Steam using Steam CMD. Just like GOG, the whole setup is inside configuration file (but here it's VDF).
+
+**Options**
+**VDF File:** The VDF file used for upload. Same as JSON in Upload GOG task.
+
 ___
 You can find all my addons on my [profile page](https://github.com/KoBeWi).
 
