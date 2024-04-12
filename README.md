@@ -54,11 +54,33 @@ Normally when task fails, the whole execution will stop. You can configure that 
 
 ![](Media/FinishedRoutine.png)
 
-### Templates
+### Preset Templates
+
+The second tab in the main screen. It allows defining templates for export presets. It's a way to share properties like file filters or feature tags between mutliple presets, making multiple export targets easier to manage. The templates are used only by one task.
+
+![](Media/MainTemplates.png)
+
+A template is composed of Name, Custom Features, Include Filters, Exclude Filters and Export Base. Name has to be unique; in case of conflict, duplicate templates will be ignored. Custom Features are equivalent of the custom features in Features tab of export dialog, while Filters are equivalent of Include/Exclude Filters in Resources tab. Images for reference:
+
+![](Media/ExportFilters.png) ![](Media/ExportFeatures.png)
+
+Export Base is a base directory used when exporting with this template. It's later prefixed with the actual file (see [Export Project From Template](#export-project-from-template)).
+
+Templates can inherit other templates. Inheriting template will include features and filters of the parent and auto-update them, so you can e.g. make one configuration with your include filters and make all other templates use it. You no longer have to worry about updating all export presets when you add a new file extension. Export Base is not inherited.
 
 ### Tasks
 
+The third tab in the main screen. It's a readonly list of all available tasks, with their descriptions and argument list. You can use it as a quick reference of what does what. More detailed information is available in this README.
+
+![](Media/MainTasks.png)
+
+#### Custom Tasks
+
 ### Config
+
+The last tab in the main screen. Here you can configure Project Builder. It includes both global config that applies to all your projects and a local config, which is per-project. The local config is stored in the builds config file mentioned before, while global config is stored in Project Builder's user data folder.
+
+![](Media/MainConfig.png)
 
 ### Project Builder Plugin
 
