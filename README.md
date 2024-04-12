@@ -70,17 +70,63 @@ Templates can inherit other templates. Inheriting template will include features
 
 ### Tasks
 
-The third tab in the main screen. It's a readonly list of all available tasks, with their descriptions and argument list. You can use it as a quick reference of what does what. More detailed information is available in this README.
+The third tab in the main screen. It's a readonly list of all available tasks, with their descriptions and argument list. You can use it as a quick reference of what does what. More detailed information is available in this README at [List of Available Tasks](#list-of-available-tasks).
 
 ![](Media/MainTasks.png)
 
+The tasks are listed from the Tasks directory of Project Builder. Each task its a separate scene with the root inheriting a special Task class, which extends Control. All configuration controls are part of the task scene.
+
 #### Custom Tasks
+
+You can create your own tasks by adding new scens to the Tasks folder. The easiest way to create a Task is by opening the Project Builder source project and creating a new scene using Task class for root. There is a script template that makes it easier.
+
+When implementing methods, refer to the documentation of Task class and the existing tasks implementation (the default tasks have their code in built-in scripts). If you are using a stand-alone version of Project Build, you'll have to copy your new task to the Tasks folder of your installation.
 
 ### Config
 
 The last tab in the main screen. Here you can configure Project Builder. It includes both global config that applies to all your projects and a local config, which is per-project. The local config is stored in the builds config file mentioned before, while global config is stored in Project Builder's user data folder.
 
 ![](Media/MainConfig.png)
+
+Both configurations are also organized into foldable tabs of related settings.
+
+#### Global Configuration
+
+- **Godot**
+    - **Godot Path:** Path to the Godot executable. It will be used for exporting projects.
+
+- **Steam**
+    - **Steam CMD Path:** Path to `steamcmd.exe` that comes with Steam SDK. It's needed if you want to publish builds to Steam.
+    - **Username:** Login used for authentication when uploading games. Note that Project Builder does not support console input, so you can't use account that uses Steam app for authentication (it requires inputting a code with each login).
+    - **Password:** Password for the above account. Project Builder will automatically hide password when executing a command, but while the password is not stored in the project folder, it can be found in the global configuration file of Project Builder.
+
+- **GOG**
+    - **Pipeline Builder Path:** Path to Pipeline Builder executable used to publish builds to GOG.
+    - **Username:** Used for authentication when uploading games, just like in Steam.
+    - **Password:** Password for the above account.
+
+- **Epic**
+    - **Build Patch Tool Path:** Path to Build Patch Tool executable used to publish builds to Epic Games.
+    - **Organization ID**, **Client ID:** The organization and client ID provided for your developer account.
+    - **Client Secret:** The client secret provided for your developer account. This is a sensitive data, like the Steam and GOG passwords.
+    - **Client Secret Env Variable:** Name of the environment variable that contains your Client Secret. This is an alternate authentication method supported by Build Patch Tool and it will be used instead of Client Secret if provided.
+
+- **Itch**
+    - **Butler Path:** Path to itch.io's Butler executable used to publish builds to itch.io.
+    - **Username:** Login used for authentication when uploading games. Note that unlike other upload tools, you are supposed to launch Butler and login to cache your credentials (this is not handled by Project Builder). This has to be done once.
+
+#### Global Configuration
+
+- **Godot**
+    - **Godot Exec For This Project:** Executable used for exporting the current project. If you leave this empty, the default one will be used. This option is useful when you have projects using different Godot versions.
+
+- **Epic**
+    - **Product ID**, **Artifact ID:** Product and artifact IDs provided for your game.
+    - **Cloud Directory:** Directory required by Build Patch Tool for its operation. It's effectively a cache directory, so you can add it to your VCS ignore list.
+
+- **Itch**
+    - **Game Name:** Name of your game. This has to match the itch.io page (e.g. if your game is at `username.itch.io/my_game`, Game Name should be `my_game`).
+    - **Default Channel:** App channel to which the game will be uploaded if not specified by the task.
 
 ### Project Builder Plugin
 
