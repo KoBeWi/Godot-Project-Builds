@@ -21,15 +21,7 @@ func _initialize():
 	defaults[\"debug\"] = false
 	defaults[\"custom_path\"] = \"\"
 	
-	var export_presets := load_presets()
-	if not export_presets:
-		return
-	
-	for section in export_presets.get_sections():
-		if section.ends_with(\"options\"):
-			continue
-		
-		preset_list.add_item(export_presets.get_value(section, \"name\"))
+	setup_preset_list(preset_list)
 
 func _prepare():
 	var path: String
@@ -68,7 +60,11 @@ func _load():
 	custom_path.text = data[\"custom_path\"]
 
 func _store():
-	data[\"preset\"] = preset_list.get_item_text(preset_list.selected)
+	if preset_list.disabled:
+		data[\"preset\"] = \"\"
+	else:
+		data[\"preset\"] = preset_list.get_item_text(preset_list.selected)
+	
 	data[\"debug\"] = debug.button_pressed
 	data[\"custom_path\"] = custom_path.text
 

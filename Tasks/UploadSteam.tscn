@@ -41,7 +41,8 @@ func _initialize() -> void:
 	defaults[\"vdf_path\"] = \"\"
 	
 	if vdf_list.is_empty():
-		vdf_file.text = \"List empty. Run project scan from Config tab.\"
+		vdf_file.add_item(\"List empty. Run project scan from Config tab.\")
+		vdf_file.set_item_metadata(-1, \"\")
 		vdf_file.disabled = true
 	else:
 		for file in vdf_list:
@@ -102,11 +103,7 @@ func _get_task_info() -> PackedStringArray:
 	]
 
 func get_vdf_path() -> String:
-	var metadata = vdf_file.get_selected_metadata()
-	if metadata is String:
-		return metadata
-	else:
-		return \"\"
+	return vdf_file.get_selected_metadata()
 "
 
 [node name="UploadSteam" type="GridContainer"]

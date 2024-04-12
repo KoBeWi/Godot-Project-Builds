@@ -33,6 +33,11 @@ func _initialize():
 		
 		sub_routine_list.add_item(rout[\"name\"])
 		sub_routine_list.set_item_metadata(-1, rout[\"name\"])
+	
+	if sub_routine_list.item_count == 0:
+		sub_routine_list.add_item(\"No other routine found. Create new routine.\")
+		sub_routine_list.set_item_metadata(-1, \"\")
+		sub_routine_list.disabled = true
 
 func _prevalidate() -> bool:
 	if not task_instances.is_empty():

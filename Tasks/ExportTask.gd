@@ -91,3 +91,17 @@ func set_export_path(path: String):
 		export_path = path.replace("res:/", Data.project_path)
 	else:
 		export_path = Data.project_path.path_join(path)
+
+func setup_preset_list(list: OptionButton):
+	var export_presets := load_presets()
+	
+	if export_presets:
+		for section in export_presets.get_sections():
+			if section.ends_with("options"):
+				continue
+			
+			list.add_item(export_presets.get_value(section, "name"))
+	
+	if list.item_count == 0:
+		list.add_item("No presets found in export_presets.cfg.")
+		list.disabled = true
