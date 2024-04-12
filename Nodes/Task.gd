@@ -63,7 +63,7 @@ func _get_arguments() -> PackedStringArray:
 func _prepare() -> void:
 	pass
 
-## Called after the task has finished. Use it to cleanup temporary configuration created in [method _prepare].
+## Called after the task has finished or when aborting execution. Use it to cleanup temporary configuration created in [method _prepare].
 func _cleanup() -> void:
 	pass
 

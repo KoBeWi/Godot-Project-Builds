@@ -20,7 +20,9 @@ This tab shows overview of all routines in your project. You can create a routin
 
 ![](Media/EmptyRoutine.png)
 
-From the main view, routines can be executed, edited, duplicated or deleted. When you create and edit a routine, it will be automatically saved in a dedicated project build configuration file stored in your project's folder. By default the file is located at `res://project_builds_config.txt`.
+From the main view, routines can be executed, edited, duplicated or deleted. When you create and edit a routine, it will be automatically saved in a dedicated project build configuration file stored in your project's folder. By default the file is located at `res://project_builds_config.txt`. When a routine has tasks, it will show a brief list.
+
+![](Media/RoutineExample.png)
 
 #### Editing Routines
 
@@ -53,6 +55,10 @@ Top of the task is its execution name (i.e. a more detailed task name) and the e
 Normally when task fails, the whole execution will stop. You can configure that in routine settings; the other option is to continue executing normally. When a routine finishes, you will see the total time it took to execute.
 
 ![](Media/FinishedRoutine.png)
+
+The routine may also fail before being executed. This can happen if some tasks have prevalidation step, i.e. they check prematurely if their configuration is invalid and guaranteed to fail the task. E.g. Upload Steam task will fail if you didn't provide Steam CMD path.
+
+![](Media/FailExample.png)
 
 ### Preset Templates
 
@@ -115,6 +121,10 @@ Both configurations are also organized into foldable tabs of related settings.
     - **Butler Path:** Path to itch.io's Butler executable used to publish builds to itch.io.
     - **Username:** Login used for authentication when uploading games. Note that unlike other upload tools, you are supposed to launch Butler and login to cache your credentials (this is not handled by Project Builder). This has to be done once.
 
+### Required Paths
+
+This applies to tasks and configuration. You will sometimes notice that a file/directory field is marked yellow or red. This denotes required fields. If a field is yellow, it means that the target file/directory must exist at the time the task is executed, so at most it has to be created as a result of preceding tasks. If a field is red it means that the task will fail at prevalidation stage.
+
 #### Global Configuration
 
 - **Godot**
@@ -128,17 +138,57 @@ Both configurations are also organized into foldable tabs of related settings.
     - **Game Name:** Name of your game. This has to match the itch.io page (e.g. if your game is at `username.itch.io/my_game`, Game Name should be `my_game`).
     - **Default Channel:** App channel to which the game will be uploaded if not specified by the task.
 
+#### Project Scan
+
+At the bottom of Config tab is a Run Project Scan button. It launches a scan of all files in your project. This is required by some tasks and will run automatically when the project is opened for the first time. You can find the tasks using this option in the [List of Available Tasks](#list-of-available-tasks).
+
 ### Project Builder Plugin
 
-command palette
+Project Builder has an optional plugin that allows for better integration with your project. Using the plugin you can change the location of your project's config file and run Project Builder directly for your project. At the bottom of the Config tab you can find the plugin status in your project:
+
+![](Media/PluginStatus.png)
+
+It will tell you whether the plugin is installed or not, and if it needs update. If the plugin is not installed or outdated, you can click Install Project Builder Plugin to add the plugin to your project (you'll need to manually enable it in Project Settings). When the plugin is activated, it will add a new project setting to your project: `addons/project_builder/config_path`. By modifying this setting you can change the location of Project Builder's local config file (changing it will automatically move the file if it exists).
+
+The addon also adds Run Project Builder command to Project -> Tools menu and to Command Palette. Use it to start Project Builder and open your project.
 
 ## List of Available Tasks
 
+This sections lists all default tasks shipped with Project Builder.
+
 ### Clear Directory Files
+
+![](Media/TaskClearDirectoryFiles.png)
+
+Removes all files in a directory. The files are not deleted permanently, instead they are moved to a dedicated `Trash` directory in Project Builder's user data. If you used this task accidentally or want to recover files, you can find them in that directory. Note that Trash holds only one copy of the file, so if you "delete" it again, it will be overwritten.
+
+This task is useful for preparing export directory, to make sure that it doesn't have lefotver files.
+
+**Options**
+- **Target Directory:** The directory in your project that's going to be cleaned.
 
 ### Copy Files(s)
 
+![](Media/TaskCopyFiles.png)
+
+Copies a file or directory from source path to destination. It can also recursively copy whole directory. If files already exist at the target location, they will be overwritten. If the target directory does not exist, it will be created.
+
+Useful for copying additional files not included with export.
+
+**Options**
+- **Source Path:** The source path to copy. If a file is selected, only this file will be copied. If a directory is selected, all files will be copied to the target location.
+- **Target Path:** The destination where the files will be copied. If source is a file and target is a directory, the file will be copied to the directory and keep its name. If target is a file, the file will be copied and renamed to the new name. If source is a directory, all files will be copied to the target directory.
+- **Recursive:** When copying directory, this option enables copying sub-directories.
+
 ### Custom Task
+
+![](Media/TaskCustomTask.png)
+
+An arbitrary task for operations not covered by other tasks, and it's not worth it to make a new task type. The task allows to specify a raw command and argument list that will be invoked during execution. It's very flexible, but requires manually providing all necessary data.
+
+**Options**
+- **Command:** Command that will be executed. It will be invoked like from terminal, but the working directory is undefined, so you should either use absolute path or global commands.
+- **Arguments:** List of arguments provided for the command. They are automatically wrapped in quotes when necessary.
 
 ### Export Project
 
