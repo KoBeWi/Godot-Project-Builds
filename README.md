@@ -2,7 +2,7 @@
 
 Project Builder is an automation tool made in Godot Engine and focused on exporting and publishing Godot projects. The builder works by running "routines", which are composed of "tasks". Each task involves running a predefined command with customized arguments. The builder comes with numberous built-in tasks, which include exporting project, publishing to popular stores (Steam, GOG, Epic, itch.io), and file operations. Task setup is fully visual.
 
-The tool requires the newest Godot version (4.3 dev6+) to function properly.
+Running the tool from source requires the newest Godot version (4.3 dev6+). You can pick an executable from the official releases. Project Builder can be used with projects from older Godot versions, including Godot 3.
 
 ## Overview
 
@@ -198,7 +198,7 @@ An arbitrary task for operations not covered by other tasks, to use when it's no
 
 ![](Media/TaskExportProject.png)
 
-Exports the project using the given preset (it will list the presets defined in `export_presets.cfg`). Also allows to provide custom export path. If the target directory does not exist, it will be automatically created.
+Exports the project using the given preset (it will list the presets defined in `export_presets.cfg`). Also allows to provide custom export path. If the target directory does not exist, it will be automatically created. This task uses the Godot executable specified in [config](#config). If you are exporting a Godot 3 project, make sure to provide a Godot 3 executable.
 
 **Options**
 - **Preset:** Export preset used to export the project.
