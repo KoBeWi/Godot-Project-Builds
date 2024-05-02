@@ -91,7 +91,7 @@ func store_data() -> Dictionary:
 	return data.merged(defaults)
 
 static func create_instance(scene: String) -> Task:
-	return load("res://Tasks/%s.tscn" % scene).instantiate()
+	return Data.tasks[scene]["scene_cache"].instantiate()
 
 ## Returns a [FileAccess] instance for the specified file and flags or [code]null[/code] if file can't be created/loaded. [param file] is name of the file, which will be located in a cache directory.
 static func get_cache_file(file: String, flags: FileAccess.ModeFlags) -> FileAccess:

@@ -93,6 +93,7 @@ func register_task(scene: String):
 	var data := Dictionary()
 	var scene_base := scene.get_file().get_basename()
 	data["scene"] = scene_base
+	data["scene_cache"] = load(scene)
 	
 	var instance: Task = load(scene).instantiate()
 	data["name"] = instance._get_task_name()
