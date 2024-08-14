@@ -154,7 +154,21 @@ Project Builder has an optional plugin that allows for better integration with y
 
 It will tell you whether the plugin is installed or not, and if it needs update. If the plugin is not installed or outdated, you can click Install Project Builder Plugin to add the plugin to your project (you'll need to manually enable it in Project Settings). When the plugin is activated, it will add a new project setting to your project: `addons/project_builder/config_path`. By modifying this setting you can change the location of Project Builder's local config file (changing it will automatically move the file if it exists).
 
-The addon also adds Run Project Builder command to Project -> Tools menu and to Command Palette. Use it to start Project Builder and open your project.
+The addon also adds a Project Builder submenu to Project -> Tools menu. From there you can run Project Builder or directly execute any of the registered routines. These options are also added to Command Palette under Project Builder category.
+
+### Running From Command Line
+
+While Project Builder has a visual execution mode, you can use it as a tool for configuring automated tasks and run them from command line. Project Builder supports a number of command line arguments. You need to pass them after `--` in your command. These arguments are:
+- `--open-project <project>`: Starts Project Builder and opens the provided `project`.
+- `--execute-routine <routine>`: On launch, executes the routine `routine`.
+- `--exit`: If executing routine, automatically exits after finishing or error.
+
+Example line for running builder for project at `C:/My Project` in headless mode, executing routine `Export Game` and exiting:
+```
+godot --path "C:/Project Builder" -- --open-project "C:/My Project" --execute_routine "Export Game" --exit
+```
+The `--path` part can be omitted when running from Project Builder installation directory.
+
 
 ## List of Available Tasks
 

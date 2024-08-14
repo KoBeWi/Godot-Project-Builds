@@ -56,7 +56,7 @@ func load_project(project: String):
 					get_tree().change_scene_to_file("res://Scenes/Execution.tscn")
 					return
 			
-			printerr("The project provided for --execute-routine does not exist.")
+			printerr("The routine provided for --execute-routine does not exist.")
 			print_routines_and_exit()
 			return
 	
