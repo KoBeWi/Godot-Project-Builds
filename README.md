@@ -2,7 +2,7 @@
 
 Project Builder is an automation tool made in Godot Engine and focused on exporting and publishing Godot projects. The builder works by running "routines", which are composed of "tasks". Each task involves running a predefined command with customized arguments. The builder comes with numberous built-in tasks, which include exporting project, publishing to popular stores (Steam, GOG, Epic, itch.io), and file operations. Task setup is fully visual.
 
-Running the tool from source requires the newest Godot version (4.3 dev6+). You can pick an executable from the official releases. Project Builder can be used with projects from older Godot versions, including Godot 3.
+Running the tool from source requires at least Godot 4.3. You can pick an executable from the official releases. Project Builder can be used with projects from older Godot versions, including Godot 3.
 
 ## Overview
 

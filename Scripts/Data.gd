@@ -7,6 +7,7 @@ var global_config: Dictionary
 var local_config: Dictionary
 var project_path: String
 var from_plugin: bool
+var auto_exit: bool
 
 var first_load: bool
 var initial_load: bool

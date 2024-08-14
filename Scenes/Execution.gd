@@ -12,6 +12,7 @@ var task_error: String
 var on_fail: int
 var sensitive_strings: PackedStringArray
 var log_file: FileAccess
+var fail_count: int
 
 var separator_prefab: PackedScene
 
@@ -110,13 +111,19 @@ func task_finished(success: bool):
 	
 	commands_container.add_child(separator_prefab.instantiate())
 	
-	if not success and on_fail == 0:
-		finish()
-		return
+	if not success:
+		fail_count += 1
+		if on_fail == 0:
+			finish()
+			return
 	
 	next_command()
 
 func finish():
+	if Data.auto_exit:
+		get_tree().quit(fail_count)
+		return
+	
 	%Button.show()
 	
 	var total_time: float
