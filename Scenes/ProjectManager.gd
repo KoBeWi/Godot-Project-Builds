@@ -6,7 +6,7 @@ func _ready() -> void:
 	var i := user_arguments.find("--open-project")
 	if i > -1:
 		if user_arguments.size() < i + 2:
-			push_error("No project path provided with --open-project.")
+			printerr("No project path provided with --open-project.")
 		else:
 			var project_path := user_arguments[i + 1]
 			if DirAccess.dir_exists_absolute(project_path):
@@ -14,17 +14,17 @@ func _ready() -> void:
 				load_project.call_deferred(project_path)
 				return
 			else:
-				push_error("The project provided for --open-project does not exist.")
+				printerr("The project provided for --open-project does not exist.")
 	
 	i = user_arguments.find("--execute-routine")
 	if i > -1:
-		push_error("--execute-routine was provided, but no project was opened with --open-project.")
+		printerr("--execute-routine was provided, but no project was opened with --open-project.")
 		get_tree().quit(1)
 		return
 	
 	i = user_arguments.find("--exit")
 	if i > -1:
-		push_error("--exit argument provided, but no --execute-routine. It will be ignored.")
+		printerr("--exit argument provided, but no --execute-routine. It will be ignored.")
 	
 	var editor_data := OS.get_user_data_dir().get_base_dir().get_base_dir()
 	var project_list := ConfigFile.new()
@@ -56,13 +56,13 @@ func load_project(project: String):
 					get_tree().change_scene_to_file("res://Scenes/Execution.tscn")
 					return
 			
-			push_error("The project provided for --execute-routine does not exist.")
+			printerr("The project provided for --execute-routine does not exist.")
 			print_routines_and_exit()
 			return
 	
 	i = user_arguments.find("--exit")
 	if i > -1:
-		push_error("--exit argument provided, but no --execute-routine. It will be ignored.")
+		printerr("--exit argument provided, but no --execute-routine. It will be ignored.")
 	
 	get_tree().change_scene_to_packed(Data.main)
 

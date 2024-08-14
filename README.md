@@ -6,7 +6,7 @@ Running the tool from source requires at least Godot 4.3. You can pick an execut
 
 ## Overview
 
-Project Builder can be launched from a release executable or from source using Godot Engine (4.3 or newer). When you start Project Builder, the first thing you will see is the project list.
+Project Builder can be launched from a release executable or from source, using Godot Engine. When you start Project Builder, the first thing you will see is the project list.
 
 ![](Media/ProjectList.png)
 
