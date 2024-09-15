@@ -34,6 +34,7 @@ func _ready() -> void:
 		if not task_instance._prevalidate():
 			errors.append("%s: %s" % [task_instance._get_execute_string(), task_instance.error_message])
 	
+	var wait := 2
 	if not errors.is_empty():
 		%ErrorsParent.show()
 		%Delay.hide()
@@ -46,8 +47,12 @@ func _ready() -> void:
 		
 		finish()
 		return
+	else:
+		wait = Data.global_config["execution_delay"]
+		%Delay.text %= wait
 	
-	await get_tree().create_timer(1).timeout
+	if wait > 0:
+		await get_tree().create_timer(wait).timeout
 	%Delay.hide()
 	
 	DirAccess.make_dir_recursive_absolute("user://BuildLogs")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=15 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_r1xkq"]
 [ext_resource type="PackedScene" uid="uid://dwmijfw6b7ngj" path="res://Nodes/GUI/FoldableContainer.tscn" id="2_12ltr"]
@@ -35,6 +35,7 @@ script/source = "extends HBoxContainer
 
 func _ready() -> void:
 	register_global_setting(%GlobalGodot, \"godot_path\", OS.get_executable_path())
+	register_global_setting(%ExecutionDelay, \"execution_delay\", 2)
 	
 	register_global_setting(%SteamCMD, \"steam_cmd_path\", \"\")
 	register_global_setting(%SteamUsername, \"steam_username\", \"\")
@@ -84,6 +85,8 @@ func register_setting(control: Control, setting: String, default: Variant, confi
 		binds.append(\"\")
 	else:
 		sygnał = control.get(&\"text_changed\")
+		if not sygnał:
+			sygnał = control.get(&\"value_changed\")
 	
 	assert(not sygnał.is_null())
 	
@@ -143,6 +146,24 @@ func _on_install_plugin_pressed() -> void:
 content_margin_left = 4.0
 content_margin_right = 4.0
 
+[sub_resource type="GDScript" id="GDScript_fqp3h"]
+script/source = "extends SpinBox
+
+# ಠ_ಠ
+var text: int:
+	set(v):
+		value = v
+	get:
+		return value
+"
+
+[sub_resource type="GDScript" id="GDScript_s2yn1"]
+script/source = "extends Control
+
+func _ready() -> void:
+	get_tree().create_timer(1.0).timeout.connect(queue_free)
+"
+
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -182,8 +203,10 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
+metadata/_tab_index = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Routines"]
 layout_mode = 2
@@ -214,6 +237,7 @@ size_flags_horizontal = 3
 [node name="Preset Templates" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Preset Templates"]
 auto_translate_mode = 1
@@ -257,6 +281,7 @@ visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
+metadata/_tab_index = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Tasks"]
 layout_mode = 2
@@ -269,10 +294,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
+metadata/_tab_index = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Config"]
 layout_mode = 2
@@ -489,6 +514,24 @@ layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Execution Delay"
+
+[node name="ExecutionDelay" type="SpinBox" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 2.0
+suffix = "s"
+script = SubResource("GDScript_fqp3h")
+
 [node name="ScrollContainer2" type="ScrollContainer" parent="VBoxContainer/TabContainer/Config"]
 auto_translate_mode = 1
 layout_mode = 2
@@ -655,6 +698,16 @@ offset_bottom = 31.0
 grow_horizontal = 0
 text = "Open Logs Folder"
 icon = ExtResource("6_kgk8y")
+
+[node name="InputKiller" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_s2yn1")
+metadata/_edit_lock_ = true
 
 [connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="tab_changed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]

@@ -44,7 +44,7 @@ Above the task list is the routine name field, where you can rename it. Note tha
 
 #### Executing
 
-By clicking the Execute button in a routine or using using the quick-execute button in routine editing screen, you will enter the execution mode. If you did this by accident, you have 1 second to press Escape and cancel task (afterwards you have to close the application if you want to stop it).
+By clicking the Execute button in a routine or using using the quick-execute button in routine editing screen, you will enter the execution mode. If you did this by accident, you have 2 seconds (default) to press Escape and cancel task (afterwards you have to close the application if you want to stop it). The initial delay can be configured in Global Config.
 
 ![](Media/RoutineExecuting.gif)
 
