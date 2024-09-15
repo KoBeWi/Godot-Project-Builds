@@ -77,7 +77,7 @@ func on_popup_action(idx: int):
 			run_project_builder(popup.get_item_text(idx))
 
 func run_project_builder(routine := ""):
-	var project_builds_config := FileAccess.open(EditorInterface.get_editor_paths().get_config_dir().path_join("app_userdata/Godot Project Builder/project_builds_config.txt"), FileAccess.READ)
+	var project_builds_config := FileAccess.open(OS.get_user_data_dir().get_base_dir().path_join("Godot Project Builder/project_builds_config.txt"), FileAccess.READ)
 	if not project_builds_config:
 		OS.alert("Project Builder config file not found. Make sure you run Project Builder directly at least once.", "Something went wrong")
 		return
