@@ -161,7 +161,10 @@ var text: int:
 script/source = "extends Control
 
 func _ready() -> void:
-	get_tree().create_timer(1.0).timeout.connect(queue_free)
+	if Data.first_load:
+		get_tree().create_timer(0.4).timeout.connect(queue_free)
+	else:
+		queue_free()
 "
 
 [node name="Main" type="Control"]
