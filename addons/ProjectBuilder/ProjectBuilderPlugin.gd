@@ -19,6 +19,7 @@ func _enter_tree() -> void:
 	if ProjectSettings.has_setting("addons/project_builder/config_path"): # compat
 		ProjectSettings.set_setting(CONFIG_SETTING, ProjectSettings.get_setting("addons/project_builder/config_path"))
 		ProjectSettings.set_setting("addons/project_builder/config_path", null)
+		ProjectSettings.save()
 	elif not ProjectSettings.has_setting(CONFIG_SETTING):
 		ProjectSettings.set_setting(CONFIG_SETTING, "res://project_builds_config.txt")
 	ProjectSettings.set_as_internal(CONFIG_SETTING, true)
