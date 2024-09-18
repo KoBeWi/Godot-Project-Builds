@@ -8,9 +8,7 @@
 
 config_version=5
 
-[addons]
-
-project_builder/config_path="res://project_builds_config.txt"
+_project_builder_config_path="project_builds_config.txt"
 
 [application]
 

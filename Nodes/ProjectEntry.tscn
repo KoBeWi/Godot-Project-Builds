@@ -16,10 +16,7 @@ func set_project(path: String, callback: Callable):
 		var image := Image.load_from_file(icon_path.replace(\"res:/\", path))
 		%Icon.texture = ImageTexture.create_from_image(image)
 	
-	var local_config_file: String = config.get_value(\"addons\", \"project_builder/config_path\", Data.CONFIG_FILE)
-	if local_config_file.is_absolute_path():
-		local_config_file = local_config_file.trim_prefix(\"res://\")
-	
+	var local_config_file := Data.get_project_config_path(path, config)
 	var task := FileAccess.open(path.path_join(local_config_file), FileAccess.READ)
 	if not task:
 		%Tasks.text = \"Project builder not configured\"

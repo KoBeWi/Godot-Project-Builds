@@ -27,7 +27,7 @@ var text: String:
 		return line_edit.text
 
 func _ready() -> void:
-	line_edit.text_changed.connect(func(dummy): path_changed.emit())
+	line_edit.text_changed.connect(path_changed.emit.unbind(1))
 	match mode:
 		Mode.SELECT_FOLDER:
 			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
@@ -66,7 +66,7 @@ func validate():
 	var valid: bool
 	if not line_edit.text.is_empty():
 		match mode:
-			Mode.OPEN_FILE:
+			Mode.OPEN_FILE, Mode.SAVE_FILE:
 				valid = FileAccess.file_exists(path)
 			Mode.SELECT_FOLDER:
 				valid = DirAccess.dir_exists_absolute(path)

@@ -126,6 +126,7 @@ Both configurations are also organized into foldable tabs of related settings.
 #### Local Configuration
 
 - **Godot**
+    - **Project Builder Configuration Path:** Path to Project Builder configuration file (by default `project_builds_config.txt`). You need to press Apply button to actually change this setting. Doing so will also automatically move the file. Unlike other local settings, this one is stored in `project.godot`, under hidden `_project_builder_config_path` setting.
     - **Godot Exec For This Project:** Executable used for exporting the current project. If you leave this empty, the default one will be used. This option is useful when you have projects using different Godot versions.
 
 - **Epic**
@@ -152,7 +153,7 @@ Project Builder has an optional plugin that allows for better integration with y
 
 ![](Media/PluginStatus.png)
 
-It will tell you whether the plugin is installed or not, and if it needs update. If the plugin is not installed or outdated, you can click Install Project Builder Plugin to add the plugin to your project (you'll need to manually enable it in Project Settings). When the plugin is activated, it will add a new project setting to your project: `addons/project_builder/config_path`. By modifying this setting you can change the location of Project Builder's local config file (changing it will automatically move the file if it exists).
+It will tell you whether the plugin is installed or not, and if it needs update. If the plugin is not installed or outdated, you can click Install Project Builder Plugin to add the plugin to your project (you'll need to manually enable it in Project Settings).
 
 The addon also adds a Project Builder submenu to Project -> Tools menu. From there you can run Project Builder or directly execute any of the registered routines. These options are also added to Command Palette under Project Builder category.
 

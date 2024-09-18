@@ -1,9 +1,8 @@
 @tool
 extends EditorPlugin
 
-const CONFIG_SETTING = "addons/project_builder/config_path"
+const CONFIG_SETTING = "_project_builder_config_path"
 
-var config_path: String
 var popup: PopupMenu
 var cached_routine_list: PackedStringArray
 
@@ -17,12 +16,14 @@ func _enter_tree() -> void:
 	for routine in get_routine_list():
 		EditorInterface.get_command_palette().add_command("Execute: " + routine, "project_builder/" + routine, run_project_builder.bind(routine))
 	
-	if not ProjectSettings.has_setting(CONFIG_SETTING):
+	if ProjectSettings.has_setting("addons/project_builder/config_path"): # compat
+		ProjectSettings.set_setting(CONFIG_SETTING, ProjectSettings.get_setting("addons/project_builder/config_path"))
+		ProjectSettings.set_setting("addons/project_builder/config_path", null)
+	elif not ProjectSettings.has_setting(CONFIG_SETTING):
 		ProjectSettings.set_setting(CONFIG_SETTING, "res://project_builds_config.txt")
+	ProjectSettings.set_as_internal(CONFIG_SETTING, true)
 	
 	ProjectSettings.add_property_info({ "name": CONFIG_SETTING, "type": TYPE_STRING, "hint": PROPERTY_HINT_SAVE_FILE })
-	config_path = ProjectSettings.get_setting(CONFIG_SETTING)
-	ProjectSettings.settings_changed.connect(update_config_path)
 
 func _exit_tree() -> void:
 	remove_tool_menu_item("Project Builder")
@@ -45,12 +46,6 @@ func refresh_popup():
 		
 		for routine in routine_list:
 			popup.add_item(routine)
-
-func update_config_path():
-	var new_config_path: String = ProjectSettings.get_setting(CONFIG_SETTING)
-	if new_config_path != config_path and FileAccess.file_exists(config_path):
-		DirAccess.rename_absolute(config_path, new_config_path)
-		config_path = new_config_path
 
 func get_routine_list() -> PackedStringArray:
 	if not cached_routine_list.is_empty():

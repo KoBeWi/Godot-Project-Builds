@@ -66,25 +66,29 @@ func _ready() -> void:
 		global_config["project_builder_executable"] = path
 		queue_save_global_config()
 
+func get_project_config_path(project: String, config_file: ConfigFile = null) -> String:
+	if not config_file:
+		config_file = ConfigFile.new()
+		config_file.load(project)
+	
+	var config_path: String = config_file.get_value("addons", "project_builder/config_path", "") # compat
+	if config_path.is_empty():
+		config_path = config_file.get_value("", "_project_builder_config_path", CONFIG_FILE)
+	
+	return config_path.trim_prefix("res://")
+
 func load_project(path: String):
 	project_path = path
 	first_load = true
 	
-	var godot := ConfigFile.new()
-	godot.load(project_path.path_join("project.godot"))
-	local_config_file = godot.get_value("addons", "project_builder/config_path", CONFIG_FILE)
-	if local_config_file.is_absolute_path():
-		local_config_file = local_config_file.trim_prefix("res://")
-	
+	local_config_file = get_project_config_path(project_path.path_join("project.godot"))
 	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.READ)
 	if fa:
 		local_config = str_to_var(fa.get_as_text())
 	else:
 		local_config = {}
-		routines.clear()
-		local_config["routines"]  = routines
-		templates.clear()
-		local_config["templates"]  = templates
+		local_config["routines"]  = {}
+		local_config["templates"]  = {}
 		initial_load = true
 
 	routines = local_config["routines"]
