@@ -63,6 +63,9 @@ func _ready() -> void:
 	register_local_setting(%ItchGameName, \"itch_game_name\", \"\")
 	register_local_setting(%ItchDefaultChannel, \"itch_default_channel\", \"\")
 	
+	%ConfigPath.text = Data.local_config_file
+	%ConfigPath.path_changed.connect(config_path_updated, CONNECT_DEFERRED)
+	
 	update_plugin_status()
 
 func register_global_setting(control: Control, setting: String, default: Variant, sensitive := false):
@@ -140,6 +143,49 @@ func _on_install_plugin_pressed() -> void:
 		DirAccess.copy_absolute(source_path.path_join(file), target_path.path_join(file))
 	
 	update_plugin_status()
+
+func config_path_updated():
+	%ApplyPath.disabled = %ConfigPath.modulate == Color.WHITE and %ConfigPath.text == Data.local_config_file
+
+func apply_config_path() -> void:
+	var show_error = func(text: String):
+		%PathError.dialog_text = text
+		%PathError.popup_centered()
+	
+	var new_path: String = %ConfigPath.text
+	var new_path_abs := Data.project_path.path_join(new_path)
+	
+	if FileAccess.file_exists(new_path_abs):
+		show_error.call(\"Specified file already exists, can't overwrite.\")
+		return
+	
+	var error := DirAccess.rename_absolute(Data.project_path.path_join(Data.local_config_file), new_path_abs)
+	if error == OK:
+		var settings_path := Data.project_path.path_join(\"project.godot\")
+		var settings := FileAccess.get_file_as_string(settings_path).split(\"\\n\")
+		const setting_line := \"_project_builder_config_path=\"
+		
+		var replaced: bool
+		for i in settings.size():
+			if settings[i].begins_with(setting_line):
+				settings[i] = \"%s\\\"%s\\\"\" % [setting_line, new_path]
+				replaced = true
+				break
+		
+		if not replaced:
+			settings.insert(10, \"%s\\\"%s\\\"\" % [setting_line, new_path])
+		
+		var saver := FileAccess.open(settings_path, FileAccess.WRITE)
+		if not saver:
+			show_error.call(\"Failed to save project settings, error %d.\" % FileAccess.get_open_error())
+			return
+		else:
+			saver.store_string(\"\\n\".join(settings))
+		
+		Data.local_config_file = new_path
+		%ConfigPath.validate()
+	else:
+		show_error.call(\"Failed to move config file, error %d.\" % error)
 "
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1o4l0"]
@@ -559,6 +605,28 @@ title = "Godot"
 
 [node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot"]
 layout_mode = 2
+text = "Project Builder Configuration Path"
+horizontal_alignment = 1
+
+[node name="ConfigPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot" instance=ExtResource("2_ood4h")]
+unique_name_in_owner = true
+layout_mode = 2
+mode = 2
+scope = 1
+missing_mode = 1
+
+[node name="ApplyPath" type="Button" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Apply"
+
+[node name="PathError" type="AcceptDialog" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath"]
+unique_name_in_owner = true
+title = "Error!"
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot"]
+layout_mode = 2
 text = "Godot Exec For This Project"
 horizontal_alignment = 1
 
@@ -715,6 +783,7 @@ metadata/_edit_lock_ = true
 [connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="tab_changed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/MarginContainer/Button" to="." method="_add_template_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath/ApplyPath" to="VBoxContainer/TabContainer/Config" method="apply_config_path"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Button" to="." method="run_project_scan"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/InstallPlugin" to="VBoxContainer/TabContainer/Config" method="_on_install_plugin_pressed"]
 [connection signal="pressed" from="Back" to="." method="go_back"]
