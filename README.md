@@ -126,7 +126,7 @@ Both configurations are also organized into foldable tabs of related settings.
 #### Local Configuration
 
 - **Godot**
-    - **Project Builder Configuration Path:** Path to Project Builder configuration file (by default `project_builds_config.txt`). You need to press Apply button to actually change this setting. Doing so will also automatically move the file. Unlike other local settings, this one is stored in `project.godot`, under hidden `_project_builder_config_path` setting.
+    - **Project Builder Configuration Path:** Path to Project Builder configuration file (by default `project_builds_config.txt`). You need to press Apply button to actually change this setting. Doing so will also automatically move the file. Unlike other local settings, this one is stored in `project.godot`, under hidden `_project_builder_config_path` setting. Note that in Local Config the path is not editable and you can change only the directory. Manually changing the path is not advised.
     - **Godot Exec For This Project:** Executable used for exporting the current project. If you leave this empty, the default one will be used. This option is useful when you have projects using different Godot versions.
 
 - **Epic**

@@ -145,21 +145,21 @@ func _on_install_plugin_pressed() -> void:
 	update_plugin_status()
 
 func config_path_updated():
-	%ApplyPath.disabled = %ConfigPath.modulate == Color.WHITE and %ConfigPath.text == Data.local_config_file
-
-func apply_config_path() -> void:
+	var old_path := Data.local_config_file
 	var show_error = func(text: String):
+		%ConfigPath.text = old_path
 		%PathError.dialog_text = text
 		%PathError.popup_centered()
 	
-	var new_path: String = %ConfigPath.text
+	var new_path: String = %ConfigPath.text.path_join(\"project_builds_config.txt\")
 	var new_path_abs := Data.project_path.path_join(new_path)
+	%ConfigPath.text = new_path
 	
 	if FileAccess.file_exists(new_path_abs):
 		show_error.call(\"Specified file already exists, can't overwrite.\")
 		return
 	
-	var error := DirAccess.rename_absolute(Data.project_path.path_join(Data.local_config_file), new_path_abs)
+	var error := DirAccess.rename_absolute(Data.project_path.path_join(old_path), new_path_abs)
 	if error == OK:
 		var settings_path := Data.project_path.path_join(\"project.godot\")
 		var settings := FileAccess.get_file_as_string(settings_path).split(\"\\n\")
@@ -252,7 +252,6 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 metadata/_tab_index = 0
@@ -343,6 +342,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
@@ -611,15 +611,12 @@ horizontal_alignment = 1
 [node name="ConfigPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
-mode = 2
+mode = 4
 scope = 1
 missing_mode = 1
 
-[node name="ApplyPath" type="Button" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath"]
-unique_name_in_owner = true
-layout_mode = 2
-disabled = true
-text = "Apply"
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath" index="0"]
+editable = false
 
 [node name="PathError" type="AcceptDialog" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath"]
 unique_name_in_owner = true
@@ -783,10 +780,10 @@ metadata/_edit_lock_ = true
 [connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="tab_changed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Routines/MarginContainer/Button" to="." method="_add_routine_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Preset Templates/MarginContainer/Button" to="." method="_add_template_pressed"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath/ApplyPath" to="VBoxContainer/TabContainer/Config" method="apply_config_path"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Button" to="." method="run_project_scan"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/InstallPlugin" to="VBoxContainer/TabContainer/Config" method="_on_install_plugin_pressed"]
 [connection signal="pressed" from="Back" to="." method="go_back"]
 [connection signal="pressed" from="OpenLogs" to="." method="open_logs"]
 
+[editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath"]
 [editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot"]

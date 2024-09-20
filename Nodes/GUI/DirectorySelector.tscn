@@ -5,7 +5,7 @@
 [sub_resource type="GDScript" id="GDScript_af0jw"]
 script/source = "extends HBoxContainer
 
-enum Mode { SELECT_FOLDER, OPEN_FILE, SAVE_FILE, SELECT_WHATEVER }
+enum Mode { SELECT_FOLDER, OPEN_FILE, SAVE_FILE, SELECT_WHATEVER, FAKE_SELECT_FOLDER }
 enum Scope { GLOBAL, PROJECT }
 enum MissingMode { IGNORE, WARN, ERROR }
 
@@ -29,7 +29,7 @@ var text: String:
 func _ready() -> void:
 	line_edit.text_changed.connect(path_changed.emit.unbind(1))
 	match mode:
-		Mode.SELECT_FOLDER:
+		Mode.SELECT_FOLDER, Mode.FAKE_SELECT_FOLDER:
 			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
 		Mode.OPEN_FILE:
 			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
@@ -49,7 +49,8 @@ func open_dialog() -> void:
 
 func _path_selected(path: String) -> void:
 	if scope == Scope.PROJECT:
-		text = path.trim_prefix(Data.project_path + \"/\")
+		text = path.trim_prefix(Data.project_path)
+		text = text.trim_prefix(\"/\")
 	else:
 		text = path
 	
@@ -66,7 +67,7 @@ func validate():
 	var valid: bool
 	if not line_edit.text.is_empty():
 		match mode:
-			Mode.OPEN_FILE, Mode.SAVE_FILE:
+			Mode.OPEN_FILE, Mode.SAVE_FILE, Mode.FAKE_SELECT_FOLDER:
 				valid = FileAccess.file_exists(path)
 			Mode.SELECT_FOLDER:
 				valid = DirAccess.dir_exists_absolute(path)
@@ -98,9 +99,6 @@ layout_mode = 2
 icon = ExtResource("1_34bwh")
 
 [node name="FileDialog" type="FileDialog" parent="."]
-title = "Open a File"
-ok_button_text = "Open"
-file_mode = 0
 access = 2
 
 [connection signal="text_changed" from="LineEdit" to="." method="validate" unbinds=1]
