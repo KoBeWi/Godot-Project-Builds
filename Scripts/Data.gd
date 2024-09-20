@@ -87,8 +87,8 @@ func load_project(path: String):
 		local_config = str_to_var(fa.get_as_text())
 	else:
 		local_config = {}
-		local_config["routines"]  = {}
-		local_config["templates"]  = {}
+		local_config["routines"]  = Array([], TYPE_DICTIONARY, &"", null)
+		local_config["templates"]  = Array([], TYPE_DICTIONARY, &"", null)
 		initial_load = true
 
 	routines = local_config["routines"]
