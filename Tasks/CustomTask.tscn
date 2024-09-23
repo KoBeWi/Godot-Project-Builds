@@ -19,13 +19,7 @@ func _initialize() -> void:
 	defaults[\"arguments\"] = PackedStringArray()
 
 func _get_command() -> String:
-	match command.text:
-		\"$godot\":
-			return OS.get_executable_path()
-		\"$local_godot\":
-			return Data.get_godot_path()
-		_:
-			return command.text
+	return process_string(command.text)
 
 func _get_arguments() -> PackedStringArray:
 	return arguments.get_strings()
@@ -36,7 +30,7 @@ func _load() -> void:
 
 func _store() -> void:
 	data[\"command\"] = command.text
-	data[\"arguments\"] = arguments.get_strings()
+	data[\"arguments\"] = Array(arguments.get_strings()).map(process_string)
 
 func _get_task_info() -> PackedStringArray:
 	return [
@@ -44,6 +38,14 @@ func _get_task_info() -> PackedStringArray:
 		\"Command|The command to execute (path to a program etc.).\",
 		\"Arguments|Launch arguments for the command.\",
 	]
+
+func process_string(string: String) -> String:
+	if string == \"$godot\":
+		return OS.get_executable_path()
+	elif string == \"$local_godot\":
+		return Data.get_godot_path()
+	
+	return string.replace(\"$project\", Data.project_path)
 "
 
 [node name="CustomTask" type="GridContainer"]

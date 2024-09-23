@@ -205,8 +205,10 @@ Useful for copying additional files not included with export.
 
 An arbitrary task for operations not covered by other tasks, to use when it's not worth it to make a new task type. The task allows to specify a raw command and argument list that will be invoked during execution. It's very flexible, but requires manually providing all necessary data.
 
+Note that working directory is undefined, so you should use absolute paths both for command and arguments. You can use `$project` placeholder, which will be automatically substituted with path to the current project, e.g. `$project/.godot`.
+
 **Options**
-- **Command:** Command that will be executed. It will be invoked like from a terminal, but the working directory is undefined, so you should either use absolute path or global commands.
+- **Command:** Command that will be executed. It will be invoked like from a terminal. You can use `$godot` or `$local_godot` special names to use current Godot executable or project-configured Godot executable respectively.
 - **Arguments:** List of arguments provided for the command. They are automatically wrapped in quotes when necessary.
 
 ### Export Project
