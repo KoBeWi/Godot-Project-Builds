@@ -14,7 +14,10 @@ func _get_task_name() -> String:
 	return \"Sub-Routine\"
 
 func _get_execute_string() -> String:
-	return \"Sub-Routine: %s\" % current_task._get_task_name()
+	if current_task:
+		return \"Sub-Routine: %s\" % current_task._get_task_name()
+	else:
+		return _get_task_name()
 
 func _initialize():
 	if not is_node_ready():
@@ -102,13 +105,20 @@ func _cleanup() -> void:
 func _load() -> void:
 	var routine_name: String = data[\"routine\"]
 	
+	var found: bool
 	for i in sub_routine_list.item_count:
 		if sub_routine_list.get_item_metadata(i) == routine_name:
 			sub_routine_list.selected = i
+			found = true
 			break
+	
+	if not found:
+		sub_routine_list.selected = -1
 
 func _store() -> void:
 	data[\"routine\"] = sub_routine_list.get_selected_metadata()
+	if not data[\"routine\"]:
+		data[\"routine\"] = \"\"
 
 func _get_task_info() -> PackedStringArray:
 	return [
