@@ -4,6 +4,8 @@ extends Control
 @onready var commands_container: VBoxContainer = %CommandsContainer
 @onready var error_container: Control = %Errors
 
+var routine: Dictionary
+
 var current_task_index: int
 var current_task: Task
 var task_in_progress: bool
@@ -21,7 +23,7 @@ func _ready() -> void:
 	
 	var errors: PackedStringArray
 	
-	var routine := Data.get_current_routine()
+	routine = Data.get_current_routine()
 	on_fail = routine["on_fail"]
 	
 	for task in routine["tasks"]:

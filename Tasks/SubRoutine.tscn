@@ -20,12 +20,7 @@ func _initialize():
 	if not is_node_ready():
 		await ready
 	
-	var current_routine
-	if owner:
-		current_routine = owner.get(&\"routine\")
-	if not current_routine:
-		current_routine = {}
-	
+	var current_routine := get_current_routine()
 	for i in Data.routines.size():
 		var rout := Data.routines[i]
 		if rout == current_routine:
@@ -55,7 +50,12 @@ func _prevalidate() -> bool:
 		error_message = \"Invalid routine name or no tasks.\"
 		return false
 	
+	var current_routine_name: String = get_current_routine()[\"name\"]
 	for task in task_list:
+		if task[\"scene\"] == \"SubRoutine\" and detect_loop([current_routine_name], task[\"data\"][\"routine\"]):
+			error_message = \"Cyclic Sub-Routine detected.\"
+			return false
+		
 		var task_instance := Task.create_instance(task[\"scene\"])
 		limbo.add_child(task_instance)
 		task_instance._initialize()
@@ -115,6 +115,30 @@ func _get_task_info() -> PackedStringArray:
 		\"Inlines another routine to allow running other routines as part of routines.\",
 		\"Routine|Name of the routine to run. Automatically lists all configured routines.\"
 	]
+
+func get_current_routine() -> Dictionary:
+	var current_routine
+	if owner:
+		current_routine = owner.get(&\"routine\")
+	if not current_routine:
+		current_routine = get_tree().current_scene.get(&\"routine\")
+	if not current_routine:
+		current_routine = {}
+	return current_routine
+
+func detect_loop(base: PackedStringArray, routine: String) -> bool:
+	base.append(routine)
+	for rout in Data.routines:
+		if rout[\"name\"] == routine:
+			for task in rout[\"tasks\"]:
+				if task[\"scene\"] == \"SubRoutine\":
+					var routine2: String = task[\"data\"][\"routine\"]
+					if routine2 in base:
+						return true
+					
+					detect_loop(base, routine2)
+			break
+	return false
 "
 
 [node name="SubRoutine" type="GridContainer"]
