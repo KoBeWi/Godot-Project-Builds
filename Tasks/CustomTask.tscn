@@ -22,7 +22,7 @@ func _get_command() -> String:
 	return process_string(command.text)
 
 func _get_arguments() -> PackedStringArray:
-	return arguments.get_strings()
+	return Array(arguments.get_strings()).map(process_string)
 
 func _load() -> void:
 	command.text = data[\"command\"]
@@ -30,7 +30,7 @@ func _load() -> void:
 
 func _store() -> void:
 	data[\"command\"] = command.text
-	data[\"arguments\"] = Array(arguments.get_strings()).map(process_string)
+	data[\"arguments\"] = arguments.get_strings()
 
 func _get_task_info() -> PackedStringArray:
 	return [
