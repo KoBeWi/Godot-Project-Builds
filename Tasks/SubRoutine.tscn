@@ -146,7 +146,8 @@ func detect_loop(base: PackedStringArray, routine: String) -> bool:
 					if routine2 in base:
 						return true
 					
-					detect_loop(base, routine2)
+					if detect_loop(base, routine2):
+						return true
 			break
 	return false
 "
