@@ -54,10 +54,23 @@ func _prevalidate() -> bool:
 		return false
 	
 	var current_routine_name: String = get_current_routine()[\"name\"]
-	for task in task_list:
-		if task[\"scene\"] == \"SubRoutine\" and detect_loop([current_routine_name], task[\"data\"][\"routine\"]):
-			error_message = \"Cyclic Sub-Routine detected.\"
-			return false
+	var i := 0
+	while i < task_list.size():
+		var task := task_list[i]
+		if task[\"scene\"] == \"SubRoutine\":
+			var subroutine_name: String = task[\"data\"][\"routine\"]
+			if detect_loop([current_routine_name], subroutine_name):
+				error_message = \"Cyclic Sub-Routine detected.\"
+				return false
+			
+			var subtask_list: Array[Dictionary]
+			for rout in Data.routines:
+				if rout[\"name\"] == subroutine_name:
+					subtask_list = rout[\"tasks\"]
+					break
+			
+			task_list = task_list.slice(0, i) + subtask_list + task_list.slice(i + 1)
+			continue
 		
 		var task_instance := Task.create_instance(task[\"scene\"])
 		limbo.add_child(task_instance)
@@ -70,8 +83,10 @@ func _prevalidate() -> bool:
 			current_task = task_instance
 			error_message = task_instance.error_message
 			return false
+		
+		i += 1
 	
-	current_task = task_instances.front()
+	current_task = task_instances[0]
 	return true
 
 func _validate() -> bool:
