@@ -136,6 +136,7 @@ Both configurations are also organized into foldable tabs of related settings.
 - **Itch**
     - **Game Name:** Name of your game. This has to match the itch.io page (e.g. if your game is at `username.itch.io/my_game`, Game Name should be `my_game`).
     - **Default Channel:** App channel to which the game will be uploaded if not specified by the task.
+    - **Version File:** File to use for `userversion-file` argument. If not provided, the argument will not be passed. If "Use Project Version" is enabled in upload task, the file is ignored.
 
 #### Project Scan
 

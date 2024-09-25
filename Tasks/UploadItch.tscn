@@ -7,6 +7,9 @@ script/source = "extends Task
 
 @onready var source_folder: Control = %SourceFolder
 @onready var channel: LineEdit = %Channel
+@onready var project_version: CheckBox = %ProjectVersion
+
+var version_file: String
 
 func _get_task_name() -> String:
 	return \"Upload Itch\"
@@ -17,8 +20,18 @@ func _get_execute_string() -> String:
 func _initialize() -> void:
 	defaults[\"source_folder\"] = \"\"
 	defaults[\"channel\"] = \"\"
+	defaults[\"use_project_version\"] = false
 
 func _prevalidate() -> bool:
+	version_file = Data.local_config[\"itch_version_file\"]
+	if not version_file.is_empty():
+		version_file = Data.project_path.path_join(version_file)
+		if not FileAccess.file_exists(version_file):
+			error_message = \"The provided version file does not exist.\"
+	
+	if project_version.button_pressed and Data.get_project_version().is_empty():
+		error_message = \"Use Project Version is enabled, but project version (application/config/version) is empty.\"
+	
 	var butler_path: String = Data.global_config[\"itch_butler_path\"]
 	if butler_path.is_empty():
 		error_message = \"Butler path is empty.\"
@@ -62,21 +75,31 @@ func _get_arguments() -> PackedStringArray:
 	
 	ret.append(\"%s/%s:%s\" % [username, game_name, channel_name])
 	
+	if project_version.button_pressed:
+		ret.append(\"--userversion\")
+		ret.append(Data.get_project_version())
+	elif not version_file.is_empty():
+		ret.append(\"--userversion-file\")
+		ret.append(version_file)
+	
 	return ret
 
 func _load():
 	source_folder.text =  data[\"source_folder\"]
 	channel.text =  data[\"channel\"]
+	project_version.button_pressed =  data[\"use_project_version\"]
 
 func _store():
 	data[\"source_folder\"] = source_folder.text
 	data[\"channel\"] = channel.text
+	data[\"use_project_version\"] = project_version.button_pressed
 
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Uploads files to itch.io using butler. Remember to setup (login) butler before using this option.\",
 		\"Source Folder|The folder that will be provided for butler. It is automatically packed into ZIP before upload.\",
-		\"Channel|Channel to which the file will be uploaded.\",
+		\"Channel|Channel to which the file will be uploaded. If empty, default channel from Local Config will be used.\",
+		\"Use Project Version|If enabled, provides userversion argument with version from \\\"application/config/version\\\".\",
 	]
 "
 
@@ -109,3 +132,12 @@ horizontal_alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="ProjectVersion" type="CheckBox" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Use Project Version"
