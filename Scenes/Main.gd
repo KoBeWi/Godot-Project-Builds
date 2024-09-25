@@ -91,7 +91,15 @@ func edit_routine(data: Dictionary):
 
 func duplicate_routine(data: Dictionary):
 	data = data.duplicate(true)
-	data["name"] += " (Copy)"
+	
+	var new_name: String = data["name"]
+	var suffix := " (Copy)"
+	
+	for routine in Data.routines:
+		if routine["name"] == new_name + suffix:
+			suffix = " (Copy %d)" % (suffix.to_int() + 1)
+	
+	data["name"] = new_name + suffix
 	add_routine(data)
 	
 	sync_routines()
