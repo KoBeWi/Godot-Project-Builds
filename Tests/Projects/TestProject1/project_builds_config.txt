@@ -1,0 +1,29 @@
+{
+"epic_artifact_id": "",
+"epic_cloud_dir": "",
+"epic_product_id": "",
+"godot_path": "",
+"itch_default_channel": "",
+"itch_game_name": "",
+"itch_version_file": "",
+"routines": Array[Dictionary]([{
+"name": "Copy Files Test",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"recursive": true,
+"source_path": "file1.txt",
+"target_path": "file1-copy.txt"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "file1.txt",
+"target_path": "EmptyDir/file1-copy.txt"
+},
+"scene": "CopyFiles"
+}])
+}]),
+"templates": Array[Dictionary]([])
+}
