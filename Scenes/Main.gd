@@ -95,9 +95,13 @@ func duplicate_routine(data: Dictionary):
 	var new_name: String = data["name"]
 	var suffix := " (Copy)"
 	
-	for routine in Data.routines:
-		if routine["name"] == new_name + suffix:
-			suffix = " (Copy %d)" % (suffix.to_int() + 1)
+	var unique: bool
+	while not unique:
+		unique = true
+		for routine in Data.routines:
+			if routine["name"] == new_name + suffix:
+				suffix = " (Copy %d)" % (suffix.to_int() + 1)
+				unique = false
 	
 	data["name"] = new_name + suffix
 	add_routine(data)
