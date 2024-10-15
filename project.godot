@@ -50,7 +50,7 @@ script/templates_search_path="res://Scripts/Templates"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ProjectBuilder/plugin.cfg")
+enabled=PackedStringArray("res://addons/ProjectBuilder/plugin.cfg", "res://addons/gut/plugin.cfg")
 
 [rendering]
 
