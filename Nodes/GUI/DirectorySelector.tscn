@@ -45,6 +45,7 @@ func _ready() -> void:
 	validate()
 
 func open_dialog() -> void:
+	file_dialog.current_dir = text.get_base_dir()
 	file_dialog.popup_centered_ratio(0.5)
 
 func _path_selected(path: String) -> void:

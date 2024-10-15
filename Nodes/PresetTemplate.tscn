@@ -212,8 +212,8 @@ text = "Delete"
 wait_time = 0.5
 one_shot = true
 
-[connection signal="text_changed" from="VBoxContainer/GridContainer/HBoxContainer/Name" to="." method="validate_name" unbinds=1]
 [connection signal="text_changed" from="VBoxContainer/GridContainer/HBoxContainer/Name" to="." method="emit_changed" unbinds=1]
+[connection signal="text_changed" from="VBoxContainer/GridContainer/HBoxContainer/Name" to="." method="validate_name" unbinds=1]
 [connection signal="changed" from="VBoxContainer/GridContainer/CustomFeatures" to="." method="emit_changed"]
 [connection signal="changed" from="VBoxContainer/GridContainer/IncludeFilters" to="." method="emit_changed"]
 [connection signal="changed" from="VBoxContainer/GridContainer/ExcludeFilters" to="." method="emit_changed"]

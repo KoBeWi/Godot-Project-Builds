@@ -156,11 +156,25 @@ func config_path_updated():
 	var new_path_abs := Data.project_path.path_join(new_path)
 	%ConfigPath.text = new_path
 	
+	var exists: bool
 	if FileAccess.file_exists(new_path_abs):
-		show_error.call(\"Specified file already exists, can't overwrite.\")
-		return
+		exists = true
 	
-	var error := DirAccess.rename_absolute(Data.project_path.path_join(old_path), new_path_abs)
+	var error := OK
+	var old_empty: bool
+	if exists:
+		old_empty = true
+		for value in Data.local_config.values():
+			if value is String or value is Array:
+				if not value.is_empty():
+					old_empty = false
+					break
+		
+		if old_empty:
+			OS.move_to_trash(Data.project_path.path_join(old_path))
+	else:
+		error = DirAccess.rename_absolute(Data.project_path.path_join(old_path), new_path_abs)
+	
 	if error == OK:
 		var settings_path := Data.project_path.path_join(\"project.godot\")
 		var settings := FileAccess.get_file_as_string(settings_path).split(\"\\n\")
@@ -182,9 +196,20 @@ func config_path_updated():
 			return
 		else:
 			saver.store_string(\"\\n\".join(settings))
+			saver.close()
 		
 		Data.local_config_file = new_path
 		%ConfigPath.validate()
+		
+		if exists: # Reload config if changed to existing file.
+			%PathError.dialog_text = \"Config file already exists in that directory.\\nIt will be used instead and the Project Builder will reload.\"
+			if old_empty:
+				%PathError.dialog_text += \"\\n\" + \"The old config file was empty, it will be deleted.\"
+			%PathError.popup_centered()
+			
+			await %PathError.visibility_changed
+			Data.load_project(Data.project_path)
+			get_tree().reload_current_scene()
 	else:
 		show_error.call(\"Failed to move config file, error %d.\" % error)
 "
@@ -253,7 +278,6 @@ tab_alignment = 1
 script = SubResource("GDScript_yepl2")
 
 [node name="Routines" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 metadata/_tab_index = 0
@@ -344,6 +368,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
