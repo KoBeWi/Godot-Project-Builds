@@ -154,6 +154,9 @@ func config_path_updated():
 	
 	var new_path: String = %ConfigPath.text.path_join(\"project_builds_config.txt\")
 	var new_path_abs := Data.project_path.path_join(new_path)
+	if new_path == old_path:
+		return
+	
 	%ConfigPath.text = new_path
 	
 	var exists: bool
