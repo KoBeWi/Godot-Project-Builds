@@ -5,6 +5,7 @@
 "godot_path": "",
 "itch_default_channel": "",
 "itch_game_name": "",
+"itch_version_file": "",
 "routines": Array[Dictionary]([{
 "name": "Export Windows",
 "on_fail": 0,
