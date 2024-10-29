@@ -5,6 +5,7 @@
 "godot_path": "",
 "itch_default_channel": "",
 "itch_game_name": "",
+"itch_version_file": "",
 "routines": Array[Dictionary]([{
 "name": "Export Windows",
 "on_fail": 0,
@@ -90,7 +91,7 @@
 }]),
 "templates": Array[Dictionary]([{
 "custom_features": PackedStringArray(),
-"exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilder/*"),
+"exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilder/*", "Tests/*", "addons/gut/*"),
 "export_path": ".export",
 "include_filters": PackedStringArray(),
 "inherit": "",
