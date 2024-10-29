@@ -91,7 +91,7 @@
 }]),
 "templates": Array[Dictionary]([{
 "custom_features": PackedStringArray(),
-"exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilder/*"),
+"exclude_filters": PackedStringArray("Tasks/*", "addons/ProjectBuilder/*", "Tests/*", "addons/gut/*"),
 "export_path": ".export",
 "include_filters": PackedStringArray(),
 "inherit": "",
