@@ -24,6 +24,15 @@
 },
 "scene": "CopyFiles"
 }])
+}, {
+"name": "New Routine",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"target_directory": "MessyDir"
+},
+"scene": "ClearDirectory"
+}])
 }]),
 "templates": Array[Dictionary]([])
 }
