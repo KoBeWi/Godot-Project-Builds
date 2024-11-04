@@ -61,6 +61,65 @@
 },
 "scene": "PackZIP"
 }])
+}, {
+"name": "Sub-Routine Test",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Run Sub-Routines"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Run Sub-Routines",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Copy 1 and 2"
+},
+"scene": "SubRoutine"
+}, {
+"data": {
+"routine": "Copy 3 and 4"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Copy 1 and 2",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"recursive": true,
+"source_path": "file1.txt",
+"target_path": "copy1.txt"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "file1.txt",
+"target_path": "copy2.txt"
+},
+"scene": "CopyFiles"
+}])
+}, {
+"name": "Copy 3 and 4",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"recursive": true,
+"source_path": "file1.txt",
+"target_path": "copy3.txt"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "file1.txt",
+"target_path": "copy4.txt"
+},
+"scene": "CopyFiles"
+}])
 }]),
 "templates": Array[Dictionary]([])
 }

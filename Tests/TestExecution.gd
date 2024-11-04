@@ -8,6 +8,7 @@ const ROUTINES := {
 	"copy_files": 0,
 	"clear_directory_files": 1,
 	"pack_zip": 2,
+	"sub_routine": 3,
 }
 const Scene := preload("res://Scenes/Execution.tscn")
 var scene: Node
@@ -123,3 +124,32 @@ func test_pack_zip():
 	DirAccess.remove_absolute(PROJECTS[1] + "MessyDir.zip")
 	DirAccess.remove_absolute(PROJECTS[1] + "Include.zip")
 	DirAccess.remove_absolute(PROJECTS[1] + "Exclude.zip")
+
+func test_sub_routine():
+	# Check assumptions
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy1.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy2.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy3.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy4.txt"))
+	
+	# Setup
+	Data.load_project(PROJECTS[1])
+	Data.current_routine = Data.routines[ROUTINES.sub_routine]
+	
+	# Execute
+	add_child_autofree(scene)
+	await wait_seconds(2.0)
+	
+	# Check results
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy2.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy3.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy4.txt"))
+
+	# Cleanup
+	DirAccess.remove_absolute(PROJECTS[1] + "copy1.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "copy2.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "copy3.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "copy4.txt")
