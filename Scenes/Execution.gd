@@ -1,5 +1,7 @@
 extends Control
 
+signal finished
+
 @onready var task_limbo: Node2D = %TaskLimbo
 @onready var commands_container: VBoxContainer = %CommandsContainer
 @onready var error_container: Control = %Errors
@@ -127,6 +129,8 @@ func task_finished(success: bool):
 	next_command()
 
 func finish():
+	finished.emit()
+	
 	if Data.auto_exit:
 		get_tree().quit(fail_count)
 		return
