@@ -25,7 +25,7 @@
 "scene": "CopyFiles"
 }])
 }, {
-"name": "New Routine",
+"name": "Clear Directory Files Test",
 "on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
@@ -34,7 +34,7 @@
 "scene": "ClearDirectory"
 }])
 }, {
-"name": "New Routine 2",
+"name": "Pack ZIP Test",
 "on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
