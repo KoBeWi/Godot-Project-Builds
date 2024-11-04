@@ -33,6 +33,34 @@
 },
 "scene": "ClearDirectory"
 }])
+}, {
+"name": "New Routine 2",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"destination": "MessyDir.zip",
+"exclude_files": "",
+"include_files": "",
+"source": "MessyDir"
+},
+"scene": "PackZIP"
+}, {
+"data": {
+"destination": "Include.zip",
+"exclude_files": "",
+"include_files": "a.txt",
+"source": "MessyDir"
+},
+"scene": "PackZIP"
+}, {
+"data": {
+"destination": "Exclude.zip",
+"exclude_files": "a.txt",
+"include_files": "",
+"source": "MessyDir"
+},
+"scene": "PackZIP"
+}])
 }]),
 "templates": Array[Dictionary]([])
 }
