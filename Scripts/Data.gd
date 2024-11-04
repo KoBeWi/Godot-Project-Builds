@@ -116,10 +116,8 @@ func create_routine() -> Dictionary:
 	routines.append(routine)
 	return routine
 
-func get_current_routine() -> Dictionary:
-	var ret := current_routine
+func reset_current_routine() -> void:
 	current_routine = {}
-	return ret
 
 func get_template(template_name: String) -> Dictionary:
 	for template in templates:

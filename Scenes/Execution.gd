@@ -23,7 +23,7 @@ func _ready() -> void:
 	
 	var errors: PackedStringArray
 	
-	routine = Data.get_current_routine()
+	routine = Data.current_routine
 	on_fail = routine["on_fail"]
 	
 	for task in routine["tasks"]:
@@ -146,5 +146,7 @@ func go_back() -> void:
 	get_tree().change_scene_to_packed(Data.main)
 
 func _exit_tree() -> void:
+	Data.reset_current_routine()
+	
 	if task_in_progress:
 		current_task._cleanup()
