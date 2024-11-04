@@ -12,6 +12,7 @@ const ROUTINES := {
 	"cyclic_sub_routine_1": 7,
 	"cyclic_sub_routine_2": 9,
 }
+const EXECUTION_TIMEOUT := 2.0
 const Scene := preload("res://Scenes/Execution.tscn")
 var scene: Node
 var original_exec_delay
@@ -37,8 +38,8 @@ func test_copy_files():
 	Data.current_routine = Data.routines[ROUTINES.copy_files]
 	
 	# Execute
-	add_child_autofree(scene)
-	await wait_seconds(1.5)
+	add_child_autofree.call_deferred(scene)
+	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
 	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
@@ -62,8 +63,8 @@ func test_clear_directory_files():
 	Data.current_routine = Data.routines[ROUTINES.clear_directory_files]
 	
 	# Execute
-	add_child_autofree(scene)
-	await wait_seconds(1.5)
+	add_child_autofree.call_deferred(scene)
+	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
 	assert_false(FileAccess.file_exists(PROJECTS[1] + "MessyDir/a.txt"))
@@ -86,8 +87,8 @@ func test_pack_zip():
 	Data.current_routine = Data.routines[ROUTINES.pack_zip]
 	
 	# Execute
-	add_child_autofree(scene)
-	await wait_seconds(1.5)
+	add_child_autofree.call_deferred(scene)
+	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
 	assert_true(DirAccess.dir_exists_absolute(PROJECTS[1] + "MessyDir"))
@@ -140,8 +141,8 @@ func test_sub_routine():
 	Data.current_routine = Data.routines[ROUTINES.sub_routine]
 	
 	# Execute
-	add_child_autofree(scene)
-	await wait_seconds(2.0)
+	add_child_autofree.call_deferred(scene)
+	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
 	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
@@ -163,8 +164,8 @@ func test_cyclic_sub_routine_1():
 	
 	# Execute
 	watch_signals(scene)
-	add_child_autofree(scene)
-	await wait_seconds(0.1)
+	add_child_autofree.call_deferred(scene)
+	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
 	assert_signal_emitted(scene, "finished")
@@ -176,8 +177,8 @@ func test_cyclic_sub_routine_2():
 	
 	# Execute
 	watch_signals(scene)
-	add_child_autofree(scene)
-	await wait_seconds(0.1)
+	add_child_autofree.call_deferred(scene)
+	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
 	assert_signal_emitted(scene, "finished")
