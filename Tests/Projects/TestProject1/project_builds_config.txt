@@ -120,6 +120,33 @@
 },
 "scene": "CopyFiles"
 }])
+}, {
+"name": "Cyclic Sub-Routine 1",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Cyclic Sub-Routine 2"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Cyclic Sub-Routine 2",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Cyclic Sub-Routine 1"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Cyclic Sub-Routine 3",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Cyclic Sub-Routine 1"
+},
+"scene": "SubRoutine"
+}])
 }]),
 "templates": Array[Dictionary]([])
 }

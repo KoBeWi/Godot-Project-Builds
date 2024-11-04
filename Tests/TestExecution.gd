@@ -9,6 +9,8 @@ const ROUTINES := {
 	"clear_directory_files": 1,
 	"pack_zip": 2,
 	"sub_routine": 3,
+	"cyclic_sub_routine_1": 7,
+	"cyclic_sub_routine_2": 9,
 }
 const Scene := preload("res://Scenes/Execution.tscn")
 var scene: Node
@@ -153,3 +155,29 @@ func test_sub_routine():
 	DirAccess.remove_absolute(PROJECTS[1] + "copy2.txt")
 	DirAccess.remove_absolute(PROJECTS[1] + "copy3.txt")
 	DirAccess.remove_absolute(PROJECTS[1] + "copy4.txt")
+
+func test_cyclic_sub_routine_1():
+	# Setup
+	Data.load_project(PROJECTS[1])
+	Data.current_routine = Data.routines[ROUTINES.cyclic_sub_routine_1]
+	
+	# Execute
+	watch_signals(scene)
+	add_child_autofree(scene)
+	await wait_seconds(0.1)
+	
+	# Check results
+	assert_signal_emitted(scene, "finished")
+
+func test_cyclic_sub_routine_2():
+	# Setup
+	Data.load_project(PROJECTS[1])
+	Data.current_routine = Data.routines[ROUTINES.cyclic_sub_routine_2]
+	
+	# Execute
+	watch_signals(scene)
+	add_child_autofree(scene)
+	await wait_seconds(0.1)
+	
+	# Check results
+	assert_signal_emitted(scene, "finished")
