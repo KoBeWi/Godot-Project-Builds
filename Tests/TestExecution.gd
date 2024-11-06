@@ -26,6 +26,9 @@ func before_all():
 func before_each():
 	scene = Scene.instantiate()
 
+func after_each():
+	scene.free()
+
 func after_all():
 	Data.global_config["execution_delay"] = original_exec_delay
 
@@ -40,7 +43,7 @@ func test_copy_files():
 	Data.current_routine = Data.routines[ROUTINES.copy_files]
 	
 	# Execute
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
@@ -65,7 +68,7 @@ func test_clear_directory_files():
 	Data.current_routine = Data.routines[ROUTINES.clear_directory_files]
 	
 	# Execute
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
@@ -89,7 +92,7 @@ func test_pack_zip():
 	Data.current_routine = Data.routines[ROUTINES.pack_zip]
 	
 	# Execute
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
@@ -143,7 +146,7 @@ func test_sub_routine():
 	Data.current_routine = Data.routines[ROUTINES.sub_routine]
 	
 	# Execute
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
@@ -166,7 +169,7 @@ func test_cyclic_sub_routine_1():
 	
 	# Execute
 	watch_signals(scene)
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
@@ -179,7 +182,7 @@ func test_cyclic_sub_routine_2():
 	
 	# Execute
 	watch_signals(scene)
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
@@ -200,7 +203,7 @@ func test_bash_custom_task():
 	Data.current_routine = Data.routines[ROUTINES.bash_custom_task]
 	
 	# Execute
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
@@ -224,7 +227,7 @@ func test_windows_custom_task():
 	Data.current_routine = Data.routines[ROUTINES.windows_custom_task]
 	
 	# Execute
-	add_child_autofree.call_deferred(scene)
+	add_child.call_deferred(scene)
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
