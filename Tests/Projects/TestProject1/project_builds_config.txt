@@ -12,29 +12,29 @@
 "tasks": Array[Dictionary]([{
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "file1-copy.txt"
+"source_path": "File1.txt",
+"target_path": "File1Copy.txt"
 },
 "scene": "CopyFiles"
 }, {
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "EmptyDir/file1-copy.txt"
+"source_path": "File1.txt",
+"target_path": "EmptyDir/File1Copy.txt"
 },
 "scene": "CopyFiles"
 }, {
 "data": {
 "recursive": true,
 "source_path": "MessyDir",
-"target_path": "EmptyDir/MessyDirCopyRecursive"
+"target_path": "EmptyDir/DirCopyRecursive"
 },
 "scene": "CopyFiles"
 }, {
 "data": {
 "recursive": false,
 "source_path": "MessyDir",
-"target_path": "EmptyDir/MessyDirCopyNotRecursive"
+"target_path": "EmptyDir/DirCopyNotRecursive"
 },
 "scene": "CopyFiles"
 }])
@@ -62,14 +62,14 @@
 "data": {
 "destination": "Include.zip",
 "exclude_files": "",
-"include_files": "a.txt",
+"include_files": "DirFile1.txt",
 "source": "MessyDir"
 },
 "scene": "PackZIP"
 }, {
 "data": {
 "destination": "Exclude.zip",
-"exclude_files": "a.txt",
+"exclude_files": "DirFile1.txt",
 "include_files": "",
 "source": "MessyDir"
 },
@@ -104,15 +104,15 @@
 "tasks": Array[Dictionary]([{
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "copy1.txt"
+"source_path": "File1.txt",
+"target_path": "Copy1.txt"
 },
 "scene": "CopyFiles"
 }, {
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "copy2.txt"
+"source_path": "File1.txt",
+"target_path": "Copy2.txt"
 },
 "scene": "CopyFiles"
 }])
@@ -122,15 +122,15 @@
 "tasks": Array[Dictionary]([{
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "copy3.txt"
+"source_path": "File1.txt",
+"target_path": "Copy3.txt"
 },
 "scene": "CopyFiles"
 }, {
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "copy4.txt"
+"source_path": "File1.txt",
+"target_path": "Copy4.txt"
 },
 "scene": "CopyFiles"
 }])
@@ -176,7 +176,7 @@
 "on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
-"arguments": PackedStringArray("Tests/Projects/TestProject1/file1.txt", "Tests/Projects/TestProject1/WindowsFile.txt"),
+"arguments": PackedStringArray("Tests/Projects/TestProject1/File1.txt", "Tests/Projects/TestProject1/WindowsFile.txt"),
 "command": "copy"
 },
 "scene": "CustomTask"

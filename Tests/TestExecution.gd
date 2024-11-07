@@ -34,12 +34,12 @@ func after_all():
 
 func test_copy_files():
 	# Check assumptions
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "file1-copy.txt"))
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/file1-copy.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "File1.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "File1Copy.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/File1Copy.txt"))
 	assert_true(DirAccess.dir_exists_absolute(PROJECTS[1] + "MessyDir"))
-	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive"))
-	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive"))
+	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/DirCopyRecursive"))
+	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive"))
 	
 	# Setup
 	Data.load_project(PROJECTS[1])
@@ -50,45 +50,45 @@ func test_copy_files():
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "File1.txt"))
 	assert_true(DirAccess.dir_exists_absolute(PROJECTS[1] + "MessyDir"))
 	
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1-copy.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/file1-copy.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "File1Copy.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/File1Copy.txt"))
 	
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/a.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/b.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/Dir/c.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/DirCopyRecursive/DirFile1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/DirCopyRecursive/DirFile2.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/DirCopyRecursive/SubDir/SubDirFile1.txt"))
 	
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/a.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/b.txt"))
-	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/Dir"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive/DirFile1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive/DirFile2.txt"))
+	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive/SubDir"))
 
 	# Cleanup
-	DirAccess.remove_absolute(PROJECTS[1] + "file1-copy.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/file1-copy.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "File1Copy.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/File1Copy.txt")
 	
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/a.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/b.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/Dir/c.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/Dir")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyRecursive/DirFile1.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyRecursive/DirFile2.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyRecursive/SubDir/SubDirFile1.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyRecursive/SubDir")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyRecursive")
 	
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/a.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/b.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/Dir/c.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/Dir")
-	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive/DirFile1.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive/DirFile2.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive/SubDir/SubDirFile1.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive/SubDir")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/DirCopyNotRecursive")
 
 func test_clear_directory_files():
 	# Check assumptions
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/a.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/b.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/Dir/c.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/DirFile1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/DirFile2.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/SubDir/SubDirFile1.txt"))
 	
 	# Setup
-	DirAccess.copy_absolute(PROJECTS[1] + "MessyDir/a.txt", PROJECTS[1] + "EmptyDir/a.txt")
-	DirAccess.copy_absolute(PROJECTS[1] + "MessyDir/b.txt", PROJECTS[1] + "EmptyDir/b.txt")
+	DirAccess.copy_absolute(PROJECTS[1] + "MessyDir/DirFile1.txt", PROJECTS[1] + "EmptyDir/DirFile1.txt")
+	DirAccess.copy_absolute(PROJECTS[1] + "MessyDir/DirFile2.txt", PROJECTS[1] + "EmptyDir/DirFile2.txt")
 	Data.load_project(PROJECTS[1])
 	Data.current_routine = Data.routines[ROUTINES.clear_directory_files]
 	
@@ -97,13 +97,13 @@ func test_clear_directory_files():
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "MessyDir/a.txt"))
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "MessyDir/b.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/Dir/c.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "MessyDir/DirFile1.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "MessyDir/DirFile2.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "MessyDir/SubDir/SubDirFile1.txt"))
 
 	# Cleanup
-	DirAccess.rename_absolute(PROJECTS[1] + "EmptyDir/a.txt", PROJECTS[1] + "MessyDir/a.txt")
-	DirAccess.rename_absolute(PROJECTS[1] + "EmptyDir/b.txt", PROJECTS[1] + "MessyDir/b.txt")
+	DirAccess.rename_absolute(PROJECTS[1] + "EmptyDir/DirFile1.txt", PROJECTS[1] + "MessyDir/DirFile1.txt")
+	DirAccess.rename_absolute(PROJECTS[1] + "EmptyDir/DirFile2.txt", PROJECTS[1] + "MessyDir/DirFile2.txt")
 
 func test_pack_zip():
 	# Check assumptions
@@ -131,27 +131,27 @@ func test_pack_zip():
 	var files := reader.get_files()
 	reader.close()
 	assert_true(error == OK)
-	assert_true(files.has("a.txt"))
-	assert_true(files.has("b.txt"))
-	assert_true(files.has("Dir/c.txt"))
+	assert_true(files.has("DirFile1.txt"))
+	assert_true(files.has("DirFile2.txt"))
+	assert_true(files.has("SubDir/SubDirFile1.txt"))
 	
 	reader = ZIPReader.new()
 	error = reader.open(PROJECTS[1] + "Include.zip")
 	files = reader.get_files()
 	reader.close()
 	assert_true(error == OK)
-	assert_true(files.has("a.txt"))
-	assert_false(files.has("b.txt"))
-	assert_false(files.has("Dir/c.txt"))
+	assert_true(files.has("DirFile1.txt"))
+	assert_false(files.has("DirFile2.txt"))
+	assert_false(files.has("SubDir/SubDirFile1.txt"))
 	
 	reader = ZIPReader.new()
 	error = reader.open(PROJECTS[1] + "Exclude.zip")
 	files = reader.get_files()
 	reader.close()
 	assert_true(error == OK)
-	assert_false(files.has("a.txt"))
-	assert_true(files.has("b.txt"))
-	assert_true(files.has("Dir/c.txt"))
+	assert_false(files.has("DirFile1.txt"))
+	assert_true(files.has("DirFile2.txt"))
+	assert_true(files.has("SubDir/SubDirFile1.txt"))
 
 	# Cleanup
 	DirAccess.remove_absolute(PROJECTS[1] + "MessyDir.zip")
@@ -160,11 +160,11 @@ func test_pack_zip():
 
 func test_sub_routine():
 	# Check assumptions
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy1.txt"))
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy2.txt"))
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy3.txt"))
-	assert_false(FileAccess.file_exists(PROJECTS[1] + "copy4.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "File1.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "Copy1.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "Copy2.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "Copy3.txt"))
+	assert_false(FileAccess.file_exists(PROJECTS[1] + "Copy4.txt"))
 	
 	# Setup
 	Data.load_project(PROJECTS[1])
@@ -175,17 +175,17 @@ func test_sub_routine():
 	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
 	
 	# Check results
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy1.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy2.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy3.txt"))
-	assert_true(FileAccess.file_exists(PROJECTS[1] + "copy4.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "File1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "Copy1.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "Copy2.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "Copy3.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "Copy4.txt"))
 
 	# Cleanup
-	DirAccess.remove_absolute(PROJECTS[1] + "copy1.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "copy2.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "copy3.txt")
-	DirAccess.remove_absolute(PROJECTS[1] + "copy4.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "Copy1.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "Copy2.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "Copy3.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "Copy4.txt")
 
 func test_cyclic_sub_routine_1():
 	# Setup
