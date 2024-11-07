@@ -192,6 +192,9 @@ func test_bash_custom_task():
 	if OS.get_name() == "Windows":
 		pass_test("Will not test bash commands in Windows.")
 		return
+	elif OS.get_name() == "Android":
+		pass_test("Will not test bash commands in Android.")
+		return
 	
 	const filename := "BashFile.txt"
 	
