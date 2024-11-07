@@ -23,6 +23,20 @@
 "target_path": "EmptyDir/file1-copy.txt"
 },
 "scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "MessyDir",
+"target_path": "EmptyDir/MessyDirCopyRecursive"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": false,
+"source_path": "MessyDir",
+"target_path": "EmptyDir/MessyDirCopyNotRecursive"
+},
+"scene": "CopyFiles"
 }])
 }, {
 "name": "Clear Directory Files Test",

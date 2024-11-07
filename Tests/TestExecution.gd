@@ -14,7 +14,7 @@ const ROUTINES := {
 	"bash_custom_task": 10,
 	"windows_custom_task": 11,
 }
-const EXECUTION_TIMEOUT := 2.0
+const EXECUTION_TIMEOUT := 5.0
 const Scene := preload("res://Scenes/Execution.tscn")
 var scene: Node
 var original_exec_delay
@@ -37,6 +37,9 @@ func test_copy_files():
 	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
 	assert_false(FileAccess.file_exists(PROJECTS[1] + "file1-copy.txt"))
 	assert_false(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/file1-copy.txt"))
+	assert_true(DirAccess.dir_exists_absolute(PROJECTS[1] + "MessyDir"))
+	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive"))
+	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive"))
 	
 	# Setup
 	Data.load_project(PROJECTS[1])
@@ -48,12 +51,34 @@ func test_copy_files():
 	
 	# Check results
 	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1.txt"))
+	assert_true(DirAccess.dir_exists_absolute(PROJECTS[1] + "MessyDir"))
+	
 	assert_true(FileAccess.file_exists(PROJECTS[1] + "file1-copy.txt"))
 	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/file1-copy.txt"))
+	
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/a.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/b.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/Dir/c.txt"))
+	
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/a.txt"))
+	assert_true(FileAccess.file_exists(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/b.txt"))
+	assert_false(DirAccess.dir_exists_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/Dir"))
 
 	# Cleanup
 	DirAccess.remove_absolute(PROJECTS[1] + "file1-copy.txt")
 	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/file1-copy.txt")
+	
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/a.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/b.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/Dir/c.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive/Dir")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyRecursive")
+	
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/a.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/b.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/Dir/c.txt")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive/Dir")
+	DirAccess.remove_absolute(PROJECTS[1] + "EmptyDir/MessyDirCopyNotRecursive")
 
 func test_clear_directory_files():
 	# Check assumptions
