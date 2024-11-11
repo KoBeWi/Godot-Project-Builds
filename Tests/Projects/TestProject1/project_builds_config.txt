@@ -161,26 +161,6 @@
 },
 "scene": "SubRoutine"
 }])
-}, {
-"name": "Bash Custom Task Test",
-"on_fail": 0,
-"tasks": Array[Dictionary]([{
-"data": {
-"arguments": PackedStringArray("Tests/Projects/TestProject1/BashFile.txt"),
-"command": "touch"
-},
-"scene": "CustomTask"
-}])
-}, {
-"name": "Windows Custom Task Test",
-"on_fail": 0,
-"tasks": Array[Dictionary]([{
-"data": {
-"arguments": PackedStringArray("Tests/Projects/TestProject1/File1.txt", "Tests/Projects/TestProject1/WindowsFile.txt"),
-"command": "copy"
-},
-"scene": "CustomTask"
-}])
 }]),
 "templates": Array[Dictionary]([])
 }

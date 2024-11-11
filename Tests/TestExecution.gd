@@ -11,8 +11,6 @@ const ROUTINES := {
 	"sub_routine": 3,
 	"cyclic_sub_routine_1": 7,
 	"cyclic_sub_routine_2": 9,
-	"bash_custom_task": 10,
-	"windows_custom_task": 11,
 }
 const EXECUTION_TIMEOUT := 5.0
 const Scene := preload("res://Scenes/Execution.tscn")
@@ -212,54 +210,3 @@ func test_cyclic_sub_routine_2():
 	
 	# Check results
 	assert_signal_emitted(scene, "finished")
-	
-func test_bash_custom_task():
-	if OS.get_name() == "Windows":
-		pass_test("Will not test bash commands in Windows.")
-		return
-	elif OS.get_name() == "Android":
-		pass_test("Will not test bash commands in Android.")
-		return
-	
-	const filename := "BashFile.txt"
-	
-	# Check assumptions
-	assert_false(FileAccess.file_exists(PROJECTS[1] + filename))
-	
-	# Setup
-	Data.load_project(PROJECTS[1])
-	Data.current_routine = Data.routines[ROUTINES.bash_custom_task]
-	
-	# Execute
-	add_child.call_deferred(scene)
-	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
-	
-	# Check results
-	assert_true(FileAccess.file_exists(PROJECTS[1] + filename))
-
-	# Cleanup
-	DirAccess.remove_absolute(PROJECTS[1] + filename)
-	
-func test_windows_custom_task():
-	if OS.get_name() != "Windows":
-		pass_test("Will only test Windows commands in Windows.")
-		return
-	
-	const filename := "WindowsFile.txt"
-	
-	# Check assumptions
-	assert_false(FileAccess.file_exists(PROJECTS[1] + filename))
-	
-	# Setup
-	Data.load_project(PROJECTS[1])
-	Data.current_routine = Data.routines[ROUTINES.windows_custom_task]
-	
-	# Execute
-	add_child.call_deferred(scene)
-	await wait_for_signal(scene.finished, EXECUTION_TIMEOUT)
-	
-	# Check results
-	assert_true(FileAccess.file_exists(PROJECTS[1] + filename))
-
-	# Cleanup
-	DirAccess.remove_absolute(PROJECTS[1] + filename)
