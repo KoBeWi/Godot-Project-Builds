@@ -26,14 +26,14 @@
 }, {
 "data": {
 "recursive": true,
-"source_path": "MessyDir",
+"source_path": "DeepDir",
 "target_path": "EmptyDir/DirCopyRecursive"
 },
 "scene": "CopyFiles"
 }, {
 "data": {
 "recursive": false,
-"source_path": "MessyDir",
+"source_path": "DeepDir",
 "target_path": "EmptyDir/DirCopyNotRecursive"
 },
 "scene": "CopyFiles"
@@ -43,7 +43,7 @@
 "on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
-"target_directory": "MessyDir"
+"target_directory": "DeepDir"
 },
 "scene": "ClearDirectory"
 }])
@@ -52,26 +52,34 @@
 "on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
-"destination": "MessyDir.zip",
+"destination": "DeepDir.zip",
 "exclude_files": "",
 "include_files": "",
-"source": "MessyDir"
+"source": "DeepDir"
 },
 "scene": "PackZIP"
 }, {
 "data": {
-"destination": "Include.zip",
+"destination": "IncludeBlob.zip",
 "exclude_files": "",
-"include_files": "DirFile1.txt",
-"source": "MessyDir"
+"include_files": "*.md",
+"source": "MixedDir"
 },
 "scene": "PackZIP"
 }, {
 "data": {
 "destination": "Exclude.zip",
-"exclude_files": "DirFile1.txt",
+"exclude_files": "SubDirFile1.txt",
 "include_files": "",
-"source": "MessyDir"
+"source": "DeepDir"
+},
+"scene": "PackZIP"
+}, {
+"data": {
+"destination": "IncludeExclude.zip",
+"exclude_files": "TxtFile1.txt",
+"include_files": "*.txt",
+"source": "MixedDir"
 },
 "scene": "PackZIP"
 }])
