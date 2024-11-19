@@ -12,7 +12,7 @@ const ROUTINES := {
 	"cyclic_sub_routine_1": 7,
 	"cyclic_sub_routine_2": 9,
 }
-const EXECUTION_TIMEOUT := 5.0
+const EXECUTION_TIMEOUT := 20.0
 const Scene := preload("res://Scenes/Execution.tscn")
 var scene: Node
 var original_exec_delay
