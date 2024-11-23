@@ -64,7 +64,7 @@ func output_line(line: String, is_error: bool):
 	output_label.append_text("\n")
 
 func _process(delta: float) -> void:
-	if program.is_running:
+	if program.is_running > 0:
 		timer += delta
 		var intime := int(timer)
 		time.text = "%02d:%02d:%02d" % [intime / 3600, intime / 60 % 60, intime % 60]
@@ -107,7 +107,7 @@ func _exit_tree() -> void:
 	if not program:
 		return
 	
-	if program.is_running:
+	if program.is_running > 0:
 		program.stop()
 	program.finalize()
 
@@ -117,7 +117,7 @@ class ProgramInstance:
 	var stderr: FileAccess
 	var finish_mutext: Mutex
 	
-	var is_running: bool
+	var is_running: int
 	var finalized: bool
 	var result: int
 	var io_thread: Thread
@@ -134,7 +134,7 @@ class ProgramInstance:
 		instance.stdio = data["stdio"]
 		instance.stderr = data["stderr"]
 		instance.finish_mutext = Mutex.new()
-		instance.is_running = true
+		instance.is_running = 2
 		
 		return instance
 	
@@ -149,7 +149,7 @@ class ProgramInstance:
 		var is_err := pipe == stderr
 		var buffer_empty: bool
 		
-		while is_running:
+		while is_running > 0:
 			if pipe.get_error() != OK or not OS.is_process_running(pid):
 				break
 			
@@ -164,24 +164,14 @@ class ProgramInstance:
 				output_line.emit.call_deferred(line, is_err)
 		
 		finish_mutext.lock()
-		OS.delay_usec(1) # Prevents deadlock??
-		
-		var other: Thread
-		if is_err:
-			other = io_thread
-		else:
-			other = err_thread
-		
-		if not other.is_alive():
-			is_running = false
-		
+		is_running -= 1
 		finish_mutext.unlock()
 	
 	func stop():
-		if not is_running:
+		if is_running <= 0:
 			return
 		
-		is_running = false
+		is_running = 0
 		OS.kill(pid)
 		stdio.close()
 		stderr.close()
