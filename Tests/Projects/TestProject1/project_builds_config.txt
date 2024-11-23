@@ -12,17 +12,162 @@
 "tasks": Array[Dictionary]([{
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "file1-copy.txt"
+"source_path": "File1.txt",
+"target_path": "File1Copy.txt"
 },
 "scene": "CopyFiles"
 }, {
 "data": {
 "recursive": true,
-"source_path": "file1.txt",
-"target_path": "EmptyDir/file1-copy.txt"
+"source_path": "File1.txt",
+"target_path": "EmptyDir/File1Copy.txt"
 },
 "scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "DeepDir",
+"target_path": "EmptyDir/DirCopyRecursive"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": false,
+"source_path": "DeepDir",
+"target_path": "EmptyDir/DirCopyNotRecursive"
+},
+"scene": "CopyFiles"
+}])
+}, {
+"name": "Clear Directory Files Test",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"target_directory": "DeepDir"
+},
+"scene": "ClearDirectory"
+}])
+}, {
+"name": "Pack ZIP Test",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"destination": "DeepDir.zip",
+"exclude_files": "",
+"include_files": "",
+"source": "DeepDir"
+},
+"scene": "PackZIP"
+}, {
+"data": {
+"destination": "IncludeBlob.zip",
+"exclude_files": "",
+"include_files": "*.md",
+"source": "MixedDir"
+},
+"scene": "PackZIP"
+}, {
+"data": {
+"destination": "Exclude.zip",
+"exclude_files": "SubDirFile1.txt",
+"include_files": "",
+"source": "DeepDir"
+},
+"scene": "PackZIP"
+}, {
+"data": {
+"destination": "IncludeExclude.zip",
+"exclude_files": "TxtFile1.txt",
+"include_files": "*.txt",
+"source": "MixedDir"
+},
+"scene": "PackZIP"
+}])
+}, {
+"name": "Sub-Routine Test",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Run Sub-Routines"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Run Sub-Routines",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Copy 1 and 2"
+},
+"scene": "SubRoutine"
+}, {
+"data": {
+"routine": "Copy 3 and 4"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Copy 1 and 2",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"recursive": true,
+"source_path": "File1.txt",
+"target_path": "Copy1.txt"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "File1.txt",
+"target_path": "Copy2.txt"
+},
+"scene": "CopyFiles"
+}])
+}, {
+"name": "Copy 3 and 4",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"recursive": true,
+"source_path": "File1.txt",
+"target_path": "Copy3.txt"
+},
+"scene": "CopyFiles"
+}, {
+"data": {
+"recursive": true,
+"source_path": "File1.txt",
+"target_path": "Copy4.txt"
+},
+"scene": "CopyFiles"
+}])
+}, {
+"name": "Cyclic Sub-Routine 1",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Cyclic Sub-Routine 2"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Cyclic Sub-Routine 2",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Cyclic Sub-Routine 1"
+},
+"scene": "SubRoutine"
+}])
+}, {
+"name": "Cyclic Sub-Routine 3",
+"on_fail": 0,
+"tasks": Array[Dictionary]([{
+"data": {
+"routine": "Cyclic Sub-Routine 1"
+},
+"scene": "SubRoutine"
 }])
 }]),
 "templates": Array[Dictionary]([])

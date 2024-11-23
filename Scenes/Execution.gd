@@ -1,5 +1,7 @@
 extends Control
 
+signal finished
+
 @onready var task_limbo: Node2D = %TaskLimbo
 @onready var commands_container: VBoxContainer = %CommandsContainer
 @onready var error_container: Control = %Errors
@@ -23,7 +25,7 @@ func _ready() -> void:
 	
 	var errors: PackedStringArray
 	
-	routine = Data.get_current_routine()
+	routine = Data.current_routine
 	on_fail = routine["on_fail"]
 	
 	for task in routine["tasks"]:
@@ -127,6 +129,8 @@ func task_finished(success: bool):
 	next_command()
 
 func finish():
+	finished.emit()
+	
 	if Data.auto_exit:
 		get_tree().quit(fail_count)
 		return
@@ -146,5 +150,7 @@ func go_back() -> void:
 	get_tree().change_scene_to_packed(Data.main)
 
 func _exit_tree() -> void:
+	Data.reset_current_routine()
+	
 	if task_in_progress:
 		current_task._cleanup()

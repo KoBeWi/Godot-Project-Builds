@@ -8,7 +8,7 @@ var task_to_test: Task
 var discard: bool
 
 func _ready() -> void:
-	routine = Data.get_current_routine()
+	routine = Data.current_routine
 	%RoutineName.text = routine["name"]
 	%OnFail.selected = routine["on_fail"]
 	
@@ -52,6 +52,8 @@ func test_task(task: Task):
 	get_parent().remove_child(self)
 
 func _exit_tree() -> void:
+	Data.reset_current_routine()
+	
 	if discard:
 		return
 	

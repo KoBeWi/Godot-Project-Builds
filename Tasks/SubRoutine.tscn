@@ -23,10 +23,9 @@ func _initialize():
 	if not is_node_ready():
 		await ready
 	
-	var current_routine := get_current_routine()
 	for i in Data.routines.size():
 		var rout := Data.routines[i]
-		if rout == current_routine:
+		if rout == Data.current_routine:
 			continue
 		
 		sub_routine_list.add_item(rout[\"name\"])
@@ -53,7 +52,7 @@ func _prevalidate() -> bool:
 		error_message = \"Invalid routine name or no tasks.\"
 		return false
 	
-	var current_routine_name: String = get_current_routine()[\"name\"]
+	var current_routine_name: String = Data.current_routine[\"name\"]
 	var i := 0
 	while i < task_list.size():
 		var task := task_list[i]
@@ -140,16 +139,6 @@ func _get_task_info() -> PackedStringArray:
 		\"Inlines another routine to allow running other routines as part of routines.\",
 		\"Routine|Name of the routine to run. Automatically lists all configured routines.\"
 	]
-
-func get_current_routine() -> Dictionary:
-	var current_routine
-	if owner:
-		current_routine = owner.get(&\"routine\")
-	if not current_routine:
-		current_routine = get_tree().current_scene.get(&\"routine\")
-	if not current_routine:
-		current_routine = {}
-	return current_routine
 
 func detect_loop(base: PackedStringArray, routine: String) -> bool:
 	base.append(routine)

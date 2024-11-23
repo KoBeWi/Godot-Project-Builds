@@ -45,7 +45,7 @@ func _get_arguments() -> PackedStringArray:
 	ret.append(Data.resolve_path(source_path.text))
 	ret.append(Data.resolve_path(target_path.text))
 	if directory_mode:
-		if recursive:
+		if recursive.button_pressed:
 			ret.append(\"dir_recursive\")
 		else:
 			ret.append(\"dir\")
