@@ -1,4 +1,4 @@
-extends "res://Scripts/Tools/ScriptTask.gd"
+extends "BaseScriptTask.gd"
 
 func _init() -> void:
 	add_expected_argument("source", "Source directory for files.")

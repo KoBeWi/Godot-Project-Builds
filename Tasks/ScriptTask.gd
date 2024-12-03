@@ -32,4 +32,8 @@ func _prevalidate() -> bool:
 	return true
 
 func get_script_path() -> String:
-	return "res://Scripts/Tools/%s" % script_name
+	var scr: Script = get_script()
+	while not scr.resource_path.get_file() == "ScriptTask.gd":
+		scr = scr.get_base_script()
+	
+	return scr.resource_path.get_base_dir().path_join("ScriptTask/%s" % script_name)

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_63381"]
 
 [sub_resource type="GDScript" id="GDScript_getv1"]
-script/source = "extends \"res://Tasks/ScriptTask.gd\"
+script/source = "extends \"ScriptTask.gd\"
 
 @onready var target_directory: HBoxContainer = %TargetDirectory
 

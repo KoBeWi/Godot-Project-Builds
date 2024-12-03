@@ -1,4 +1,4 @@
-extends "res://Scripts/Tools/ScriptTask.gd"
+extends "BaseScriptTask.gd"
 
 var root_path: String
 var include_filters: PackedStringArray
