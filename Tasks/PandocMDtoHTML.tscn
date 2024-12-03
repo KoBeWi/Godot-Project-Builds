@@ -1,0 +1,115 @@
+[gd_scene load_steps=3 format=3 uid="uid://doc6awd7du3ku"]
+
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_8177b"]
+
+[sub_resource type="GDScript" id="GDScript_dhanr"]
+script/source = "extends Task
+
+@onready var source_path: Control = %SourcePath
+@onready var target_path: Control = %TargetPath
+
+func _get_task_name() -> String:
+	return \"Convert .md to .html\"
+
+func _get_task_info() -> PackedStringArray:
+	return [
+		\"Converts the given .md file to a .html file at a new location.\",
+		\"Source Path|Markdown file which is going to be converted.\",
+		\"Target Path|Path and name to convert to.\",
+	]
+
+func _get_execute_string() -> String:
+	return \"Convert %s to %s\" % [source_path.text, target_path.text]
+
+static func _initialize_project() -> void:
+	pass
+
+static func _begin_project_scan() -> void:
+	pass
+
+static func _process_file(path: String) -> void:
+	pass
+
+static func _end_project_scan() -> void:
+	pass
+
+func _initialize() -> void:
+	defaults[\"source_path\"] = \"\"
+	defaults[\"target_path\"] = \"\"
+
+func _prevalidate() -> bool:
+	if source_path.text == target_path.text:
+		error_message = \"Source and target paths are the same.\"
+		return false
+	else:
+		return true
+
+func _validate() -> bool:
+	if not FileAccess.file_exists(Data.resolve_path(source_path.text)):
+		error_message = \"Source path does not point to a file.\"
+
+	return error_message.is_empty()
+
+func _get_command() -> String:
+	return \"pandoc\"
+
+func _get_arguments() -> PackedStringArray:
+	var ret: PackedStringArray
+
+	ret.append(\"-o\")
+	ret.append(Data.resolve_path(target_path.text))
+	ret.append(Data.resolve_path(source_path.text))
+
+	return ret
+
+func _prepare() -> void:
+	pass
+
+func _cleanup() -> void:
+	pass
+
+func _load() -> void:
+	source_path.text = data[\"source_path\"]
+	target_path.text = data[\"target_path\"]
+
+func _store() -> void:
+	data[\"source_path\"] = source_path.text
+	data[\"target_path\"] = target_path.text
+"
+
+[node name="PandocMDtoHtml" type="GridContainer"]
+custom_minimum_size = Vector2(400, 0)
+offset_right = 400.0
+offset_bottom = 66.0
+columns = 2
+script = SubResource("GDScript_dhanr")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = ".md Source Path"
+horizontal_alignment = 2
+
+[node name="SourcePath" parent="." instance=ExtResource("2_8177b")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mode = 3
+scope = 1
+missing_mode = 1
+
+[node name="Label2" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = ".html Target Path"
+horizontal_alignment = 2
+
+[node name="TargetPath" parent="." instance=ExtResource("2_8177b")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+mode = 2
+scope = 1
