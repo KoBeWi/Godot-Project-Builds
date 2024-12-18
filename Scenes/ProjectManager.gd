@@ -26,6 +26,13 @@ func _ready() -> void:
 	if i > -1:
 		printerr("--exit argument provided, but no --execute-routine. It will be ignored.")
 	
+	#region CLI --projects-file-path
+	i = user_arguments.find("--projects-file-path")
+	if i > -1:
+		printerr("--projects-file-path -- File not found")
+		
+	#####
+	
 	var editor_data := OS.get_user_data_dir().get_base_dir().get_base_dir()
 	var project_list := ConfigFile.new()
 	project_list.load(editor_data.path_join("projects.cfg"))
