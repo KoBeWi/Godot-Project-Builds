@@ -26,16 +26,39 @@ func _ready() -> void:
 	if i > -1:
 		printerr("--exit argument provided, but no --execute-routine. It will be ignored.")
 	
+	
 	#region CLI --projects-file-path
+	## if using different Engine Version with the ._sc_ file
+	## https://docs.godotengine.org/en/4.3/tutorials/io/data_paths.html#self-contained-mode
+	var editor_data : String
 	i = user_arguments.find("--projects-file-path")
 	if i > -1:
-		printerr("--projects-file-path -- File not found")
-		
-	#####
+		if user_arguments.size() < i + 2:
+			printerr("--projects-file-path -- The projects file / path is not provided")
+		else:
+			var project_file_path := user_arguments[i + 1]
+			#region Parameter check
+			#check for valid filepath
+			if !project_file_path.get_file().is_empty():
+				editor_data = project_file_path
+			elif DirAccess.dir_exists_absolute(project_file_path): # if not a file, then check directory exists
+				editor_data = project_file_path.path_join("projects.cfg")
+			else:	# Fallback to default userdatadir
+				editor_data = OS.get_user_data_dir().get_base_dir().get_base_dir().path_join("projects.cfg")
+			#endregion
+	else:
+		# Fallback to default datadir
+		editor_data = OS.get_user_data_dir().get_base_dir().get_base_dir().path_join("projects.cfg")
+	#endregion
 	
-	var editor_data := OS.get_user_data_dir().get_base_dir().get_base_dir()
+	# check if file does exists
+	if !FileAccess.file_exists(editor_data):
+		printerr("--projects-file-path -- File not found")
+		get_tree().quit(1)
+		return
+		
 	var project_list := ConfigFile.new()
-	project_list.load(editor_data.path_join("projects.cfg"))
+	project_list.load(editor_data)
 	
 	for project in project_list.get_sections():
 		var project_entry := preload("res://Nodes/ProjectEntry.tscn").instantiate()
