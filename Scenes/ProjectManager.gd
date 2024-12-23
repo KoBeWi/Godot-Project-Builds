@@ -2,7 +2,12 @@ extends Control
 
 var user_arguments := OS.get_cmdline_user_args()
 
+@onready var directory_selector: HBoxContainer = $VBoxContainer2/HBoxContainer/DirectorySelector
+
+
 func _ready() -> void:
+	directory_selector.path_changed.connect(_on_custom_projects_changed)
+	
 	var i := user_arguments.find("--open-project")
 	if i > -1:
 		if user_arguments.size() < i + 2:
@@ -62,7 +67,7 @@ func _ready() -> void:
 	
 	for project in project_list.get_sections():
 		var project_entry := preload("res://Nodes/ProjectEntry.tscn").instantiate()
-		$VBoxContainer.add_child(project_entry)
+		$VBoxContainer2/VBoxContainer.add_child(project_entry)
 		project_entry.set_project(project, load_project)
 
 func load_project(project: String):
