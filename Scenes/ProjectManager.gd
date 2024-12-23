@@ -52,7 +52,8 @@ func _ready() -> void:
 	# check if file does exists
 	if !FileAccess.file_exists(editor_data):
 		printerr("projects-file -- File not found: %s" % editor_data)
-		get_tree().quit(1)
+		OS.alert("File not found: %s" % editor_data, 'projects.cfg not found')
+		#get_tree().quit(1)
 		return
 		
 	var project_list := ConfigFile.new()
