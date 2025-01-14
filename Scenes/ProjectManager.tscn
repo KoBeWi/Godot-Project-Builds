@@ -28,8 +28,9 @@ text = "Custom project.cfg"
 [node name="DirectorySelector" parent="VBoxContainer2/HBoxContainer" instance=ExtResource("2_8a1pu")]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-mode = 1
+mode = 3
 missing_mode = 2
+filters = PackedStringArray("*.cfg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2"]
 layout_mode = 2
