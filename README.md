@@ -171,6 +171,13 @@ godot --path "C:/Project Builder" -- --open-project "C:/My Project" --execute_ro
 ```
 The `--path` part can be omitted when running from Project Builder installation directory.
 
+## Start with different projects.cfg (Project list)
+For the case of using the self-contained mode of the Engine.
+For example you will test new develope or release-candidate versions
+
+See docpage: https://docs.godotengine.org/en/4.3/tutorials/io/data_paths.html#self-contained-mode
+
+you can start with the parameter `--projects-file-path [PathToEngine]\editor_date\projects.cfg` or `--projects-file-path [PathToEngine]\editor_date\` (only directory path with ending backslash)
 
 ## List of Available Tasks
 
