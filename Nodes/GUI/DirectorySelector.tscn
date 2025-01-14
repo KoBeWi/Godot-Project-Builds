@@ -27,7 +27,7 @@ var text: String:
 		return line_edit.text
 
 func _ready() -> void:
-	#line_edit.text_submitted.connect(path_changed.emit.unbind(1).call(new_text))
+	line_edit.text_submitted.connect(path_changed.emit.unbind(1))
 	match mode:
 		Mode.SELECT_FOLDER, Mode.FAKE_SELECT_FOLDER:
 			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
@@ -55,7 +55,7 @@ func _path_selected(path: String) -> void:
 	else:
 		text = path
 	
-	path_changed.emit()
+	path_changed.emit(\"\")
 
 func validate():
 	if missing_mode == MissingMode.IGNORE:

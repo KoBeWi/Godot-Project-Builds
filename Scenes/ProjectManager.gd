@@ -7,6 +7,7 @@ var user_arguments := OS.get_cmdline_user_args()
 
 func _ready() -> void:
 	directory_selector.line_edit.text_submitted.connect(_on_custom_projects_submitted)
+	directory_selector.path_changed.connect(_on_custom_projects_submitted)
 	
 	var i := user_arguments.find("--open-project")
 	if i > -1:
