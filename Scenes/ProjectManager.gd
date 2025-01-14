@@ -6,7 +6,7 @@ var user_arguments := OS.get_cmdline_user_args()
 
 
 func _ready() -> void:
-	directory_selector.path_changed.connect(_on_custom_projects_changed)
+	directory_selector.line_edit.text_submitted.connect(_on_custom_projects_submitted)
 	
 	var i := user_arguments.find("--open-project")
 	if i > -1:
@@ -103,7 +103,7 @@ func print_routines_and_exit():
 	if Data.auto_exit:
 		get_tree().quit(1)
 
-func _on_custom_projects_changed() -> void: 
+func _on_custom_projects_submitted(_text) -> void: 
 	print("_on_custom_projects_changed()")
 	#clear list
 	clear_project_list()
