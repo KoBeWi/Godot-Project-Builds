@@ -1,4 +1,4 @@
-extends Control
+extends ScrollContainer
 
 signal finished
 
@@ -154,3 +154,6 @@ func _exit_tree() -> void:
 	
 	if task_in_progress:
 		current_task._cleanup()
+
+func _process(_delta: float) -> void:
+    scroll_vertical = get_v_scroll_bar().max_value
