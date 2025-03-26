@@ -12,9 +12,11 @@ func set_project(path: String, callback: Callable):
 	%Name.text = config.get_value(\"application\", \"config/name\", \"[unnamed]\")
 	
 	var icon_path: String = config.get_value(\"application\", \"config/icon\", \"\")
-	if not icon_path.is_empty():
-		var image := Image.load_from_file(icon_path.replace(\"res:/\", path))
-		%Icon.texture = ImageTexture.create_from_image(image)
+	var icon := get_icon(icon_path, path)
+	
+	if not icon:
+		icon = preload(\"uid://dwlbcdps7ydkj\")
+	%Icon.texture = icon
 	
 	var local_config_file := Data.get_project_config_path(path, config)
 	var task := FileAccess.open(path.path_join(local_config_file), FileAccess.READ)
@@ -25,6 +27,33 @@ func set_project(path: String, callback: Callable):
 		%Tasks.text = \"%d routines\" % data.get(\"routines\", []).size()
 	
 	$Button.pressed.connect(callback.bind(path))
+
+func get_icon(path: String, project_path: String) -> Texture2D:
+	if path.is_empty():
+		return null
+	
+	if path.begins_with(\"uid://\"):
+		var uid_cache := FileAccess.open(project_path.path_join(\".godot/uid_cache.bin\"), FileAccess.READ)
+		if not uid_cache:
+			return null
+		
+		var entry_count := uid_cache.get_32()
+		for i in entry_count:
+			var id := uid_cache.get_64()
+			var length := uid_cache.get_32()
+			
+			var buffer := uid_cache.get_buffer(length)
+			if ResourceUID.id_to_text(id) == path:
+				path = buffer.get_string_from_ascii()
+				break
+	
+	path = path.replace(\"res:/\", project_path)
+	if FileAccess.file_exists(path):
+		var image := Image.load_from_file(path)
+		if image:
+			return ImageTexture.create_from_image(image)
+	
+	return null
 "
 
 [node name="ProjectEntry" type="MarginContainer"]
