@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dwmijfw6b7ngj"]
 
-[ext_resource type="Script" path="res://Nodes/GUI/FoldableContainer.gd" id="1_hcpyg"]
+[ext_resource type="Script" uid="uid://bfwskmmg76o6c" path="res://Nodes/GUI/FoldableContainer.gd" id="1_hcpyg"]
 [ext_resource type="Texture2D" uid="uid://6orgtpcieuls" path="res://Icons/ArrowUp.svg" id="1_homeo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_meunh"]

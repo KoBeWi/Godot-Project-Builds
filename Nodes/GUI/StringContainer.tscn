@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfbht01onlf1a"]
 
 [ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="1_nij3a"]
-[ext_resource type="Script" path="res://Nodes/GUI/StringContainer.gd" id="1_oa0rg"]
+[ext_resource type="Script" uid="uid://b640rv8k8mmlp" path="res://Nodes/GUI/StringContainer.gd" id="1_oa0rg"]
 
 [node name="StringContainer" type="ScrollContainer"]
 offset_right = 187.0
@@ -28,5 +28,5 @@ expand_to_text_length = true
 layout_mode = 2
 icon = ExtResource("1_nij3a")
 
-[connection signal="pressed" from="HBoxContainer/Button" to="." method="emit_changed" flags=3]
 [connection signal="pressed" from="HBoxContainer/Button" to="." method="_add_string"]
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="emit_changed" flags=3]

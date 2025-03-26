@@ -15,7 +15,7 @@ _project_builder_config_path="project_builds_config.txt"
 config/name="Godot Project Builder"
 config/tags=PackedStringArray("tool")
 run/main_scene="res://Scenes/ProjectManager.tscn"
-config/features=PackedStringArray("4.3")
+config/features=PackedStringArray("4.5")
 run/low_processor_mode=true
 config/icon="res://Icons/Icon.png"
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://eu3eioilmxkb"]
 
-[ext_resource type="Script" path="res://Scenes/ProjectManager.gd" id="1_edpqn"]
+[ext_resource type="Script" uid="uid://drooidtlec0og" path="res://Scenes/ProjectManager.gd" id="1_edpqn"]
 
 [node name="ProjectManager" type="ScrollContainer"]
 anchors_preset = 15
