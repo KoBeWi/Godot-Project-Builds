@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://ba3dlg1fj2hxv"]
+[gd_scene load_steps=19 format=3 uid="uid://ba3dlg1fj2hxv"]
 
 [ext_resource type="Script" uid="uid://bjg08mlxtbkx5" path="res://Scenes/Main.gd" id="1_r1xkq"]
-[ext_resource type="PackedScene" uid="uid://dwmijfw6b7ngj" path="res://Nodes/GUI/FoldableContainer.tscn" id="2_12ltr"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_fue2w"]
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_ood4h"]
+[ext_resource type="Texture2D" uid="uid://bidwkeg0fiqcn" path="res://Icons/ArrowDown.svg" id="3_50glp"]
+[ext_resource type="Texture2D" uid="uid://6orgtpcieuls" path="res://Icons/ArrowUp.svg" id="3_jw32o"]
 [ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="4_bgxb8"]
 [ext_resource type="Texture2D" uid="uid://ckqqfrho1pqcd" path="res://Icons/Script.svg" id="6_kgk8y"]
 
@@ -28,6 +29,38 @@ bg_color = Color(0, 0, 0, 0.12549)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cy4oc"]
 content_margin_right = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jw32o"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.136, 0.61186665, 0.8, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1gob"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0969, 0.435955, 0.57, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="Theme" id="Theme_v1gob"]
+FoldableContainer/icons/expanded_arrow = ExtResource("3_jw32o")
+FoldableContainer/icons/folded_arrow = ExtResource("3_50glp")
+FoldableContainer/styles/title_collapsed_hover_panel = SubResource("StyleBoxFlat_jw32o")
+FoldableContainer/styles/title_collapsed_panel = SubResource("StyleBoxFlat_v1gob")
+FoldableContainer/styles/title_hover_panel = SubResource("StyleBoxFlat_jw32o")
+FoldableContainer/styles/title_panel = SubResource("StyleBoxFlat_v1gob")
 
 [sub_resource type="GDScript" id="GDScript_rk2qg"]
 resource_name = "Config"
@@ -373,6 +406,7 @@ size_flags_horizontal = 3
 [node name="Config" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
+theme = SubResource("Theme_v1gob")
 theme_override_constants/separation = 32
 script = SubResource("GDScript_rk2qg")
 metadata/_tab_index = 3
@@ -381,6 +415,7 @@ metadata/_tab_index = 3
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_1o4l0")
+vertical_scroll_mode = 4
 script = SubResource("GDScript_yepl2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer"]
@@ -394,97 +429,114 @@ theme_type_variation = &"HeaderMedium"
 text = "Global Config"
 horizontal_alignment = 1
 
-[node name="Godot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+[node name="Godot" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "Godot"
+title_alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot/VBoxContainer"]
 layout_mode = 2
 text = "Godot Path"
 horizontal_alignment = 1
 
-[node name="GlobalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot" instance=ExtResource("2_ood4h")]
+[node name="GlobalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Godot/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 mode = 1
 missing_mode = 2
 
-[node name="Steam" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+[node name="Steam" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "Steam"
+title_alignment = 1
 
-[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam/VBoxContainer"]
 layout_mode = 2
 text = "Steam CMD Path"
 horizontal_alignment = 1
 
-[node name="SteamCMD" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam" instance=ExtResource("2_ood4h")]
+[node name="SteamCMD" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 mode = 1
 missing_mode = 2
 
-[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam/VBoxContainer"]
 layout_mode = 2
 text = "Username"
 horizontal_alignment = 1
 
-[node name="SteamUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
+[node name="SteamUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam/VBoxContainer"]
 layout_mode = 2
 text = "Password"
 horizontal_alignment = 1
 
-[node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam"]
+[node name="SteamPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Steam/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 secret = true
 
-[node name="GOG" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
-auto_translate_mode = 1
+[node name="GOG" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "GOG"
+title_alignment = 1
 
-[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Pipeline Builder Path"
 horizontal_alignment = 1
 
-[node name="PipelineBuilderPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG" instance=ExtResource("2_ood4h")]
+[node name="PipelineBuilderPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 mode = 1
 missing_mode = 2
 
-[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Username"
 horizontal_alignment = 1
 
-[node name="GOGUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+[node name="GOGUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Password"
 horizontal_alignment = 1
 
-[node name="GOGPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG"]
+[node name="GOGPassword" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/GOG/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
@@ -492,57 +544,62 @@ caret_blink = true
 caret_blink_interval = 0.5
 secret = true
 
-[node name="Epic" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
-auto_translate_mode = 1
+[node name="Epic" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "Epic"
+title_alignment = 1
 
-[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Build Patch Tool Path"
 horizontal_alignment = 1
 
-[node name="BuildPatchToolPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic" instance=ExtResource("2_ood4h")]
+[node name="BuildPatchToolPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 mode = 1
 missing_mode = 2
 
-[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Organization ID"
 horizontal_alignment = 1
 
-[node name="EpicOrganizationID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="EpicOrganizationID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Client ID"
 horizontal_alignment = 1
 
-[node name="EpicClientID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="EpicClientID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label6" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="Label6" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Client Secret"
 horizontal_alignment = 1
 
-[node name="EpicClientSecret" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="EpicClientSecret" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
@@ -550,43 +607,49 @@ caret_blink = true
 caret_blink_interval = 0.5
 secret = true
 
-[node name="Label7" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="Label7" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Client Secret Env Variable"
 horizontal_alignment = 1
 
-[node name="EpicClientSecretEnvVar" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic"]
+[node name="EpicClientSecretEnvVar" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Epic/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Itch" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer" instance=ExtResource("2_12ltr")]
+[node name="Itch" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "Itch"
+title_alignment = 1
 
-[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Butler Path"
 horizontal_alignment = 1
 
-[node name="ItchButlerPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch" instance=ExtResource("2_ood4h")]
+[node name="ItchButlerPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 mode = 1
 missing_mode = 2
 
-[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
+[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Username"
 horizontal_alignment = 1
 
-[node name="ItchUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch"]
+[node name="ItchUsername" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer/VBoxContainer/Itch/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
@@ -616,6 +679,7 @@ auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_1o4l0")
+vertical_scroll_mode = 4
 script = SubResource("GDScript_yepl2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2"]
@@ -630,125 +694,141 @@ theme_type_variation = &"HeaderMedium"
 text = "Local Config"
 horizontal_alignment = 1
 
-[node name="Godot" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
+[node name="Godot" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "Godot"
+title_alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot"]
+[node name="Godot" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot"]
 layout_mode = 2
 text = "Project Builder Configuration Path"
 horizontal_alignment = 1
 
-[node name="ConfigPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot" instance=ExtResource("2_ood4h")]
+[node name="ConfigPath" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 mode = 4
 scope = 1
 missing_mode = 1
 
-[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath" index="0"]
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath" index="0"]
 editable = false
 
-[node name="PathError" type="AcceptDialog" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath"]
+[node name="PathError" type="AcceptDialog" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath"]
 unique_name_in_owner = true
 title = "Error!"
 
-[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot"]
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot"]
 layout_mode = 2
 text = "Godot Exec For This Project"
 horizontal_alignment = 1
 
-[node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot" instance=ExtResource("2_ood4h")]
+[node name="LocalGodot" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 mode = 1
 
-[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot" index="0"]
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/LocalGodot" index="0"]
 placeholder_text = "Leave empty to use global path."
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Epic" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
-auto_translate_mode = 1
+[node name="Epic" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "Epic"
+title_alignment = 1
 
-[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Product ID"
 horizontal_alignment = 1
 
-[node name="EpicProductID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+[node name="EpicProductID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Artifact ID"
 horizontal_alignment = 1
 
-[node name="EpicArtifactID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+[node name="EpicArtifactID" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic"]
+[node name="Label11" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Cloud Directory"
 horizontal_alignment = 1
 
-[node name="EpicCloudDir" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic" instance=ExtResource("2_ood4h")]
+[node name="EpicCloudDir" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Epic/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 scope = 1
 missing_mode = 2
 
-[node name="Itch" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer" instance=ExtResource("2_12ltr")]
-auto_translate_mode = 1
+[node name="Itch" type="FoldableContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 title = "Itch"
+title_alignment = 1
 
-[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label8" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Game Name"
 horizontal_alignment = 1
 
-[node name="ItchGameName" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+[node name="ItchGameName" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+[node name="Label9" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Default Channel"
 horizontal_alignment = 1
 
-[node name="ItchDefaultChannel" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+[node name="ItchDefaultChannel" type="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch"]
+[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Version File"
 horizontal_alignment = 1
 
-[node name="ItchVersionFile" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch" instance=ExtResource("2_ood4h")]
+[node name="ItchVersionFile" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Itch/VBoxContainer" instance=ExtResource("2_ood4h")]
 unique_name_in_owner = true
 layout_mode = 2
 mode = 1
@@ -829,5 +909,5 @@ metadata/_edit_lock_ = true
 [connection signal="pressed" from="Back" to="." method="go_back"]
 [connection signal="pressed" from="OpenLogs" to="." method="open_logs"]
 
-[editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/ConfigPath"]
-[editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/LocalGodot"]
+[editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath"]
+[editable path="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/LocalGodot"]
