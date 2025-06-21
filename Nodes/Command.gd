@@ -56,6 +56,15 @@ func output_line(line: String, is_error: bool):
 	if is_error:
 		output_label.push_color(Color.RED)
 	
+	if line.contains("\u001b"):
+		line = line.\
+			replace("\u001b[1m", "[b]").\
+			replace("\u001b[22m", "[/b]").\
+			replace("\u001b[90m", "[color=gray]").\
+			replace("\u001b[92m", "[color=green]").\
+			replace("\u001b[39m", "[/color]").\
+			replace("\u001b[0m", "")
+	
 	output_label.append_text(line)
 	
 	if is_error:
