@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cvvvtsah38l0e"]
 
-[node name="Settings" type="VBoxContainer"]
+[node name="Settings" type="VBoxContainer" unique_id=472985162]
 offset_right = 388.0
 offset_bottom = 586.0
 size_flags_horizontal = 3

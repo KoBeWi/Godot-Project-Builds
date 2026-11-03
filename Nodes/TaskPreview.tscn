@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dv8u0se3f7m7s"]
+[gd_scene format=3 uid="uid://dv8u0se3f7m7s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75d6r"]
 content_margin_left = 8.0
@@ -45,35 +45,35 @@ content_margin_right = 4.0
 content_margin_bottom = 4.0
 bg_color = Color(0, 0, 0, 0.25098)
 
-[node name="TaskPreview" type="PanelContainer"]
+[node name="TaskPreview" type="PanelContainer" unique_id=1266365660]
 offset_right = 344.0
 offset_bottom = 221.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_75d6r")
 script = SubResource("GDScript_d6iij")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=385336160]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TaskContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="TaskContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1055130310]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_6p44c")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1413115581]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TaskName" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="TaskName" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1270649969]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Task Name"
 horizontal_alignment = 1
 
-[node name="TaskDescription" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+[node name="TaskDescription" type="RichTextLabel" parent="HBoxContainer/VBoxContainer" unique_id=58742193]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3

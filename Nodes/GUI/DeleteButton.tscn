@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://m6a3ajkud85h"]
+[gd_scene format=3 uid="uid://m6a3ajkud85h"]
 
 [ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="1_xvgi5"]
 
@@ -34,11 +34,11 @@ content_margin_left = 2.0
 content_margin_right = 2.0
 bg_color = Color(0.145098, 0.156863, 0.188235, 1)
 
-[node name="DeleteButton" type="Button"]
+[node name="DeleteButton" type="Button" unique_id=1998938657]
 icon = ExtResource("1_xvgi5")
 script = SubResource("GDScript_v5hcl")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=902682446]
 visible = false
 z_index = 1
 layout_mode = 1

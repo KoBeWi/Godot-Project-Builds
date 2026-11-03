@@ -1,30 +1,30 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfbht01onlf1a"]
+[gd_scene format=3 uid="uid://bfbht01onlf1a"]
 
 [ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="1_nij3a"]
 [ext_resource type="Script" uid="uid://b640rv8k8mmlp" path="res://Nodes/GUI/StringContainer.gd" id="1_oa0rg"]
 
-[node name="StringContainer" type="ScrollContainer"]
+[node name="StringContainer" type="ScrollContainer" unique_id=2145469396]
 offset_right = 187.0
 offset_bottom = 28.0
 horizontal_scroll_mode = 2
 vertical_scroll_mode = 0
 script = ExtResource("1_oa0rg")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1080309258]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Strings" type="HBoxContainer" parent="HBoxContainer"]
+[node name="Strings" type="HBoxContainer" parent="HBoxContainer" unique_id=1386476108]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="StringPrefab" type="LineEdit" parent="HBoxContainer/Strings"]
+[node name="StringPrefab" type="LineEdit" parent="HBoxContainer/Strings" unique_id=885985609]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 expand_to_text_length = true
 
-[node name="Button" type="Button" parent="HBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer" unique_id=2069903820]
 layout_mode = 2
 icon = ExtResource("1_nij3a")
 

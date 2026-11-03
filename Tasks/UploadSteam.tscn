@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7iec2eyiepn8"]
+[gd_scene format=3 uid="uid://b7iec2eyiepn8"]
 
 [sub_resource type="GDScript" id="GDScript_ftiq7"]
 script/source = "extends Task
@@ -106,7 +106,7 @@ func get_vdf_path() -> String:
 	return vdf_file.get_selected_metadata()
 "
 
-[node name="UploadSteam" type="GridContainer"]
+[node name="UploadSteam" type="GridContainer" unique_id=1795367734]
 offset_right = 522.0
 offset_bottom = 23.0
 columns = 2
@@ -114,13 +114,13 @@ script = SubResource("GDScript_ftiq7")
 has_static_configuration = true
 has_sensitive_data = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=660225915]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "VDF File"
 horizontal_alignment = 2
 
-[node name="VDFFile" type="OptionButton" parent="."]
+[node name="VDFFile" type="OptionButton" parent="." unique_id=73118998]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

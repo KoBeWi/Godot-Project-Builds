@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://baipfhiy5un08"]
+[gd_scene format=3 uid="uid://baipfhiy5un08"]
 
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_63381"]
 
@@ -60,46 +60,46 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="ClearDirectory" type="GridContainer"]
+[node name="ClearDirectory" type="GridContainer" unique_id=660143885]
 offset_right = 339.0
 offset_bottom = 31.0
 columns = 2
 script = SubResource("GDScript_getv1")
 script_name = "ClearDirectory.gd"
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=472302033]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Target Directory"
 horizontal_alignment = 2
 
-[node name="TargetDirectory" parent="." instance=ExtResource("1_63381")]
+[node name="TargetDirectory" parent="." unique_id=246138037 instance=ExtResource("1_63381")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 scope = 1
 missing_mode = 1
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=923964826]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Include Files"
 horizontal_alignment = 2
 
-[node name="FileFilter" type="LineEdit" parent="."]
+[node name="FileFilter" type="LineEdit" parent="." unique_id=1284250968]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Space-separated list of filters, e.g. \"*.exe\". Leave empty to include all."
 
-[node name="Label4" type="Label" parent="."]
+[node name="Label4" type="Label" parent="." unique_id=156612543]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Exclude Files"
 horizontal_alignment = 2
 
-[node name="FileFilter2" type="LineEdit" parent="."]
+[node name="FileFilter2" type="LineEdit" parent="." unique_id=112493974]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2

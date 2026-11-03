@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsk32dh41b4gs"]
+[gd_scene format=3 uid="uid://bsk32dh41b4gs"]
 
 [ext_resource type="PackedScene" uid="uid://sfb1fw8j6ufu" path="res://addons/gut/gui/ShortcutButton.tscn" id="1"]
 [ext_resource type="Script" uid="uid://ck68kf4ewmrrf" path="res://addons/gut/gui/BottomPanelShortcuts.gd" id="2"]
 
-[node name="BottomPanelShortcuts" type="Popup"]
+[node name="BottomPanelShortcuts" type="Popup" unique_id=270554963]
+oversampling_override = 1.0
 title = "Shortcuts"
 size = Vector2i(500, 350)
 visible = true
@@ -12,7 +13,7 @@ unresizable = false
 borderless = false
 script = ExtResource("2")
 
-[node name="Layout" type="VBoxContainer" parent="."]
+[node name="Layout" type="VBoxContainer" parent="." unique_id=787688386]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,131 +21,131 @@ offset_left = 5.0
 offset_right = -5.0
 offset_bottom = 2.0
 
-[node name="TopPad" type="CenterContainer" parent="Layout"]
+[node name="TopPad" type="CenterContainer" parent="Layout" unique_id=1544020993]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Layout"]
+[node name="Label2" type="Label" parent="Layout" unique_id=1755241516]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "Always Active"
 
-[node name="ColorRect" type="ColorRect" parent="Layout/Label2"]
+[node name="ColorRect" type="ColorRect" parent="Layout/Label2" unique_id=426648343]
 show_behind_parent = true
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.196078)
 
-[node name="CPanelButton" type="HBoxContainer" parent="Layout"]
+[node name="CPanelButton" type="HBoxContainer" parent="Layout" unique_id=380895571]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout/CPanelButton"]
+[node name="Label" type="Label" parent="Layout/CPanelButton" unique_id=1079057823]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 7
 text = "Show/Hide GUT Panel"
 
-[node name="ShortcutButton" parent="Layout/CPanelButton" instance=ExtResource("1")]
+[node name="ShortcutButton" parent="Layout/CPanelButton" unique_id=1677016031 instance=ExtResource("1")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GutPanelPad" type="CenterContainer" parent="Layout"]
+[node name="GutPanelPad" type="CenterContainer" parent="Layout" unique_id=375895580]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout"]
+[node name="Label" type="Label" parent="Layout" unique_id=3178408]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "Only Active When GUT Panel Shown"
 
-[node name="ColorRect2" type="ColorRect" parent="Layout/Label"]
+[node name="ColorRect2" type="ColorRect" parent="Layout/Label" unique_id=429616438]
 show_behind_parent = true
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.196078)
 
-[node name="TopPad2" type="CenterContainer" parent="Layout"]
+[node name="TopPad2" type="CenterContainer" parent="Layout" unique_id=1038672250]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
-[node name="CRunAll" type="HBoxContainer" parent="Layout"]
+[node name="CRunAll" type="HBoxContainer" parent="Layout" unique_id=1044520755]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout/CRunAll"]
+[node name="Label" type="Label" parent="Layout/CRunAll" unique_id=587097306]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 7
 text = "Run All"
 
-[node name="ShortcutButton" parent="Layout/CRunAll" instance=ExtResource("1")]
+[node name="ShortcutButton" parent="Layout/CRunAll" unique_id=1278403743 instance=ExtResource("1")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CRunCurrentScript" type="HBoxContainer" parent="Layout"]
+[node name="CRunCurrentScript" type="HBoxContainer" parent="Layout" unique_id=717450707]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout/CRunCurrentScript"]
+[node name="Label" type="Label" parent="Layout/CRunCurrentScript" unique_id=143149759]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 7
 text = "Run Current Script"
 
-[node name="ShortcutButton" parent="Layout/CRunCurrentScript" instance=ExtResource("1")]
+[node name="ShortcutButton" parent="Layout/CRunCurrentScript" unique_id=523340298 instance=ExtResource("1")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CRunCurrentInner" type="HBoxContainer" parent="Layout"]
+[node name="CRunCurrentInner" type="HBoxContainer" parent="Layout" unique_id=75551680]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout/CRunCurrentInner"]
+[node name="Label" type="Label" parent="Layout/CRunCurrentInner" unique_id=1325971781]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 7
 text = "Run Current Inner Class"
 
-[node name="ShortcutButton" parent="Layout/CRunCurrentInner" instance=ExtResource("1")]
+[node name="ShortcutButton" parent="Layout/CRunCurrentInner" unique_id=1129388142 instance=ExtResource("1")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CRunCurrentTest" type="HBoxContainer" parent="Layout"]
+[node name="CRunCurrentTest" type="HBoxContainer" parent="Layout" unique_id=1972863327]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout/CRunCurrentTest"]
+[node name="Label" type="Label" parent="Layout/CRunCurrentTest" unique_id=1308513938]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 7
 text = "Run Current Test"
 
-[node name="ShortcutButton" parent="Layout/CRunCurrentTest" instance=ExtResource("1")]
+[node name="ShortcutButton" parent="Layout/CRunCurrentTest" unique_id=706389330 instance=ExtResource("1")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CenterContainer2" type="CenterContainer" parent="Layout"]
+[node name="CenterContainer2" type="CenterContainer" parent="Layout" unique_id=299953155]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ShiftDisclaimer" type="Label" parent="Layout"]
+[node name="ShiftDisclaimer" type="Label" parent="Layout" unique_id=1304431626]
 layout_mode = 2
 text = "\"Shift\" cannot be the only modifier for a shortcut."
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Layout"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Layout" unique_id=1046037520]
 layout_mode = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Layout/HBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="Layout/HBoxContainer" unique_id=698276902]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Hide" type="Button" parent="Layout/HBoxContainer"]
+[node name="Hide" type="Button" parent="Layout/HBoxContainer" unique_id=228467221]
 custom_minimum_size = Vector2(60, 30)
 layout_mode = 2
 text = "Close"
 
-[node name="BottomPad" type="CenterContainer" parent="Layout"]
+[node name="BottomPad" type="CenterContainer" parent="Layout" unique_id=723867579]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 3

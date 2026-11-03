@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://xt4wel0slqe4"]
+[gd_scene format=3 uid="uid://xt4wel0slqe4"]
 
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_qoq5m"]
 
@@ -103,40 +103,40 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="UploadItch" type="GridContainer"]
+[node name="UploadItch" type="GridContainer" unique_id=1378500049]
 offset_right = 536.0
 offset_bottom = 66.0
 columns = 2
 script = SubResource("GDScript_5kvo4")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=992586748]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Source Folder"
 horizontal_alignment = 2
 
-[node name="SourceFolder" parent="." instance=ExtResource("1_qoq5m")]
+[node name="SourceFolder" parent="." unique_id=2134395717 instance=ExtResource("1_qoq5m")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 scope = 1
 missing_mode = 1
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=2112060188]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Channel"
 horizontal_alignment = 2
 
-[node name="Channel" type="LineEdit" parent="."]
+[node name="Channel" type="LineEdit" parent="." unique_id=30476762]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=391369850]
 layout_mode = 2
 
-[node name="ProjectVersion" type="CheckBox" parent="."]
+[node name="ProjectVersion" type="CheckBox" parent="." unique_id=166567021]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

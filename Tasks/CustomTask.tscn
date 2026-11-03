@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://2g67bchptwsm"]
+[gd_scene format=3 uid="uid://2g67bchptwsm"]
 
 [ext_resource type="PackedScene" uid="uid://bfbht01onlf1a" path="res://Nodes/GUI/StringContainer.tscn" id="1_siigy"]
 
@@ -48,29 +48,29 @@ func process_string(string: String) -> String:
 	return string.replace(\"$project\", Data.project_path)
 "
 
-[node name="CustomTask" type="GridContainer"]
+[node name="CustomTask" type="GridContainer" unique_id=1766237396]
 offset_right = 506.0
 offset_bottom = 58.0
 columns = 2
 script = SubResource("GDScript_3vtsj")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=387688608]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Command"
 horizontal_alignment = 2
 
-[node name="Command" type="LineEdit" parent="."]
+[node name="Command" type="LineEdit" parent="." unique_id=1934888020]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=1493776663]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Arguments"
 horizontal_alignment = 2
 
-[node name="Arguments" parent="." instance=ExtResource("1_siigy")]
+[node name="Arguments" parent="." unique_id=1455601693 instance=ExtResource("1_siigy")]
 unique_name_in_owner = true
 layout_mode = 2

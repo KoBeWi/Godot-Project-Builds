@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b6hrktoise2ji"]
+[gd_scene format=3 uid="uid://b6hrktoise2ji"]
 
 [ext_resource type="Script" uid="uid://c5deg6k04uij2" path="res://Nodes/Command.gd" id="1_l0kiu"]
 [ext_resource type="Texture2D" uid="uid://dno0spmwh4kov" path="res://Nodes/Hourglass.png" id="2_qna3k"]
@@ -113,7 +113,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_046av")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -142,46 +142,46 @@ func on_minimum_size_changed():
 		fit_content = false
 "
 
-[node name="Command" type="PanelContainer"]
+[node name="Command" type="PanelContainer" unique_id=1166603089]
 offset_right = 1000.0
 offset_bottom = 26.0
 size_flags_horizontal = 3
 script = ExtResource("1_l0kiu")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1235064545]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1135579972]
 custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1093925572]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=953257023]
 layout_mode = 2
 
-[node name="Status" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Status" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=782014501]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Executing Command"
 
-[node name="Time" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Time" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1952070613]
 unique_name_in_owner = true
 layout_mode = 2
 text = "00:00:00"
 horizontal_alignment = 1
 
-[node name="Code" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Code" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2066016269]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer/Code"]
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer/Code" unique_id=206297728]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -191,7 +191,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Animation" type="AnimatedSprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/Code/Control"]
+[node name="Animation" type="AnimatedSprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/Code/Control" unique_id=2120057520]
 unique_name_in_owner = true
 scale = Vector2(0.47619, 0.47619)
 sprite_frames = SubResource("SpriteFrames_sf5fb")
@@ -199,11 +199,11 @@ autoplay = "default"
 frame = 6
 frame_progress = 0.150927
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1116357708]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TaskText" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="TaskText" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1558202639]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
@@ -211,14 +211,14 @@ text = "Task"
 horizontal_alignment = 1
 text_overrun_behavior = 3
 
-[node name="Command" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Command" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1299808511]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "What"
 autowrap_mode = 2
 
-[node name="Copied" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Command"]
+[node name="Copied" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Command" unique_id=1576688072]
 unique_name_in_owner = true
 visible = false
 z_index = 1
@@ -231,31 +231,31 @@ theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_gis47")
 text = "Copied to clipboard"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=487937435]
 layout_mode = 2
 
-[node name="Output" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="Output" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=422518371]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Output"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Output" unique_id=514781500]
 layout_mode = 2
 alignment = 1
 
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/Output/HBoxContainer"]
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/Output/HBoxContainer" unique_id=1444940414]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Toggle Output"
 icon = ExtResource("3_kytcc")
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Output/HBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Output/HBoxContainer" unique_id=353985716]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Copy Output"
 icon = ExtResource("4_0o8ph")
 
-[node name="OutputLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Output"]
+[node name="OutputLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Output" unique_id=1939085337]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

@@ -716,7 +716,7 @@ mode = 4
 scope = 1
 missing_mode = 1
 
-[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath" index="0"]
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath" index="0" unique_id=1227410335]
 editable = false
 
 [node name="PathError" type="AcceptDialog" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath" unique_id=289801832]
@@ -733,7 +733,7 @@ unique_name_in_owner = true
 layout_mode = 2
 mode = 1
 
-[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/LocalGodot" index="0"]
+[node name="LineEdit" parent="VBoxContainer/TabContainer/Config/ScrollContainer2/VBoxContainer/Godot/Godot/LocalGodot" index="0" unique_id=1227410335]
 placeholder_text = "Leave empty to use global path."
 caret_blink = true
 caret_blink_interval = 0.5

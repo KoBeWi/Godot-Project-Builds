@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfxyekjccdafx"]
+[gd_scene format=3 uid="uid://bfxyekjccdafx"]
 
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_nbxxd"]
 
@@ -73,21 +73,21 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="CopyFiles" type="GridContainer"]
+[node name="CopyFiles" type="GridContainer" unique_id=1311897674]
 offset_right = 400.0
 offset_bottom = 101.0
 columns = 2
 script = SubResource("GDScript_6ruue")
 script_name = "CopyFiles.gd"
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1668468913]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Source Path"
 horizontal_alignment = 2
 
-[node name="SourcePath" parent="." instance=ExtResource("1_nbxxd")]
+[node name="SourcePath" parent="." unique_id=975989936 instance=ExtResource("1_nbxxd")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -95,14 +95,14 @@ mode = 3
 scope = 1
 missing_mode = 1
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=1139138823]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Target Path"
 horizontal_alignment = 2
 
-[node name="TargetPath" parent="." instance=ExtResource("1_nbxxd")]
+[node name="TargetPath" parent="." unique_id=1644125465 instance=ExtResource("1_nbxxd")]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
@@ -110,12 +110,12 @@ size_flags_horizontal = 3
 mode = 3
 scope = 1
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1730454256]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Recursive" type="CheckBox" parent="."]
+[node name="Recursive" type="CheckBox" parent="." unique_id=1922958226]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0

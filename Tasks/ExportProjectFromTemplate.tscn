@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://doi6iht30rdxc"]
+[gd_scene format=3 uid="uid://doi6iht30rdxc"]
 
 [sub_resource type="GDScript" id="GDScript_mlhhy"]
 script/source = "extends \"res://Tasks/ExportTask.gd\"
@@ -136,46 +136,46 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="ExportProjectFromTemplate" type="GridContainer"]
+[node name="ExportProjectFromTemplate" type="GridContainer" unique_id=984195826]
 offset_right = 532.0
 offset_bottom = 120.0
 columns = 2
 script = SubResource("GDScript_mlhhy")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=860983363]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Base Preset"
 horizontal_alignment = 2
 
-[node name="PresetList" type="OptionButton" parent="."]
+[node name="PresetList" type="OptionButton" parent="." unique_id=326723676]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=1138744938]
 layout_mode = 2
 text = "Preset Template"
 horizontal_alignment = 2
 
-[node name="TemplateList" type="OptionButton" parent="."]
+[node name="TemplateList" type="OptionButton" parent="." unique_id=1403436115]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label3" type="Label" parent="." unique_id=1208754959]
 layout_mode = 2
 text = "Path Suffix"
 horizontal_alignment = 2
 
-[node name="PathSuffix" type="LineEdit" parent="."]
+[node name="PathSuffix" type="LineEdit" parent="." unique_id=1830030952]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1709985340]
 layout_mode = 2
 
-[node name="Debug" type="CheckBox" parent="."]
+[node name="Debug" type="CheckBox" parent="." unique_id=911508396]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0

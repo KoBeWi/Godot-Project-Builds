@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://228qq6rkrwx6"]
+[gd_scene format=3 uid="uid://228qq6rkrwx6"]
 
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_nh5oq"]
 
@@ -112,42 +112,42 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="UploadEpic" type="GridContainer"]
+[node name="UploadEpic" type="GridContainer" unique_id=388459009]
 offset_right = 422.0
 offset_bottom = 101.0
 columns = 2
 script = SubResource("GDScript_qbsc0")
 has_sensitive_data = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=49454291]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Build Root"
 horizontal_alignment = 2
 
-[node name="BuildRoot" parent="." instance=ExtResource("1_nh5oq")]
+[node name="BuildRoot" parent="." unique_id=1222042935 instance=ExtResource("1_nh5oq")]
 layout_mode = 2
 size_flags_horizontal = 3
 scope = 1
 missing_mode = 1
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=1892693445]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Executable Name"
 horizontal_alignment = 2
 
-[node name="ExecutableName" type="LineEdit" parent="."]
+[node name="ExecutableName" type="LineEdit" parent="." unique_id=2147183773]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label3" type="Label" parent="." unique_id=643165181]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Version Prefix"
 horizontal_alignment = 2
 
-[node name="VersionPrefix" type="LineEdit" parent="."]
+[node name="VersionPrefix" type="LineEdit" parent="." unique_id=1335663516]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3

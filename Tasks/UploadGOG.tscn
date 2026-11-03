@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://7qw6mxp834ei"]
+[gd_scene format=3 uid="uid://7qw6mxp834ei"]
 
 [sub_resource type="GDScript" id="GDScript_a0t4t"]
 script/source = "extends Task
@@ -135,7 +135,7 @@ func get_json_path() -> String:
 	return json_file.get_selected_metadata()
 "
 
-[node name="UploadGog" type="GridContainer"]
+[node name="UploadGog" type="GridContainer" unique_id=733259862]
 offset_right = 520.0
 offset_bottom = 23.0
 columns = 2
@@ -143,37 +143,37 @@ script = SubResource("GDScript_a0t4t")
 has_static_configuration = true
 has_sensitive_data = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=2058731943]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "JSON File"
 horizontal_alignment = 2
 
-[node name="JSONFile" type="OptionButton" parent="."]
+[node name="JSONFile" type="OptionButton" parent="." unique_id=1345673416]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=761325927]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Branch"
 horizontal_alignment = 2
 
-[node name="Branch" type="LineEdit" parent="."]
+[node name="Branch" type="LineEdit" parent="." unique_id=102088503]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label3" type="Label" parent="." unique_id=60793947]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Branch Password"
 horizontal_alignment = 2
 
-[node name="BranchPassword" type="LineEdit" parent="."]
+[node name="BranchPassword" type="LineEdit" parent="." unique_id=695020169]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2

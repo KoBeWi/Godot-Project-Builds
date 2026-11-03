@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbb72q773nirj"]
+[gd_scene format=3 uid="uid://dbb72q773nirj"]
 
 [ext_resource type="Script" uid="uid://bw6lvvotkx7nc" path="res://Scenes/RoutineBuilder.gd" id="1_gekas"]
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_0gvmh"]
 [ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="2_ghd1v"]
 [ext_resource type="Texture2D" uid="uid://3i2umr3kmry6" path="res://Icons/Paste.svg" id="3_c5oe2"]
 
-[node name="RoutineBuilder" type="VBoxContainer"]
+[node name="RoutineBuilder" type="VBoxContainer" unique_id=548088211]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,10 +14,10 @@ grow_vertical = 2
 script = ExtResource("1_gekas")
 metadata/_edit_lock_ = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1885151532]
 layout_mode = 2
 
-[node name="Back" type="Button" parent="HBoxContainer2"]
+[node name="Back" type="Button" parent="HBoxContainer2" unique_id=1693895717]
 unique_name_in_owner = true
 layout_mode = 2
 shortcut = ExtResource("2_ghd1v")
@@ -25,23 +25,23 @@ shortcut_in_tooltip = false
 text = "Back"
 icon = ExtResource("2_0gvmh")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer2" unique_id=268460205]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer2/HBoxContainer" unique_id=1144335780]
 layout_mode = 2
 text = "Routine Name"
 
-[node name="RoutineName" type="LineEdit" parent="HBoxContainer2/HBoxContainer"]
+[node name="RoutineName" type="LineEdit" parent="HBoxContainer2/HBoxContainer" unique_id=381652970]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/minimum_character_width = 24
 max_length = 24
 
-[node name="Back2" type="Button" parent="HBoxContainer2"]
+[node name="Back2" type="Button" parent="HBoxContainer2" unique_id=664150874]
 unique_name_in_owner = true
 auto_translate_mode = 1
 modulate = Color(1, 0, 0, 1)
@@ -50,15 +50,15 @@ text = "Discard Changes"
 icon = ExtResource("2_0gvmh")
 icon_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1806194835]
 layout_mode = 2
 alignment = 1
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer" unique_id=269693378]
 layout_mode = 2
 text = "On Fail:"
 
-[node name="OnFail" type="OptionButton" parent="HBoxContainer"]
+[node name="OnFail" type="OptionButton" parent="HBoxContainer" unique_id=439975495]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -68,34 +68,34 @@ popup/item_0/id = 1
 popup/item_1/text = "Continue"
 popup/item_1/id = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=251904615]
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=6738469]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
 metadata/_edit_lock_ = true
 
-[node name="TaskList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="TaskList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=610933471]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=429754684]
 layout_mode = 2
 alignment = 1
 
-[node name="AddTask" type="MenuButton" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="AddTask" type="MenuButton" parent="ScrollContainer/VBoxContainer/HBoxContainer" unique_id=805604390]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Add Task"
 flat = false
 
-[node name="PasteTask" type="Button" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="PasteTask" type="Button" parent="ScrollContainer/VBoxContainer/HBoxContainer" unique_id=947339881]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cc3kmk1iwkf5p"]
+[gd_scene format=3 uid="uid://cc3kmk1iwkf5p"]
 
 [sub_resource type="GDScript" id="GDScript_8e84h"]
 script/source = "extends MarginContainer
@@ -56,7 +56,7 @@ func get_icon(path: String, project_path: String) -> Texture2D:
 	return null
 "
 
-[node name="ProjectEntry" type="MarginContainer"]
+[node name="ProjectEntry" type="MarginContainer" unique_id=1031374753]
 custom_minimum_size = Vector2(800, 0)
 offset_right = 495.0
 offset_bottom = 113.0
@@ -64,10 +64,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = SubResource("GDScript_8e84h")
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1674961003]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1216475752]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 8
@@ -75,30 +75,30 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=827011150]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1855135872]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1333515088]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=695969450]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=894232365]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -107,7 +107,7 @@ text = "Project Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Tasks" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Tasks" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1807859690]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -115,7 +115,7 @@ text = "Tasks"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Path" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Path" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1434932718]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Path"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqm1wdopgkdkp"]
+[gd_scene format=3 uid="uid://dqm1wdopgkdkp"]
 
 [ext_resource type="Script" uid="uid://gj2kvs6p5asi" path="res://Scenes/Execution.gd" id="1_rwjih"]
 [ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="2_qbdqm"]
@@ -18,7 +18,7 @@ grow_begin = -50.0
 grow_end = -50.0
 thickness = 2
 
-[node name="Execution" type="ScrollContainer"]
+[node name="Execution" type="ScrollContainer" unique_id=747406609]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,50 +27,50 @@ grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_rwjih")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=95395112]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Delay" type="Label" parent="VBoxContainer"]
+[node name="Delay" type="Label" parent="VBoxContainer" unique_id=1677794113]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Starting in %d seconds.
 Press Escape to cancel."
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer/Delay"]
+[node name="Button" type="Button" parent="VBoxContainer/Delay" unique_id=1319909521]
 layout_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_6oq72")
 shortcut = ExtResource("2_qbdqm")
 
-[node name="ErrorsParent" type="PanelContainer" parent="VBoxContainer"]
+[node name="ErrorsParent" type="PanelContainer" parent="VBoxContainer" unique_id=1889465962]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_tsvn6")
 
-[node name="Errors" type="VBoxContainer" parent="VBoxContainer/ErrorsParent"]
+[node name="Errors" type="VBoxContainer" parent="VBoxContainer/ErrorsParent" unique_id=543792730]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/ErrorsParent/Errors"]
+[node name="Label" type="Label" parent="VBoxContainer/ErrorsParent/Errors" unique_id=1002480942]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 2
 text = "Some tasks are invalid!"
 horizontal_alignment = 1
 
-[node name="CommandsContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="CommandsContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1997402686]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Separator" type="HSeparator" parent="VBoxContainer/CommandsContainer"]
+[node name="Separator" type="HSeparator" parent="VBoxContainer/CommandsContainer" unique_id=55939098]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 theme_override_styles/separator = SubResource("StyleBoxLine_ykpnb")
 
-[node name="Time" type="Label" parent="VBoxContainer"]
+[node name="Time" type="Label" parent="VBoxContainer" unique_id=1395361277]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -78,7 +78,7 @@ theme_override_font_sizes/font_size = 30
 text = "Finished. Total time: %02d:%02d:%02d."
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=535436661]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -88,7 +88,7 @@ shortcut = ExtResource("2_qbdqm")
 shortcut_in_tooltip = false
 text = "< Back"
 
-[node name="TaskLimbo" type="Node2D" parent="."]
+[node name="TaskLimbo" type="Node2D" parent="." unique_id=146066942]
 unique_name_in_owner = true
 visible = false
 

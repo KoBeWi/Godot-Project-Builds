@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dw4t3o5hj774w"]
+[gd_scene format=3 uid="uid://dw4t3o5hj774w"]
 
 [ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="1_smuq5"]
 
@@ -67,37 +67,37 @@ func _get_task_info() -> PackedStringArray:
 	]
 "
 
-[node name="MakeZip" type="VBoxContainer"]
+[node name="MakeZip" type="VBoxContainer" unique_id=1926429410]
 offset_right = 734.0
 offset_bottom = 101.0
 script = SubResource("GDScript_ess8h")
 script_name = "PackZIP.gd"
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="GridContainer" type="GridContainer" parent="." unique_id=212566384]
 layout_mode = 2
 columns = 2
 
-[node name="Label2" type="Label" parent="GridContainer"]
+[node name="Label2" type="Label" parent="GridContainer" unique_id=1696026462]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Source Directory"
 horizontal_alignment = 2
 
-[node name="SourceDirectory" parent="GridContainer" instance=ExtResource("1_smuq5")]
+[node name="SourceDirectory" parent="GridContainer" unique_id=1235513238 instance=ExtResource("1_smuq5")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 scope = 1
 missing_mode = 1
 
-[node name="Label3" type="Label" parent="GridContainer"]
+[node name="Label3" type="Label" parent="GridContainer" unique_id=675683222]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Target File Path"
 horizontal_alignment = 2
 
-[node name="TargetPath" parent="GridContainer" instance=ExtResource("1_smuq5")]
+[node name="TargetPath" parent="GridContainer" unique_id=551534257 instance=ExtResource("1_smuq5")]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
@@ -106,26 +106,26 @@ mode = 2
 scope = 1
 filters = PackedStringArray("*.zip")
 
-[node name="Label" type="Label" parent="GridContainer"]
+[node name="Label" type="Label" parent="GridContainer" unique_id=2017578705]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Include Files"
 horizontal_alignment = 2
 
-[node name="FileFilter" type="LineEdit" parent="GridContainer"]
+[node name="FileFilter" type="LineEdit" parent="GridContainer" unique_id=356394843]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Space-separated list of filters, e.g. \"*.exe\". Leave empty to include all."
 
-[node name="Label4" type="Label" parent="GridContainer"]
+[node name="Label4" type="Label" parent="GridContainer" unique_id=1197631899]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Exclude Files"
 horizontal_alignment = 2
 
-[node name="FileFilter2" type="LineEdit" parent="GridContainer"]
+[node name="FileFilter2" type="LineEdit" parent="GridContainer" unique_id=1830025750]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2

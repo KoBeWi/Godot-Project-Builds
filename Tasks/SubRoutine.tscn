@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh4e5n3xxf3n"]
+[gd_scene format=3 uid="uid://dh4e5n3xxf3n"]
 
 [sub_resource type="GDScript" id="GDScript_boi7e"]
 script/source = "extends Task
@@ -156,26 +156,26 @@ func detect_loop(base: PackedStringArray, routine: String) -> bool:
 	return false
 "
 
-[node name="SubRoutine" type="GridContainer"]
+[node name="SubRoutine" type="GridContainer" unique_id=1735998045]
 offset_right = 377.0
 offset_bottom = 23.0
 columns = 2
 script = SubResource("GDScript_boi7e")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=539440121]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Routine"
 horizontal_alignment = 2
 
-[node name="SubRoutine" type="OptionButton" parent="."]
+[node name="SubRoutine" type="OptionButton" parent="." unique_id=1765852604]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Limbo" type="Node2D" parent="."]
+[node name="Limbo" type="Node2D" parent="." unique_id=1726775096]
 unique_name_in_owner = true
 visible = false
 position = Vector2(0, 27)

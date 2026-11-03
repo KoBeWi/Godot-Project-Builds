@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyl1d6reu3mk4"]
+[gd_scene format=3 uid="uid://cyl1d6reu3mk4"]
 
 [ext_resource type="Texture2D" uid="uid://dhuukef617r6s" path="res://Icons/Folder.svg" id="1_34bwh"]
 
@@ -91,20 +91,20 @@ func validate():
 			modulate = Color.RED
 "
 
-[node name="DirectorySelector" type="HBoxContainer"]
+[node name="DirectorySelector" type="HBoxContainer" unique_id=1371999065]
 offset_right = 256.0
 offset_bottom = 31.0
 script = SubResource("GDScript_af0jw")
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1227410335]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=273335455]
 layout_mode = 2
 icon = ExtResource("1_34bwh")
 
-[node name="FileDialog" type="FileDialog" parent="."]
+[node name="FileDialog" type="FileDialog" parent="." unique_id=1700676457]
 access = 2
 
 [connection signal="text_changed" from="LineEdit" to="." method="validate" unbinds=1]

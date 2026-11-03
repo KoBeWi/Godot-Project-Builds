@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cctfsldanqcig"]
+[gd_scene format=3 uid="uid://cctfsldanqcig"]
 
 [ext_resource type="Texture2D" uid="uid://dnlqsyyx311xx" path="res://Icons/Duplicate.svg" id="1_1u4fl"]
 [ext_resource type="Texture2D" uid="uid://cp6em75230mi1" path="res://Icons/ArrowLeft.svg" id="1_17425"]
@@ -81,7 +81,7 @@ func _on_move_right_pressed() -> void:
 	refresh_parent()
 "
 
-[node name="Routinepreview" type="PanelContainer"]
+[node name="Routinepreview" type="PanelContainer" unique_id=1501617910]
 custom_minimum_size = Vector2(400, 0)
 offset_right = 303.0
 offset_bottom = 203.0
@@ -89,18 +89,18 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_e2baq")
 script = SubResource("GDScript_s214c")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=338151569]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=506279438]
 layout_mode = 2
 
-[node name="MoveLeft" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="MoveLeft" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1236846036]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("1_17425")
 
-[node name="Name" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Name" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1849960003]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -108,41 +108,41 @@ theme_override_font_sizes/font_size = 20
 text = "Routine Name"
 horizontal_alignment = 1
 
-[node name="MoveRight" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="MoveRight" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=209262720]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 icon = ExtResource("2_0d0yc")
 
-[node name="TaskCount" type="Label" parent="VBoxContainer"]
+[node name="TaskCount" type="Label" parent="VBoxContainer" unique_id=612534544]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
 text = "%d tasks"
 horizontal_alignment = 1
 
-[node name="TaskList" type="Label" parent="VBoxContainer"]
+[node name="TaskList" type="Label" parent="VBoxContainer" unique_id=2018450510]
 unique_name_in_owner = true
 modulate = Color(0.8, 0.8, 0.8, 1)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_alignment = 1
 
-[node name="GridContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="GridContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1951753098]
 layout_mode = 2
 
-[node name="Execute" type="Button" parent="VBoxContainer/GridContainer"]
+[node name="Execute" type="Button" parent="VBoxContainer/GridContainer" unique_id=414691699]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Execute"
 icon = ExtResource("1_hqapv")
 alignment = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/GridContainer" unique_id=341965970]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Edit" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer"]
+[node name="Edit" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer" unique_id=1021798891]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -150,7 +150,7 @@ text = "Edit"
 icon = ExtResource("1_m46hf")
 alignment = 0
 
-[node name="Duplicate" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer"]
+[node name="Duplicate" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer" unique_id=624398005]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -158,7 +158,7 @@ text = "Duplicate"
 icon = ExtResource("1_1u4fl")
 alignment = 0
 
-[node name="DeleteButton" parent="VBoxContainer" instance=ExtResource("6_hh3q2")]
+[node name="DeleteButton" parent="VBoxContainer" unique_id=5227245 instance=ExtResource("6_hh3q2")]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Delete"
