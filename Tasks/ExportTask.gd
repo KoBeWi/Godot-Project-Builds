@@ -96,9 +96,10 @@ func setup_preset_list(list: OptionButton):
 	var export_presets := load_presets()
 	
 	if export_presets:
-		for section in export_presets.get_sections():
-			if section.ends_with("options"):
-				continue
+		for i in 10000:
+			var section := "preset.%d" % i
+			if not export_presets.has_section(section):
+				break
 			
 			list.add_item(export_presets.get_value(section, "name"))
 	
