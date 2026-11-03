@@ -32,7 +32,11 @@ func _init() -> void:
 		if task.get_extension() == "tscn":
 			register_task(task_path.path_join(task))
 	
-	var global_defaults = {"project_builder_path": "", "project_builder_executable": "", "custom_project_list": ""}
+	var global_defaults := {
+		"project_builder_path": "",
+		"project_builder_executable": "",
+		"custom_project_list": "",
+	}
 	
 	var global_config_file := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.READ)
 	if global_config_file:
@@ -85,14 +89,19 @@ func load_project(path: String):
 	
 	local_config_file = get_project_config_path(project_path.path_join("project.godot"))
 	var fa := FileAccess.open(project_path.path_join(local_config_file), FileAccess.READ)
+	
+	var local_defaults := {
+		"routines": Array([], TYPE_DICTIONARY, &"", null),
+		"templates": Array([], TYPE_DICTIONARY, &"", null),
+		"groups": Array([{ "name": "", "color": Color.WHITE }], TYPE_DICTIONARY, &"", null),
+	}
 	if fa:
 		local_config = str_to_var(fa.get_as_text())
 	else:
 		local_config = {}
-		local_config["routines"]  = Array([], TYPE_DICTIONARY, &"", null)
-		local_config["templates"]  = Array([], TYPE_DICTIONARY, &"", null)
 		initial_load = true
-
+	
+	local_config.merge(local_defaults)
 	routines = local_config["routines"]
 	templates = local_config["templates"]
 

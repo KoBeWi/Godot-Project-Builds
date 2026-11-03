@@ -1,9 +1,11 @@
 extends Control
 
 @onready var template_container: Control = %TemplateContainer
-@onready var routine_container: Control = %RoutineContainer
+@onready var group_scroll: ScrollContainer = %GroupScroll
+@onready var group_container: VBoxContainer = %GroupContainer
 @onready var task_container: Control = %TaskContainer
 
+var groups: Dictionary[String, Control]
 var task_queue: Array[Dictionary]
 var task_queue_index: int
 
@@ -15,8 +17,12 @@ func _ready() -> void:
 	if Data.from_plugin:
 		%Back.hide()
 	
+	for group_data in Data.local_config["groups"]:
+		var group = add_group()
+		group.set_group_name(group_data["name"])
+	
 	for routine in Data.routines:
-		add_routine(routine)
+		add_routine(routine, "")
 	
 	for template in Data.templates:
 		var temp := _add_template_pressed()
@@ -69,17 +75,28 @@ func _add_template_pressed() -> Control:
 	template.connect_delete(delete_template.bind(template))
 	return template
 
-func _add_routine_pressed() -> void:
-	add_routine(Data.create_routine())
-
-func add_routine(data: Dictionary):
-	var routine := preload("res://Nodes/RoutinePreview.tscn").instantiate()
-	routine_container.add_child(routine)
+func add_routine(data: Dictionary, group: String):
+	var routine = groups[group].create_routine()
 	routine.owner = self
 	routine.set_routine_data(data)
 	routine.connect_execute(exec_routine.bind(data))
 	routine.connect_edit(edit_routine.bind(data))
 	routine.connect_duplicate(duplicate_routine.bind(data))
+
+func _add_group_pressed() -> void:
+	var group := add_group()
+	
+	await get_tree().process_frame
+	
+	group_scroll.ensure_control_visible(group)
+	group.group_name.edit(false)
+	group.group_name.select_all()
+
+func add_group() -> Control:
+	var group := preload("uid://dmjxmgu532xll").instantiate()
+	group_container.add_child(group)
+	groups[""] = group
+	return group
 
 func exec_routine(data: Dictionary):
 	Data.current_routine = data
@@ -104,7 +121,7 @@ func duplicate_routine(data: Dictionary):
 				unique = false
 	
 	data["name"] = new_name + suffix
-	add_routine(data)
+	#add_routine(data)
 	
 	sync_routines()
 	Data.queue_save_local_config()
@@ -150,8 +167,9 @@ func delete_template(template: Control):
 	Data.queue_save_local_config()
 
 func sync_routines():
-	Data.routines.assign(routine_container.get_children().map(func(routine: Control) -> Dictionary:
-		return routine.data))
+	pass
+	#Data.routines.assign(routine_container.get_children().map(func(routine: Control) -> Dictionary:
+		#return routine.data))
 
 func sync_templates():
 	Data.templates.assign(template_container.get_children().map(func(template: Control) -> Dictionary:
