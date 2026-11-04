@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://ckod7pmwiypxs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuonq"]
+content_margin_right = 4.0
+bg_color = Color(0, 0, 0, 0.12549)
+
+[node name="Preset Templates" type="VBoxContainer" unique_id=1423894244]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1438682141]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Button" type="Button" parent="MarginContainer" unique_id=1744177973]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Add Template"
+
+[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=1241086491]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TemplateScroll" type="ScrollContainer" parent="MarginContainer2" unique_id=1928809321]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nuonq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/TemplateScroll" unique_id=1435893922]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TemplateContainer" type="VBoxContainer" parent="MarginContainer2/TemplateScroll/VBoxContainer" unique_id=1609153349]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

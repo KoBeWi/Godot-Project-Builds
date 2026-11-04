@@ -1,0 +1,539 @@
+[gd_scene format=3 uid="uid://u7b5bv755a8i"]
+
+[ext_resource type="Texture2D" uid="uid://6orgtpcieuls" path="res://Icons/ArrowUp.svg" id="1_jrkxv"]
+[ext_resource type="Texture2D" uid="uid://bidwkeg0fiqcn" path="res://Icons/ArrowDown.svg" id="2_r82hx"]
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="3_hr74b"]
+[ext_resource type="Script" uid="uid://dvbpsbpfnvu4y" path="res://Scenes/Main/Config.gd" id="3_r82hx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jw32o"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.136, 0.61186665, 0.8, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1gob"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0969, 0.435955, 0.57, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="Theme" id="Theme_v1gob"]
+FoldableContainer/icons/expanded_arrow = ExtResource("1_jrkxv")
+FoldableContainer/icons/folded_arrow = ExtResource("2_r82hx")
+FoldableContainer/styles/title_collapsed_hover_panel = SubResource("StyleBoxFlat_jw32o")
+FoldableContainer/styles/title_collapsed_panel = SubResource("StyleBoxFlat_v1gob")
+FoldableContainer/styles/title_hover_panel = SubResource("StyleBoxFlat_jw32o")
+FoldableContainer/styles/title_panel = SubResource("StyleBoxFlat_v1gob")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1o4l0"]
+content_margin_left = 4.0
+content_margin_right = 4.0
+
+[sub_resource type="GDScript" id="GDScript_yepl2"]
+resource_name = "DebugDiscard"
+script/source = "@tool
+extends Control
+
+func _validate_property(property: Dictionary) -> void:
+	if property.name == \"current_tab\" or property.name == \"scroll_vertical\":
+		property.usage = PROPERTY_USAGE_EDITOR
+"
+
+[sub_resource type="GDScript" id="GDScript_fqp3h"]
+script/source = "extends SpinBox
+
+# ಠ_ಠ
+var text: int:
+	set(v):
+		value = v
+	get:
+		return value
+"
+
+[node name="Config" type="HBoxContainer" unique_id=1695111821]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_v1gob")
+theme_override_constants/separation = 32
+script = ExtResource("3_r82hx")
+metadata/_tab_index = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=2020693158]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1o4l0")
+vertical_scroll_mode = 4
+script = SubResource("GDScript_yepl2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=1216673392]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Global" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=1692751035]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Global Config"
+horizontal_alignment = 1
+
+[node name="Godot" type="FoldableContainer" parent="ScrollContainer/VBoxContainer" unique_id=479118160]
+auto_translate_mode = 2
+layout_mode = 2
+title = "Godot"
+title_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/Godot" unique_id=2102852670]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Godot/VBoxContainer" unique_id=305351976]
+layout_mode = 2
+text = "Godot Path"
+horizontal_alignment = 1
+
+[node name="GlobalGodot" parent="ScrollContainer/VBoxContainer/Godot/VBoxContainer" unique_id=1371999065 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+layout_mode = 2
+mode = 1
+missing_mode = 2
+
+[node name="Steam" type="FoldableContainer" parent="ScrollContainer/VBoxContainer" unique_id=347592668]
+auto_translate_mode = 2
+layout_mode = 2
+title = "Steam"
+title_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/Steam" unique_id=477571543]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/Steam/VBoxContainer" unique_id=676697907]
+layout_mode = 2
+text = "Steam CMD Path"
+horizontal_alignment = 1
+
+[node name="SteamCMD" parent="ScrollContainer/VBoxContainer/Steam/VBoxContainer" unique_id=1270821273 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+layout_mode = 2
+mode = 1
+missing_mode = 2
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/Steam/VBoxContainer" unique_id=1178028246]
+layout_mode = 2
+text = "Username"
+horizontal_alignment = 1
+
+[node name="SteamUsername" type="LineEdit" parent="ScrollContainer/VBoxContainer/Steam/VBoxContainer" unique_id=1540455097]
+unique_name_in_owner = true
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer/Steam/VBoxContainer" unique_id=569536080]
+layout_mode = 2
+text = "Password"
+horizontal_alignment = 1
+
+[node name="SteamPassword" type="LineEdit" parent="ScrollContainer/VBoxContainer/Steam/VBoxContainer" unique_id=1176140073]
+unique_name_in_owner = true
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+secret = true
+
+[node name="GOG" type="FoldableContainer" parent="ScrollContainer/VBoxContainer" unique_id=323992871]
+auto_translate_mode = 2
+layout_mode = 2
+title = "GOG"
+title_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/GOG" unique_id=451308609]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/GOG/VBoxContainer" unique_id=1761668059]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Pipeline Builder Path"
+horizontal_alignment = 1
+
+[node name="PipelineBuilderPath" parent="ScrollContainer/VBoxContainer/GOG/VBoxContainer" unique_id=458583587 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+mode = 1
+missing_mode = 2
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/GOG/VBoxContainer" unique_id=116506793]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Username"
+horizontal_alignment = 1
+
+[node name="GOGUsername" type="LineEdit" parent="ScrollContainer/VBoxContainer/GOG/VBoxContainer" unique_id=1629709407]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer/GOG/VBoxContainer" unique_id=722866818]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Password"
+horizontal_alignment = 1
+
+[node name="GOGPassword" type="LineEdit" parent="ScrollContainer/VBoxContainer/GOG/VBoxContainer" unique_id=1940699296]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+secret = true
+
+[node name="Epic" type="FoldableContainer" parent="ScrollContainer/VBoxContainer" unique_id=1240502402]
+auto_translate_mode = 2
+layout_mode = 2
+title = "Epic"
+title_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/Epic" unique_id=1142531331]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=1643310866]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Build Patch Tool Path"
+horizontal_alignment = 1
+
+[node name="BuildPatchToolPath" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=837789955 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+mode = 1
+missing_mode = 2
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=722635949]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Organization ID"
+horizontal_alignment = 1
+
+[node name="EpicOrganizationID" type="LineEdit" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=1849218558]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=1403684593]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Client ID"
+horizontal_alignment = 1
+
+[node name="EpicClientID" type="LineEdit" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=95100856]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label6" type="Label" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=895182660]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Client Secret"
+horizontal_alignment = 1
+
+[node name="EpicClientSecret" type="LineEdit" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=1624451879]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+secret = true
+
+[node name="Label7" type="Label" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=1527383417]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Client Secret Env Variable"
+horizontal_alignment = 1
+
+[node name="EpicClientSecretEnvVar" type="LineEdit" parent="ScrollContainer/VBoxContainer/Epic/VBoxContainer" unique_id=131484398]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Itch" type="FoldableContainer" parent="ScrollContainer/VBoxContainer" unique_id=2058548174]
+auto_translate_mode = 2
+layout_mode = 2
+title = "Itch"
+title_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/Itch" unique_id=535830273]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label10" type="Label" parent="ScrollContainer/VBoxContainer/Itch/VBoxContainer" unique_id=639863356]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Butler Path"
+horizontal_alignment = 1
+
+[node name="ItchButlerPath" parent="ScrollContainer/VBoxContainer/Itch/VBoxContainer" unique_id=2123774197 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+mode = 1
+missing_mode = 2
+
+[node name="Label11" type="Label" parent="ScrollContainer/VBoxContainer/Itch/VBoxContainer" unique_id=938631004]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Username"
+horizontal_alignment = 1
+
+[node name="ItchUsername" type="LineEdit" parent="ScrollContainer/VBoxContainer/Itch/VBoxContainer" unique_id=1917307125]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer" unique_id=1564400224]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=1723962230]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/HBoxContainer" unique_id=2065954554]
+layout_mode = 2
+text = "Execution Delay"
+
+[node name="ExecutionDelay" type="SpinBox" parent="ScrollContainer/VBoxContainer/HBoxContainer" unique_id=1680086918]
+unique_name_in_owner = true
+layout_mode = 2
+value = 2.0
+suffix = "s"
+script = SubResource("GDScript_fqp3h")
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="." unique_id=121377063]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1o4l0")
+vertical_scroll_mode = 4
+script = SubResource("GDScript_yepl2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2" unique_id=1650200217]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Local" type="Label" parent="ScrollContainer2/VBoxContainer" unique_id=1130709510]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Local Config"
+horizontal_alignment = 1
+
+[node name="Godot" type="FoldableContainer" parent="ScrollContainer2/VBoxContainer" unique_id=1447997481]
+auto_translate_mode = 2
+layout_mode = 2
+title = "Godot"
+title_alignment = 1
+
+[node name="Godot" type="VBoxContainer" parent="ScrollContainer2/VBoxContainer/Godot" unique_id=223276075]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="ScrollContainer2/VBoxContainer/Godot/Godot" unique_id=1862182346]
+layout_mode = 2
+text = "Project Builder Configuration Path"
+horizontal_alignment = 1
+
+[node name="ConfigPath" parent="ScrollContainer2/VBoxContainer/Godot/Godot" unique_id=694598984 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+layout_mode = 2
+mode = 4
+scope = 1
+missing_mode = 1
+
+[node name="LineEdit" parent="ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath" index="0" unique_id=1227410335]
+editable = false
+
+[node name="PathError" type="AcceptDialog" parent="ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath" unique_id=1009699643]
+unique_name_in_owner = true
+title = "Error!"
+
+[node name="Label3" type="Label" parent="ScrollContainer2/VBoxContainer/Godot/Godot" unique_id=1175905347]
+layout_mode = 2
+text = "Godot Exec For This Project"
+horizontal_alignment = 1
+
+[node name="LocalGodot" parent="ScrollContainer2/VBoxContainer/Godot/Godot" unique_id=1274699940 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+layout_mode = 2
+mode = 1
+
+[node name="LineEdit" parent="ScrollContainer2/VBoxContainer/Godot/Godot/LocalGodot" index="0" unique_id=1227410335]
+placeholder_text = "Leave empty to use global path."
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Epic" type="FoldableContainer" parent="ScrollContainer2/VBoxContainer" unique_id=1560816477]
+auto_translate_mode = 2
+layout_mode = 2
+title = "Epic"
+title_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2/VBoxContainer/Epic" unique_id=673127695]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="ScrollContainer2/VBoxContainer/Epic/VBoxContainer" unique_id=1922717307]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Product ID"
+horizontal_alignment = 1
+
+[node name="EpicProductID" type="LineEdit" parent="ScrollContainer2/VBoxContainer/Epic/VBoxContainer" unique_id=2068226914]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label10" type="Label" parent="ScrollContainer2/VBoxContainer/Epic/VBoxContainer" unique_id=1784040752]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Artifact ID"
+horizontal_alignment = 1
+
+[node name="EpicArtifactID" type="LineEdit" parent="ScrollContainer2/VBoxContainer/Epic/VBoxContainer" unique_id=1440233034]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label11" type="Label" parent="ScrollContainer2/VBoxContainer/Epic/VBoxContainer" unique_id=1813172842]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Cloud Directory"
+horizontal_alignment = 1
+
+[node name="EpicCloudDir" parent="ScrollContainer2/VBoxContainer/Epic/VBoxContainer" unique_id=964772219 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+scope = 1
+missing_mode = 2
+
+[node name="Itch" type="FoldableContainer" parent="ScrollContainer2/VBoxContainer" unique_id=122097568]
+auto_translate_mode = 2
+layout_mode = 2
+title = "Itch"
+title_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2/VBoxContainer/Itch" unique_id=246304059]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label8" type="Label" parent="ScrollContainer2/VBoxContainer/Itch/VBoxContainer" unique_id=311032751]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Game Name"
+horizontal_alignment = 1
+
+[node name="ItchGameName" type="LineEdit" parent="ScrollContainer2/VBoxContainer/Itch/VBoxContainer" unique_id=1657359851]
+unique_name_in_owner = true
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label9" type="Label" parent="ScrollContainer2/VBoxContainer/Itch/VBoxContainer" unique_id=359148800]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Default Channel"
+horizontal_alignment = 1
+
+[node name="ItchDefaultChannel" type="LineEdit" parent="ScrollContainer2/VBoxContainer/Itch/VBoxContainer" unique_id=1210393219]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Label10" type="Label" parent="ScrollContainer2/VBoxContainer/Itch/VBoxContainer" unique_id=1550990996]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Version File"
+horizontal_alignment = 1
+
+[node name="ItchVersionFile" parent="ScrollContainer2/VBoxContainer/Itch/VBoxContainer" unique_id=1376948089 instance=ExtResource("3_hr74b")]
+unique_name_in_owner = true
+layout_mode = 2
+mode = 1
+scope = 1
+filters = PackedStringArray("*.txt")
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer2/VBoxContainer" unique_id=220577962]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="ScrollContainer2/VBoxContainer" unique_id=1897659064]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Run Project Scan"
+
+[node name="ScanFinished" type="Label" parent="ScrollContainer2/VBoxContainer/Button" unique_id=2031894212]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 142.0
+offset_right = 249.0
+grow_vertical = 2
+text = "Scan finished!"
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="ScrollContainer2/VBoxContainer" unique_id=1119506908]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="PluginStatus" type="Label" parent="ScrollContainer2/VBoxContainer" unique_id=2026118709]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Plugin Status"
+horizontal_alignment = 1
+
+[node name="InstallPlugin" type="Button" parent="ScrollContainer2/VBoxContainer" unique_id=1751601272]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Instal Project Builder Plugin"
+
+[connection signal="pressed" from="ScrollContainer2/VBoxContainer/InstallPlugin" to="." method="_on_install_plugin_pressed"]
+
+[editable path="ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath"]
+[editable path="ScrollContainer2/VBoxContainer/Godot/Godot/LocalGodot"]

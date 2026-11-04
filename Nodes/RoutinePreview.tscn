@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cp6em75230mi1" path="res://Icons/ArrowLeft.svg" id="1_17425"]
 [ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_hqapv"]
 [ext_resource type="Texture2D" uid="uid://cfbagouqtgqfs" path="res://Icons/Edit.svg" id="1_m46hf"]
+[ext_resource type="Script" uid="uid://hdug0gar5ibl" path="res://Nodes/RoutinePreview.gd" id="1_t1dan"]
 [ext_resource type="Texture2D" uid="uid://bv4tqa6ixyi1h" path="res://Icons/ArrowRight.svg" id="2_0d0yc"]
 [ext_resource type="PackedScene" uid="uid://m6a3ajkud85h" path="res://Nodes/GUI/DeleteButton.tscn" id="6_hh3q2"]
 
@@ -18,68 +19,6 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 0.501961)
-
-[sub_resource type="GDScript" id="GDScript_s214c"]
-script/source = "extends Control
-
-@onready var move_left: Button = %MoveLeft
-@onready var move_right: Button = %MoveRight
-
-var data: Dictionary
-
-func _ready() -> void:
-	update_buttons.call_deferred()
-
-func set_routine_data(d: Dictionary):
-	data = d
-	%Name.text = data[\"name\"]
-	if data[\"tasks\"].is_empty():
-		%TaskCount.text = \"No Tasks\"
-		%Execute.disabled = true
-		return
-	
-	%TaskCount.text %= data[\"tasks\"].size()
-	
-	var task_list: PackedStringArray
-	for task in data[\"tasks\"]:
-		var task_info: Dictionary = Data.tasks[task[\"scene\"]]
-		task_list.append(task_info[\"name\"])
-	
-	%TaskList.text = \"\\n\".join(task_list)
-
-func connect_execute(target: Callable):
-	%Execute.pressed.connect(target)
-
-func connect_edit(target: Callable):
-	%Edit.pressed.connect(target)
-
-func connect_duplicate(target: Callable):
-	%Duplicate.pressed.connect(target)
-
-func delete() -> void:
-	Data.routines.erase(data)
-	Data.queue_save_local_config()
-	queue_free()
-
-func update_buttons():
-	move_left.disabled = get_index() == 0
-	move_right.disabled = get_index() == get_parent().get_child_count() - 1
-
-func refresh_parent():
-	owner.sync_routines()
-	Data.queue_save_local_config()
-	
-	for child in get_parent().get_children():
-		child.update_buttons()
-
-func _on_move_left_pressed() -> void:
-	get_parent().move_child(self, get_index() - 1)
-	refresh_parent()
-
-func _on_move_right_pressed() -> void:
-	get_parent().move_child(self, get_index() + 1)
-	refresh_parent()
-"
 
 [sub_resource type="GDScript" id="GDScript_yhlye"]
 script/source = "extends ScrollContainer
@@ -100,13 +39,14 @@ func _gui_input(event: InputEvent) -> void:
 		
 "
 
-[node name="Routinepreview" type="PanelContainer" unique_id=1501617910]
+[node name="RoutinePreview" type="PanelContainer" unique_id=1074838371]
 custom_minimum_size = Vector2(400, 250)
 offset_right = 400.0
 offset_bottom = 400.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_e2baq")
-script = SubResource("GDScript_s214c")
+script = ExtResource("1_t1dan")
+metadata/_custom_type_script = "uid://hdug0gar5ibl"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=338151569]
 layout_mode = 2

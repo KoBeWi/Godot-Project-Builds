@@ -56,7 +56,7 @@ func _init() -> void:
 	save_local_timer.timeout.connect(save_local_config)
 	save_global_timer.timeout.connect(save_global_config)
 	
-	main = load("res://Scenes/Main.tscn")
+	main = load("uid://ba3dlg1fj2hxv")
 
 func _ready() -> void:
 	if not OS.get_cmdline_user_args().is_empty():
@@ -93,7 +93,7 @@ func load_project(path: String):
 	var local_defaults := {
 		"routines": Array([], TYPE_DICTIONARY, &"", null),
 		"templates": Array([], TYPE_DICTIONARY, &"", null),
-		"groups": Array([{ "name": "", "color": Color.WHITE }], TYPE_DICTIONARY, &"", null),
+		"groups": Array([{ "name": "[Default Group]", "color": Color.WHITE }], TYPE_DICTIONARY, &"", null),
 	}
 	if fa:
 		local_config = str_to_var(fa.get_as_text())
@@ -191,3 +191,7 @@ func _exit_tree() -> void:
 	if not project_path.is_empty():
 		save_local_config()
 	save_global_config()
+
+class Routine:
+	var name: String
+	# TODO

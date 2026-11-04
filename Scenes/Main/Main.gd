@@ -1,11 +1,8 @@
 extends Control
 
-@onready var template_container: Control = %TemplateContainer
-@onready var group_scroll: ScrollContainer = %GroupScroll
-@onready var group_container: VBoxContainer = %GroupContainer
+@onready var template_container: Control = $"VBoxContainer/TabContainer/Preset Templates/%TemplateContainer"
 @onready var task_container: Control = %TaskContainer
 
-var groups: Dictionary[String, Control]
 var task_queue: Array[Dictionary]
 var task_queue_index: int
 
@@ -16,13 +13,6 @@ func _ready() -> void:
 	%Title.text %= config.get_value("application", "config/name", "[unnamed]")
 	if Data.from_plugin:
 		%Back.hide()
-	
-	for group_data in Data.local_config["groups"]:
-		var group = add_group()
-		group.set_group_name(group_data["name"])
-	
-	for routine in Data.routines:
-		add_routine(routine, "")
 	
 	for template in Data.templates:
 		var temp := _add_template_pressed()
@@ -75,57 +65,6 @@ func _add_template_pressed() -> Control:
 	template.connect_delete(delete_template.bind(template))
 	return template
 
-func add_routine(data: Dictionary, group: String):
-	var routine = groups[group].create_routine()
-	routine.owner = self
-	routine.set_routine_data(data)
-	routine.connect_execute(exec_routine.bind(data))
-	routine.connect_edit(edit_routine.bind(data))
-	routine.connect_duplicate(duplicate_routine.bind(data))
-
-func _add_group_pressed() -> void:
-	var group := add_group()
-	
-	await get_tree().process_frame
-	
-	group_scroll.ensure_control_visible(group)
-	group.group_name.edit(false)
-	group.group_name.select_all()
-
-func add_group() -> Control:
-	var group := preload("uid://dmjxmgu532xll").instantiate()
-	group_container.add_child(group)
-	groups[""] = group
-	return group
-
-func exec_routine(data: Dictionary):
-	Data.current_routine = data
-	get_tree().change_scene_to_file("res://Scenes/Execution.tscn")
-
-func edit_routine(data: Dictionary):
-	Data.current_routine = data
-	get_tree().change_scene_to_file("res://Scenes/RoutineBuilder.tscn")
-
-func duplicate_routine(data: Dictionary):
-	data = data.duplicate(true)
-	
-	var new_name: String = data["name"]
-	var suffix := " (Copy)"
-	
-	var unique: bool
-	while not unique:
-		unique = true
-		for routine in Data.routines:
-			if routine["name"] == new_name + suffix:
-				suffix = " (Copy %d)" % (suffix.to_int() + 1)
-				unique = false
-	
-	data["name"] = new_name + suffix
-	#add_routine(data)
-	
-	sync_routines()
-	Data.queue_save_local_config()
-
 func duplicate_template(template: Control):
 	var dup := _add_template_pressed()
 	var data: Dictionary = template.get_data().duplicate()
@@ -165,11 +104,6 @@ func delete_template(template: Control):
 	template.queue_free()
 	sync_templates()
 	Data.queue_save_local_config()
-
-func sync_routines():
-	pass
-	#Data.routines.assign(routine_container.get_children().map(func(routine: Control) -> Dictionary:
-		#return routine.data))
 
 func sync_templates():
 	Data.templates.assign(template_container.get_children().map(func(template: Control) -> Dictionary:

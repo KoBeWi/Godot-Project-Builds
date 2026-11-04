@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://8u2yjfkfix4b"]
+
+[ext_resource type="Script" uid="uid://dei87guu6vgyy" path="res://Scenes/Main/Routines.gd" id="1_dxwu4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuonq"]
+content_margin_right = 4.0
+bg_color = Color(0, 0, 0, 0.12549)
+
+[node name="Routines" type="VBoxContainer" unique_id=309559334]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_dxwu4")
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=242472426]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Button" type="Button" parent="MarginContainer" unique_id=1796875642]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Add Group"
+
+[node name="GroupScroll" type="ScrollContainer" parent="." unique_id=84032194]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nuonq")
+
+[node name="GroupContainer" type="VBoxContainer" parent="GroupScroll" unique_id=464774786]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="." unique_id=2035965462]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="MarginContainer/Button" to="." method="_add_group_pressed"]

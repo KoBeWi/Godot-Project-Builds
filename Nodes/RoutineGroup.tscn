@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://dmjxmgu532xll"]
 
-[ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="1_sykpo"]
-[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="2_hyg6v"]
+[ext_resource type="Script" uid="uid://6yh2fei2miiv" path="res://Nodes/RoutineGroup.gd" id="1_8fihr"]
+[ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="2_fqanm"]
+[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="3_swwe6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50glp"]
 content_margin_top = 8.0
@@ -10,41 +11,17 @@ border_width_top = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 0.7529412)
 
-[sub_resource type="GDScript" id="GDScript_hyg6v"]
-script/source = "extends Control
-
-@onready var group_name: LineEdit = %GroupName
-@onready var routines: HFlowContainer = %Routines
-
-func set_group_name(gr: String):
-	if gr.is_empty():
-		group_name.text = \"[Default Group]\"
-		group_name.editable = false
-		%RemoveButton.hide()
-	else:
-		group_name.text = gr
-
-func color_changed(color: Color) -> void:
-	self_modulate = color
-
-func create_routine() -> Control:
-	var routine := preload(\"uid://cctfsldanqcig\").instantiate()
-	routines.add_child(routine)
-	return routine
-
-func _on_group_name_editing_toggled(toggled_on: bool) -> void:
-	group_name.flat = not toggled_on
-"
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sykpo"]
 content_margin_top = 8.0
 bg_color = Color(0, 0, 0, 0.1254902)
 
-[node name="RoutineGroup" type="PanelContainer" unique_id=2012939479]
+[node name="RoutineGroup" type="PanelContainer" unique_id=304848048 node_paths=PackedStringArray("group_name")]
 offset_right = 894.0
 offset_bottom = 195.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_50glp")
-script = SubResource("GDScript_hyg6v")
+script = ExtResource("1_8fihr")
+group_name = NodePath("VBoxContainer/HBoxContainer/HBoxContainer2/GroupName")
+metadata/_custom_type_script = "uid://6yh2fei2miiv"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1648338896]
 layout_mode = 2
@@ -56,7 +33,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Add Routine"
-icon = ExtResource("1_sykpo")
+icon = ExtResource("2_fqanm")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1066322957]
 layout_mode = 2
@@ -92,7 +69,7 @@ theme_override_constants/margin_right = 8
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
-icon = ExtResource("2_hyg6v")
+icon = ExtResource("3_swwe6")
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=124264191]
 layout_mode = 2
