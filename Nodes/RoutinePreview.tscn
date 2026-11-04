@@ -81,10 +81,29 @@ func _on_move_right_pressed() -> void:
 	refresh_parent()
 "
 
+[sub_resource type="GDScript" id="GDScript_yhlye"]
+script/source = "extends ScrollContainer
+
+func _gui_input(event: InputEvent) -> void:
+	if not get_v_scroll_bar().visible:
+		return
+	
+	var mb := event as InputEventMouseButton
+	if mb:
+		if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
+			if is_equal_approx(get_v_scroll_bar().value, 0):
+				accept_event()
+		
+		if mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if is_equal_approx(get_v_scroll_bar().value, get_v_scroll_bar().max_value):
+				accept_event()
+		
+"
+
 [node name="Routinepreview" type="PanelContainer" unique_id=1501617910]
-custom_minimum_size = Vector2(400, 0)
-offset_right = 303.0
-offset_bottom = 203.0
+custom_minimum_size = Vector2(400, 250)
+offset_right = 400.0
+offset_bottom = 400.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_e2baq")
 script = SubResource("GDScript_s214c")
@@ -121,10 +140,17 @@ layout_mode = 2
 text = "%d tasks"
 horizontal_alignment = 1
 
-[node name="TaskList" type="Label" parent="VBoxContainer" unique_id=2018450510]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=835222255]
+layout_mode = 2
+size_flags_vertical = 3
+scroll_hint_mode = 4
+script = SubResource("GDScript_yhlye")
+
+[node name="TaskList" type="Label" parent="VBoxContainer/ScrollContainer" unique_id=2018450510]
 unique_name_in_owner = true
 modulate = Color(0.8, 0.8, 0.8, 1)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 horizontal_alignment = 1
 
