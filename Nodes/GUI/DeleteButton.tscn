@@ -5,28 +5,27 @@
 [sub_resource type="GDScript" id="GDScript_v5hcl"]
 script/source = "extends Button
 
-@onready var label: Label = $Label
+@onready var popup: Popup = $Popup
+@onready var timer: Timer = $Timer
 
 signal confirmed
-
-var timer: float
 
 func _ready() -> void:
 	set_process(false)
 
 func _pressed() -> void:
-	if label.visible:
+	if popup.visible:
+		timer.stop()
 		confirmed.emit()
 	else:
-		timer = 0.5
-		label.show()
-		set_process(true)
+		popup.position = get_screen_position() + Vector2(size.x + 8, 0)
+		popup.size = Vector2(0, size.y)
+		popup.popup()
+		
+		timer.start()
 
-func _process(delta: float) -> void:
-	timer -= delta
-	if timer <= 0:
-		label.hide()
-		set_process(false)
+func _on_timer_timeout() -> void:
+	popup.hide()
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_liddr"]
@@ -38,17 +37,24 @@ bg_color = Color(0.145098, 0.156863, 0.188235, 1)
 icon = ExtResource("1_xvgi5")
 script = SubResource("GDScript_v5hcl")
 
-[node name="Label" type="Label" parent="." unique_id=902682446]
-visible = false
+[node name="Popup" type="Popup" parent="." unique_id=86951476]
+oversampling_override = 1.0
+position = Vector2i(27, 0)
+size = Vector2i(198, 30)
+
+[node name="Label" type="Label" parent="Popup" unique_id=902682446]
 z_index = 1
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
-offset_right = 174.0
-grow_horizontal = 0
+grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_liddr")
 text = "Click again to confirm"
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="." unique_id=772276941]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
