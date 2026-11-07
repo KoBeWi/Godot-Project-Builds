@@ -2,15 +2,30 @@ class_name RoutineGroup extends PanelContainer
 
 @export var group_name: LineEdit
 @export var color_button: ColorPickerButton
+@export var drop_target: Control
 @onready var routines: HFlowContainer = %Routines
+
+var drag_placeholder: Control
 
 var data: Dictionary
 
 signal edit_request(routine: Dictionary)
 signal exec_request(routine: Dictionary)
 signal changed
+signal order_changed
 
 var rename_attempt: String
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_READY:
+		drop_target.set_drag_forwarding(Callable(), _can_drop_routine, _drop_routine)
+	elif what == NOTIFICATION_DRAG_BEGIN:
+		drop_target.show()
+	elif what == NOTIFICATION_DRAG_END:
+		drop_target.hide()
+		if drag_placeholder:
+			drag_placeholder.free()
+			drag_placeholder = null
 
 func set_data(d: Dictionary):
 	data = d
@@ -50,3 +65,44 @@ func _on_routine_created() -> void:
 	var routine := Data.create_routine()
 	routine.group = group_name.text
 	add_routine(routine)
+
+func _can_drop_routine(at_position: Vector2, drop_data: Variant) -> bool:
+	if data is not Dictionary and data.get("type", "") == "routine":
+		return false
+	
+	if not drag_placeholder:
+		drag_placeholder = preload("uid://mp6y0fujathn").instantiate()
+		routines.add_child(drag_placeholder)
+	
+	var index := 0
+	for routine: Control in routines.get_children():
+		if not routine.visible or not routine is RoutinePreview:
+			continue
+		
+		var routine_pos := routine.global_position - drop_target.global_position
+		if routine_pos.x < at_position.x and routine_pos.y < at_position.y:
+			if drop_target.global_position.x + at_position.x < routine.global_position.x + routine.size.x * 0.5:
+				index = maxi(routine.get_index() - 1, 0)
+			else:
+				index = routine.get_index() + 1
+	
+	routines.move_child(drag_placeholder, index)
+	
+	drag_placeholder.show()
+	
+	return true
+	
+func _drop_routine(at_position: Vector2, drop_data: Variant) -> void:
+	if not drag_placeholder or not drag_placeholder.visible:
+		return
+	
+	var routine: RoutinePreview = drop_data["routine"]
+	if routine.get_parent() != routines:
+		routine.reparent(routines, false)
+	
+	routines.move_child(routine, drag_placeholder.get_index())
+	order_changed.emit()
+
+func _on_drop_target_mouse_exited() -> void:
+	if drag_placeholder:
+		drag_placeholder.hide()

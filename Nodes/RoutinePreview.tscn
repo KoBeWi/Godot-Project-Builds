@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://cctfsldanqcig"]
 
 [ext_resource type="Texture2D" uid="uid://dnlqsyyx311xx" path="res://Icons/Duplicate.svg" id="1_1u4fl"]
-[ext_resource type="Texture2D" uid="uid://cp6em75230mi1" path="res://Icons/ArrowLeft.svg" id="1_17425"]
 [ext_resource type="Texture2D" uid="uid://bwtchwpfrbqsw" path="res://Icons/Play.svg" id="1_hqapv"]
 [ext_resource type="Texture2D" uid="uid://cfbagouqtgqfs" path="res://Icons/Edit.svg" id="1_m46hf"]
 [ext_resource type="Script" uid="uid://hdug0gar5ibl" path="res://Nodes/RoutinePreview.gd" id="1_t1dan"]
-[ext_resource type="Texture2D" uid="uid://bv4tqa6ixyi1h" path="res://Icons/ArrowRight.svg" id="2_0d0yc"]
+[ext_resource type="Texture2D" uid="uid://dveg26laa8p52" path="res://Icons/DragHandle.svg" id="2_yhlye"]
 [ext_resource type="PackedScene" uid="uid://m6a3ajkud85h" path="res://Nodes/GUI/DeleteButton.tscn" id="6_hh3q2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2baq"]
@@ -39,7 +38,7 @@ func _gui_input(event: InputEvent) -> void:
 		
 "
 
-[node name="RoutinePreview" type="PanelContainer" unique_id=1074838371]
+[node name="RoutinePreview" type="PanelContainer" unique_id=1074838371 node_paths=PackedStringArray("drag")]
 custom_minimum_size = Vector2(400, 250)
 custom_maximum_size = Vector2(600, -1)
 offset_right = 400.0
@@ -47,6 +46,7 @@ offset_bottom = 400.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_e2baq")
 script = ExtResource("1_t1dan")
+drag = NodePath("VBoxContainer/HBoxContainer/Drag")
 metadata/_custom_type_script = "uid://hdug0gar5ibl"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=338151569]
@@ -55,10 +55,9 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=506279438]
 layout_mode = 2
 
-[node name="MoveLeft" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1236846036]
-unique_name_in_owner = true
+[node name="Drag" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1236846036]
 layout_mode = 2
-icon = ExtResource("1_17425")
+icon = ExtResource("2_yhlye")
 
 [node name="Name" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1849960003]
 unique_name_in_owner = true
@@ -68,11 +67,11 @@ theme_override_font_sizes/font_size = 20
 text = "Routine Name"
 horizontal_alignment = 1
 
-[node name="MoveRight" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=209262720]
-unique_name_in_owner = true
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=209262720]
 auto_translate_mode = 1
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-icon = ExtResource("2_0d0yc")
+icon = ExtResource("2_yhlye")
 
 [node name="TaskCount" type="Label" parent="VBoxContainer" unique_id=612534544]
 unique_name_in_owner = true
@@ -98,12 +97,18 @@ horizontal_alignment = 1
 [node name="GridContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1951753098]
 layout_mode = 2
 
+[node name="Control" type="Control" parent="VBoxContainer/GridContainer" unique_id=531820339]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
 [node name="Execute" type="Button" parent="VBoxContainer/GridContainer" unique_id=414691699]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Execute"
 icon = ExtResource("1_hqapv")
-alignment = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/GridContainer" unique_id=341965970]
 layout_mode = 2
@@ -111,26 +116,24 @@ size_flags_horizontal = 3
 
 [node name="Button" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer" unique_id=1021798891]
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Edit"
 icon = ExtResource("1_m46hf")
-alignment = 0
 
 [node name="Duplicate" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer" unique_id=624398005]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Duplicate"
 icon = ExtResource("1_1u4fl")
-alignment = 0
 
-[node name="DeleteButton" parent="VBoxContainer" unique_id=5227245 instance=ExtResource("6_hh3q2")]
+[node name="DeleteButton" parent="VBoxContainer/GridContainer/VBoxContainer" unique_id=5227245 instance=ExtResource("6_hh3q2")]
 layout_mode = 2
-size_flags_horizontal = 8
 text = "Delete"
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveLeft" to="." method="_on_move_left_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveRight" to="." method="_on_move_right_pressed"]
+[node name="Control2" type="Control" parent="VBoxContainer/GridContainer" unique_id=848882708]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
 [connection signal="pressed" from="VBoxContainer/GridContainer/Execute" to="." method="_on_execute_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/VBoxContainer/Button" to="." method="_on_edit_pressed"]
-[connection signal="confirmed" from="VBoxContainer/DeleteButton" to="." method="delete"]
+[connection signal="confirmed" from="VBoxContainer/GridContainer/VBoxContainer/DeleteButton" to="." method="delete"]

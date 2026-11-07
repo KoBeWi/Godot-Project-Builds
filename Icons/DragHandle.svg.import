@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp6em75230mi1"
-path="res://.godot/imported/ArrowLeft.svg-8d8b9602b89315b7a20fcbae852b1ee0.ctex"
+uid="uid://dveg26laa8p52"
+path="res://.godot/imported/DragHandle.svg-ca109a60d8077f6aa3a4e7dec6cd7bd9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Icons/ArrowLeft.svg"
-dest_files=["res://.godot/imported/ArrowLeft.svg-8d8b9602b89315b7a20fcbae852b1ee0.ctex"]
+source_file="res://Icons/DragHandle.svg"
+dest_files=["res://.godot/imported/DragHandle.svg-ca109a60d8077f6aa3a4e7dec6cd7bd9.ctex"]
 
 [params]
 

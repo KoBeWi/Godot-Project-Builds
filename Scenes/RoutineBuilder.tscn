@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dt6drd8cw1dhl" path="res://Icons/Back.svg" id="2_0gvmh"]
 [ext_resource type="Shortcut" uid="uid://d0olqx0bjlhp1" path="res://Nodes/GUI/ExitShortcut.tres" id="2_ghd1v"]
 [ext_resource type="Texture2D" uid="uid://3i2umr3kmry6" path="res://Icons/Paste.svg" id="3_c5oe2"]
+[ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="4_opmgm"]
 
 [node name="RoutineBuilder" type="VBoxContainer" unique_id=548088211]
 anchors_preset = 15
@@ -93,6 +94,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Add Task"
+icon = ExtResource("4_opmgm")
 flat = false
 
 [node name="PasteTask" type="Button" parent="ScrollContainer/VBoxContainer/HBoxContainer" unique_id=947339881]

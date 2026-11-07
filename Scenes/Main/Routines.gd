@@ -25,6 +25,7 @@ func _ready() -> void:
 func add_group(group_name: String) -> RoutineGroup:
 	var group: RoutineGroup = preload("uid://dmjxmgu532xll").instantiate()
 	group.changed.connect(_on_group_changed.bind(group))
+	group.order_changed.connect(sync_and_save_routines, CONNECT_DEFERRED)
 	
 	var attempts := 0
 	while group_name in groups:
@@ -72,6 +73,10 @@ func sync_routines():
 func sync_groups():
 	Data.routine_groups.assign(group_container.get_children().map(func(group: RoutineGroup) -> Dictionary:
 		return group.data))
+
+func sync_and_save_routines():
+	sync_routines()
+	Data.queue_save_local_config()
 
 func _add_group_pressed() -> void:
 	var group := add_group("New Group")
