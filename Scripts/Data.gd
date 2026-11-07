@@ -14,7 +14,8 @@ var initial_load: bool
 var static_initialize_tasks: Array[Script]
 var sensitive_settings: Array[String]
 
-var tasks: Dictionary#[String, Dictionary]
+var tasks: Dictionary[String, Dictionary]
+var routine_groups: Array[Dictionary]
 var routines: Array[Dictionary]
 var templates: Array[Dictionary]
 
@@ -104,6 +105,7 @@ func load_project(path: String):
 	local_config.merge(local_defaults)
 	routines = local_config["routines"]
 	templates = local_config["templates"]
+	routine_groups = local_config["groups"]
 
 func register_task(scene: String):
 	var data := Dictionary()
@@ -126,6 +128,12 @@ func create_routine() -> Dictionary:
 	routine["tasks"] = []
 	routines.append(routine)
 	return routine
+
+func create_routine_group(for_name: String) -> Dictionary:
+	var group := Dictionary()
+	group["name"] = for_name
+	group["color"] = Color.WHITE
+	return group
 
 func reset_current_routine() -> void:
 	current_routine = {}

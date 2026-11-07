@@ -41,6 +41,7 @@ func _gui_input(event: InputEvent) -> void:
 
 [node name="RoutinePreview" type="PanelContainer" unique_id=1074838371]
 custom_minimum_size = Vector2(400, 250)
+custom_maximum_size = Vector2(600, -1)
 offset_right = 400.0
 offset_bottom = 400.0
 size_flags_horizontal = 3
@@ -108,8 +109,7 @@ alignment = 0
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Edit" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer" unique_id=1021798891]
-unique_name_in_owner = true
+[node name="Button" type="Button" parent="VBoxContainer/GridContainer/VBoxContainer" unique_id=1021798891]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Edit"
@@ -131,4 +131,6 @@ text = "Delete"
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveLeft" to="." method="_on_move_left_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MoveRight" to="." method="_on_move_right_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/Execute" to="." method="_on_execute_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/VBoxContainer/Button" to="." method="_on_edit_pressed"]
 [connection signal="confirmed" from="VBoxContainer/DeleteButton" to="." method="delete"]

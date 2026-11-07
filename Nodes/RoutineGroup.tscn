@@ -83,5 +83,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button3" to="." method="_on_routine_created"]
 [connection signal="editing_toggled" from="VBoxContainer/HBoxContainer/HBoxContainer2/GroupName" to="." method="_on_group_name_editing_toggled"]
+[connection signal="text_submitted" from="VBoxContainer/HBoxContainer/HBoxContainer2/GroupName" to="." method="_on_group_name_text_submitted"]
 [connection signal="color_changed" from="VBoxContainer/HBoxContainer/HBoxContainer2/ColorPickerButton" to="." method="color_changed"]

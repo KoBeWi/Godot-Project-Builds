@@ -25,12 +25,6 @@ func set_routine_data(d: Dictionary):
 	
 	%TaskList.text = "\n".join(task_list)
 
-func connect_execute(target: Callable):
-	%Execute.pressed.connect(target)
-
-func connect_edit(target: Callable):
-	%Edit.pressed.connect(target)
-
 func connect_duplicate(target: Callable):
 	%Duplicate.pressed.connect(target)
 
@@ -57,3 +51,11 @@ func _on_move_left_pressed() -> void:
 func _on_move_right_pressed() -> void:
 	get_parent().move_child(self, get_index() + 1)
 	refresh_parent()
+
+func _on_execute_pressed() -> void:
+	Data.current_routine = data
+	get_tree().change_scene_to_file("uid://dqm1wdopgkdkp")
+
+func _on_edit_pressed() -> void:
+	Data.current_routine = data
+	get_tree().change_scene_to_file("uid://dbb72q773nirj")

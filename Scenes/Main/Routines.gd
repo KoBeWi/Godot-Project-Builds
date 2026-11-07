@@ -23,25 +23,19 @@ func _ready() -> void:
 	
 func add_group(group_name: String) -> RoutineGroup:
 	var group: RoutineGroup = preload("uid://dmjxmgu532xll").instantiate()
+	group.group_renamed.connect(_on_group_renamed.bind(group))
 	
 	var attempts := 0
 	while group_name in groups:
 		attempts += 1
 		group_name = "New Group %d" % attempts
 	
-	group.group_name.text = group_name
+	var group_data := Data.create_routine_group(group_name)
+	group.set_data(group_data)
 	
 	group_container.add_child(group)
 	groups[group_name] = group
 	return group
-
-func exec_routine(data: Dictionary):
-	Data.current_routine = data
-	get_tree().change_scene_to_file("res://Scenes/Execution.tscn")
-
-func edit_routine(data: Dictionary):
-	Data.current_routine = data
-	get_tree().change_scene_to_file("res://Scenes/RoutineBuilder.tscn")
 
 func duplicate_routine(data: Dictionary):
 	data = data.duplicate(true)
@@ -64,9 +58,19 @@ func duplicate_routine(data: Dictionary):
 	Data.queue_save_local_config()
 
 func sync_routines():
-	pass
-	#Data.routines.assign(routine_container.get_children().map(func(routine: Control) -> Dictionary:
-		#return routine.data))
+	var routines: Array[Dictionary]
+	
+	for group: RoutineGroup in groups.values():
+		for routine: RoutinePreview in group.routines.get_children():
+			var data := routine.data
+			data["group"] = group.group_name.text
+			routines.append(data)
+	
+	Data.routines.assign(routines)
+
+func sync_groups():
+	Data.routine_groups.assign(group_container.get_children().map(func(group: RoutineGroup) -> Dictionary:
+		return group.data))
 
 func _add_group_pressed() -> void:
 	var group := add_group("New Group")
@@ -76,3 +80,14 @@ func _add_group_pressed() -> void:
 	group_scroll.ensure_control_visible(group)
 	group.group_name.edit(false)
 	group.group_name.select_all()
+
+func _on_group_renamed(new_name: String, group: RoutineGroup):
+	var old_name: String = group.data["name"]
+	group.data["name"] = new_name
+	
+	groups.erase(old_name)
+	groups[new_name] = group
+	
+	sync_groups()
+	sync_routines()
+	Data.queue_save_local_config()
