@@ -15,12 +15,13 @@ border_color = Color(1, 1, 1, 0.7529412)
 content_margin_top = 8.0
 bg_color = Color(0, 0, 0, 0.1254902)
 
-[node name="RoutineGroup" type="PanelContainer" unique_id=304848048 node_paths=PackedStringArray("group_name")]
+[node name="RoutineGroup" type="PanelContainer" unique_id=304848048 node_paths=PackedStringArray("group_name", "color_button")]
 offset_right = 894.0
 offset_bottom = 195.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_50glp")
 script = ExtResource("1_8fihr")
 group_name = NodePath("VBoxContainer/HBoxContainer/HBoxContainer2/GroupName")
+color_button = NodePath("VBoxContainer/HBoxContainer/HBoxContainer2/ColorButton")
 metadata/_custom_type_script = "uid://6yh2fei2miiv"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1648338896]
@@ -49,7 +50,7 @@ text = "Group Name"
 alignment = 1
 flat = true
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/HBoxContainer2" unique_id=1539381710]
+[node name="ColorButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/HBoxContainer2" unique_id=1539381710]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 color = Color(1, 1, 1, 1)
@@ -86,4 +87,4 @@ alignment = 1
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Button3" to="." method="_on_routine_created"]
 [connection signal="editing_toggled" from="VBoxContainer/HBoxContainer/HBoxContainer2/GroupName" to="." method="_on_group_name_editing_toggled"]
 [connection signal="text_submitted" from="VBoxContainer/HBoxContainer/HBoxContainer2/GroupName" to="." method="_on_group_name_text_submitted"]
-[connection signal="color_changed" from="VBoxContainer/HBoxContainer/HBoxContainer2/ColorPickerButton" to="." method="color_changed"]
+[connection signal="color_changed" from="VBoxContainer/HBoxContainer/HBoxContainer2/ColorButton" to="." method="color_changed"]

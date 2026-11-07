@@ -11,6 +11,7 @@ func _ready() -> void:
 	else:
 		for group_data in Data.local_config["groups"]:
 			var group := add_group(group_data["name"])
+			group.set_data(group_data)
 	
 	var default_group: RoutineGroup
 	for routine in Data.routines:
@@ -23,7 +24,7 @@ func _ready() -> void:
 	
 func add_group(group_name: String) -> RoutineGroup:
 	var group: RoutineGroup = preload("uid://dmjxmgu532xll").instantiate()
-	group.group_renamed.connect(_on_group_renamed.bind(group))
+	group.changed.connect(_on_group_changed.bind(group))
 	
 	var attempts := 0
 	while group_name in groups:
@@ -81,13 +82,16 @@ func _add_group_pressed() -> void:
 	group.group_name.edit(false)
 	group.group_name.select_all()
 
-func _on_group_renamed(new_name: String, group: RoutineGroup):
+func _on_group_changed(group: RoutineGroup):
 	var old_name: String = group.data["name"]
-	group.data["name"] = new_name
+	var new_name := group.group_name.text
 	
-	groups.erase(old_name)
-	groups[new_name] = group
+	if new_name != old_name:
+		group.data["name"] = new_name
+	
+		groups.erase(old_name)
+		groups[new_name] = group
+		sync_routines()
 	
 	sync_groups()
-	sync_routines()
 	Data.queue_save_local_config()
