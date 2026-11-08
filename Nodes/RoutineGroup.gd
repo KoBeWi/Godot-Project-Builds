@@ -79,6 +79,10 @@ func _on_group_name_editing_toggled(toggled_on: bool) -> void:
 		group_name.text = data["name"]
 
 func _on_group_name_text_submitted(new_text: String) -> void:
+	for group in Data.routine_groups:
+		if group["name"] == new_text:
+			return
+	
 	changed.emit()
 
 func _on_routine_created() -> void:
