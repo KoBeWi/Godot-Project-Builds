@@ -70,9 +70,11 @@ visible = false
 layout_mode = 2
 
 [node name="Tasks" parent="VBoxContainer/TabContainer" unique_id=1302157938 instance=ExtResource("4_dvlhv")]
+visible = false
 layout_mode = 2
 
 [node name="Config" parent="VBoxContainer/TabContainer" unique_id=1695111821 instance=ExtResource("5_wgovn")]
+visible = false
 layout_mode = 2
 
 [node name="Back" type="Button" parent="." unique_id=1531327703]
@@ -105,6 +107,7 @@ grow_vertical = 2
 script = SubResource("GDScript_s2yn1")
 metadata/_edit_lock_ = true
 
-[connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="tab_changed"]
+[connection signal="exiting" from="." to="VBoxContainer/TabContainer/Preset Templates" method="sync_templates"]
+[connection signal="scan_requested" from="." to="VBoxContainer/TabContainer/Config" method="run_project_scan"]
 [connection signal="pressed" from="Back" to="." method="go_back"]
 [connection signal="pressed" from="OpenLogs" to="." method="open_logs"]

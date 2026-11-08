@@ -533,6 +533,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Instal Project Builder Plugin"
 
+[connection signal="pressed" from="ScrollContainer2/VBoxContainer/Button" to="." method="run_project_scan"]
 [connection signal="pressed" from="ScrollContainer2/VBoxContainer/InstallPlugin" to="." method="_on_install_plugin_pressed"]
 
 [editable path="ScrollContainer2/VBoxContainer/Godot/Godot/ConfigPath"]

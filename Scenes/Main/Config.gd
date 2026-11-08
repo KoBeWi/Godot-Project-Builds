@@ -182,3 +182,31 @@ func config_path_updated():
 			get_tree().reload_current_scene()
 	else:
 		show_error.call("Failed to move config file, error %d." % error)
+
+func process_files(directory: String):
+	for file in DirAccess.get_files_at(directory):
+		for task in Data.static_initialize_tasks:
+			task._process_file(directory.path_join(file))
+	
+	for dir in DirAccess.get_directories_at(directory):
+		if not dir.begins_with("."):
+			process_files(directory.path_join(dir))
+
+func run_project_scan() -> void:
+	for task in Data.static_initialize_tasks:
+		task._begin_project_scan()
+	
+	process_files(Data.project_path)
+	
+	for task in Data.static_initialize_tasks:
+		task._end_project_scan()
+	
+	if not is_visible_in_tree():
+		return
+	
+	%ScanFinished.show()
+	%ScanFinished.modulate.a = 1.0
+	
+	var tween := create_tween()
+	tween.tween_property(%ScanFinished, ^"modulate:a", 0.0, 0.5).set_delay(0.5)
+	tween.tween_callback(%ScanFinished.hide)

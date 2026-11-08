@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://4ed7gkgqeb7k"]
 
+[ext_resource type="Script" uid="uid://bsmx8pwyhaa8c" path="res://Scenes/Main/TaskOverview.gd" id="1_bk8kn"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cy4oc"]
 content_margin_right = 4.0
 
@@ -11,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
+script = ExtResource("1_bk8kn")
 metadata/_tab_index = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1073494927]
