@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://6yh2fei2miiv" path="res://Nodes/RoutineGroup.gd" id="1_8fihr"]
 [ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="2_fqanm"]
 [ext_resource type="Texture2D" uid="uid://dveg26laa8p52" path="res://Icons/DragHandle.svg" id="2_swwe6"]
-[ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="3_swwe6"]
+[ext_resource type="PackedScene" uid="uid://m6a3ajkud85h" path="res://Nodes/GUI/DeleteButton.tscn" id="4_fqanm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50glp"]
 content_margin_top = 8.0
@@ -80,11 +80,8 @@ layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="RemoveButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/MarginContainer" unique_id=1833304785]
-unique_name_in_owner = true
+[node name="DeleteButton" parent="VBoxContainer/HBoxContainer/HBoxContainer/MarginContainer" unique_id=1998938657 instance=ExtResource("4_fqanm")]
 layout_mode = 2
-size_flags_horizontal = 8
-icon = ExtResource("3_swwe6")
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=124264191]
 layout_mode = 2
@@ -106,4 +103,5 @@ layout_mode = 2
 [connection signal="editing_toggled" from="VBoxContainer/HBoxContainer/HBoxContainer2/GroupName" to="." method="_on_group_name_editing_toggled"]
 [connection signal="text_submitted" from="VBoxContainer/HBoxContainer/HBoxContainer2/GroupName" to="." method="_on_group_name_text_submitted"]
 [connection signal="color_changed" from="VBoxContainer/HBoxContainer/HBoxContainer2/ColorButton" to="." method="color_changed"]
+[connection signal="confirmed" from="VBoxContainer/HBoxContainer/HBoxContainer/MarginContainer/DeleteButton" to="." method="_on_delete_button_confirmed"]
 [connection signal="mouse_exited" from="DropTarget" to="." method="_on_drop_target_mouse_exited"]

@@ -14,6 +14,7 @@ signal edit_request(routine: Dictionary)
 signal exec_request(routine: Dictionary)
 signal changed
 signal order_changed
+signal deleted
 
 var rename_attempt: String
 
@@ -143,3 +144,9 @@ func _get_group_drag_data(from: Vector2) -> Dictionary:
 		"type": "routine_group",
 		"group": self,
 	}
+
+func _on_delete_button_confirmed() -> void:
+	queue_free()
+	
+	get_parent().remove_child(self)
+	deleted.emit()

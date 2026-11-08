@@ -51,3 +51,5 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[connection signal="pressed" from="MarginContainer/Button" to="." method="_add_template_pressed"]
