@@ -55,26 +55,6 @@ func add_group(group_name: String) -> RoutineGroup:
 	groups[group_name] = group
 	return group
 
-func duplicate_routine(data: Dictionary):
-	data = data.duplicate(true)
-	
-	var new_name: String = data["name"]
-	var suffix := " (Copy)"
-	
-	var unique: bool
-	while not unique:
-		unique = true
-		for routine in Data.routines:
-			if routine["name"] == new_name + suffix:
-				suffix = " (Copy %d)" % (suffix.to_int() + 1)
-				unique = false
-	
-	data["name"] = new_name + suffix
-	#add_routine(data)
-	
-	sync_routines()
-	Data.queue_save_local_config()
-
 func sync_routines():
 	var routines: Array[Dictionary]
 	

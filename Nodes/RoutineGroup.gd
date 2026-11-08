@@ -53,9 +53,24 @@ func add_routine(routine_data: Dictionary):
 	routine.set_routine_data(routine_data)
 	routine.connect_duplicate(duplicate_routine.bind(routine_data))
 
-func duplicate_routine(routine: Dictionary):
-	# TODO
-	pass
+func duplicate_routine(routine_data: Dictionary):
+	routine_data = routine_data.duplicate(true)
+	
+	var new_name: String = routine_data["name"]
+	var suffix := " (Copy)"
+	
+	var unique: bool
+	while not unique:
+		unique = true
+		for routine in Data.routines:
+			if routine["name"] == new_name + suffix:
+				suffix = " (Copy %d)" % (suffix.to_int() + 1)
+				unique = false
+	
+	routine_data["name"] = new_name + suffix
+	add_routine(routine_data)
+	
+	order_changed.emit()
 
 func _on_group_name_editing_toggled(toggled_on: bool) -> void:
 	group_name.flat = not toggled_on
