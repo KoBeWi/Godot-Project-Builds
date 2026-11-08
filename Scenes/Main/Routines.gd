@@ -68,8 +68,15 @@ func sync_routines():
 	Data.routines.assign(routines)
 
 func sync_groups():
-	Data.routine_groups.assign(group_container.get_children().map(func(group: RoutineGroup) -> Dictionary:
-		return group.data))
+	groups.clear()
+	var group_datas: Array[Dictionary]
+	
+	for group: RoutineGroup in group_container.get_children():
+		var group_data := group.data
+		groups[group_data["name"]] = group
+		group_datas.append(group_data)
+	
+	Data.routine_groups.assign(group_datas)
 
 func sync_and_save_routines():
 	sync_routines()
@@ -77,6 +84,7 @@ func sync_and_save_routines():
 
 func cleanup_groups():
 	sync_groups()
+	sync_routines()
 	Data.queue_save_local_config()
 
 func _add_group_pressed() -> void:
