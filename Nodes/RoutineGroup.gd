@@ -3,6 +3,7 @@ class_name RoutineGroup extends PanelContainer
 @export var group_name: LineEdit
 @export var color_button: ColorPickerButton
 @export var drop_target: Control
+@export var drag_button: Button
 @onready var routines: HFlowContainer = %Routines
 
 var drag_placeholder: Control
@@ -18,10 +19,13 @@ var rename_attempt: String
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_READY:
+		drag_button.set_drag_forwarding(_get_group_drag_data, Callable(), Callable())
 		drop_target.set_drag_forwarding(Callable(), _can_drop_routine, _drop_routine)
 	elif what == NOTIFICATION_DRAG_BEGIN:
 		drop_target.show()
 	elif what == NOTIFICATION_DRAG_END:
+		show()
+		
 		drop_target.hide()
 		if drag_placeholder:
 			drag_placeholder.free()
@@ -50,6 +54,7 @@ func add_routine(routine_data: Dictionary):
 	routine.connect_duplicate(duplicate_routine.bind(routine_data))
 
 func duplicate_routine(routine: Dictionary):
+	# TODO
 	pass
 
 func _on_group_name_editing_toggled(toggled_on: bool) -> void:
@@ -67,7 +72,7 @@ func _on_routine_created() -> void:
 	add_routine(routine)
 
 func _can_drop_routine(at_position: Vector2, drop_data: Variant) -> bool:
-	if data is not Dictionary and data.get("type", "") == "routine":
+	if drop_data is not Dictionary or drop_data.get("type", "") != "routine":
 		return false
 	
 	if not drag_placeholder:
@@ -87,7 +92,6 @@ func _can_drop_routine(at_position: Vector2, drop_data: Variant) -> bool:
 				index = routine.get_index() + 1
 	
 	routines.move_child(drag_placeholder, index)
-	
 	drag_placeholder.show()
 	
 	return true
@@ -106,3 +110,17 @@ func _drop_routine(at_position: Vector2, drop_data: Variant) -> void:
 func _on_drop_target_mouse_exited() -> void:
 	if drag_placeholder:
 		drag_placeholder.hide()
+
+func _get_group_drag_data(from: Vector2) -> Dictionary:
+	var preview: RoutineGroup = preload("uid://dmjxmgu532xll").instantiate()
+	preview.set_data(data)
+	preview.set_script(null)
+	preview.reset_size()
+	set_drag_preview(preview)
+	
+	hide()
+	
+	return {
+		"type": "routine_group",
+		"group": self,
+	}

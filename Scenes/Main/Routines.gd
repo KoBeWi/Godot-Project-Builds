@@ -2,8 +2,11 @@ extends VBoxContainer
 
 @onready var group_scroll: ScrollContainer = %GroupScroll
 @onready var group_container: VBoxContainer = %GroupContainer
+@export var drop_target: Control
 
 var groups: Dictionary[String, RoutineGroup]
+
+var drag_placeholder: Control
 
 func _ready() -> void:
 	if not "groups" in Data.local_config: # compat
@@ -22,6 +25,19 @@ func _ready() -> void:
 			target_group = groups.get(routine["group"])
 		target_group.add_routine(routine)
 	
+	drop_target.set_drag_forwarding(Callable(), _can_drop_group, _drop_group)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_DRAG_BEGIN:
+		if is_drop_data_valid(get_viewport().gui_get_drag_data()):
+			drop_target.show()
+	elif what == NOTIFICATION_DRAG_END:
+		drop_target.hide()
+		
+		if drag_placeholder:
+			drag_placeholder.free()
+			drag_placeholder = null
+
 func add_group(group_name: String) -> RoutineGroup:
 	var group: RoutineGroup = preload("uid://dmjxmgu532xll").instantiate()
 	group.changed.connect(_on_group_changed.bind(group))
@@ -99,4 +115,45 @@ func _on_group_changed(group: RoutineGroup):
 		sync_routines()
 	
 	sync_groups()
+	Data.queue_save_local_config()
+
+func is_drop_data_valid(drop_data: Variant) -> bool:
+	return drop_data is Dictionary and drop_data.get("type", "") == "routine_group"
+
+func _can_drop_group(at_position: Vector2, drop_data: Variant) -> bool:
+	if not is_drop_data_valid(drop_data):
+		return false
+	
+	if not drag_placeholder:
+		var drop_group: Control = drop_data["group"]
+		
+		drag_placeholder = preload("uid://b0mxp68ssl5j4").instantiate()
+		drag_placeholder.self_modulate = drop_group.self_modulate
+		group_container.add_child(drag_placeholder)
+	
+	var index := 0
+	for group: Control in group_container.get_children():
+		if not group.visible or not group is RoutineGroup:
+			continue
+		
+		var group_pos := group.global_position - drop_target.global_position
+		if group_pos.y < at_position.y:
+			if drop_target.global_position.y + at_position.y < group.global_position.y + group.size.y * 0.5:
+				index = maxi(group.get_index() - 1, 0)
+			else:
+				index = group.get_index() + 1
+	
+	group_container.move_child(drag_placeholder, index)
+	drag_placeholder.show()
+	
+	return true
+
+func _drop_group(at_position: Vector2, drop_data: Variant) -> void:
+	if not drag_placeholder or not drag_placeholder.visible:
+		return
+	
+	var group: RoutineGroup = drop_data["group"]
+	group_container.move_child(group, drag_placeholder.get_index())
+	
+	sync_groups.call_deferred()
 	Data.queue_save_local_config()

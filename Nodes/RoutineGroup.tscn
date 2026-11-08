@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://6yh2fei2miiv" path="res://Nodes/RoutineGroup.gd" id="1_8fihr"]
 [ext_resource type="Texture2D" uid="uid://da1w5je87d6kc" path="res://Icons/Add.svg" id="2_fqanm"]
+[ext_resource type="Texture2D" uid="uid://dveg26laa8p52" path="res://Icons/DragHandle.svg" id="2_swwe6"]
 [ext_resource type="Texture2D" uid="uid://byn071xu1q5op" path="res://Icons/Remove.svg" id="3_swwe6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50glp"]
@@ -15,7 +16,7 @@ border_color = Color(1, 1, 1, 0.7529412)
 content_margin_top = 8.0
 bg_color = Color(0, 0, 0, 0.1254902)
 
-[node name="RoutineGroup" type="PanelContainer" unique_id=304848048 node_paths=PackedStringArray("group_name", "color_button", "drop_target")]
+[node name="RoutineGroup" type="PanelContainer" unique_id=304848048 node_paths=PackedStringArray("group_name", "color_button", "drop_target", "drag_button")]
 offset_right = 894.0
 offset_bottom = 195.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_50glp")
@@ -23,6 +24,7 @@ script = ExtResource("1_8fihr")
 group_name = NodePath("VBoxContainer/HBoxContainer/HBoxContainer2/GroupName")
 color_button = NodePath("VBoxContainer/HBoxContainer/HBoxContainer2/ColorButton")
 drop_target = NodePath("DropTarget")
+drag_button = NodePath("VBoxContainer/HBoxContainer/MarginContainer/DragButton")
 metadata/_custom_type_script = "uid://6yh2fei2miiv"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1648338896]
@@ -30,6 +32,16 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1672438605]
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer" unique_id=1400080910]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="DragButton" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer" unique_id=1259304732]
+layout_mode = 2
+size_flags_horizontal = 0
+icon = ExtResource("2_swwe6")
 
 [node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1092305720]
 layout_mode = 2
@@ -65,6 +77,7 @@ alignment = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer" unique_id=1804459717]
 layout_mode = 2
+theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
 [node name="RemoveButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/MarginContainer" unique_id=1833304785]

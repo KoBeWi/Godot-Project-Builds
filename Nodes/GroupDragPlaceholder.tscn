@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b0mxp68ssl5j4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dxwu4"]
+content_margin_top = 8.0
+bg_color = Color(1, 1, 1, 0.1254902)
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 0.7529412)
+
+[node name="DragPlaceholder" type="Panel" unique_id=987578990]
+custom_minimum_size = Vector2(40, 40)
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dxwu4")
